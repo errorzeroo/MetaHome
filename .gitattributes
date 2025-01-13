@@ -1,0 +1,1 @@
+pythonFile/data/단지코드_아파트명_요소유형_요소명_거리(m).csv filter=lfs diff=lfs merge=lfs -text
