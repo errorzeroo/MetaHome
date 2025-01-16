@@ -7,9 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 
-@MapperScan(basePackages = {"com.metafinal.metahome.mapper"})
+@MapperScan("com.metafinal.home.mapper")
 @ComponentScan(basePackages = {"com.metafinal", "com.metafinal.spring_mybatis2"})
-@MapperScan(basePackages = {"com.metafinal.user.mapper","com.metafinal.board.mapper","com.metafinal.shop.mapper"})
 public class SpringMybatis2Application {
 
 	public static void main(String[] args) {
