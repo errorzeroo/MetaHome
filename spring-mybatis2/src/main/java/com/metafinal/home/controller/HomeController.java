@@ -18,7 +18,7 @@ public class HomeController {
 
     private final HomeService homeService;
 
-    @RequestMapping("/home")
+    @RequestMapping("/test")
     public String getList(@RequestParam String address) {
         List<HomeDTO> homeList = homeService.getHomeList(address);
         log.info("homeList : ", homeList);

@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-
 @MapperScan("com.metafinal.home.mapper")
 @ComponentScan(basePackages = {"com.metafinal", "com.metafinal.spring_mybatis2"})
 public class SpringMybatis2Application {
