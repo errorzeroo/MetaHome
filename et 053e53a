@@ -1,0 +1,45 @@
+[33m20e4b37[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Add similarity.exe to .gitignore
+[33m3ab2079[m Remove scaleResult.csv and similarity.exe
+[33mbdccccd[m recommit
+[33m629ae1f[m Merge remote-tracking branch 'origin/main'
+[33mc6f7fa4[m recommit
+[33m2903c40[m[33m ([m[1;31morigin/main[m[33m)[m controller front랑 연결
+[33m2d294eb[m Merge remote-tracking branch 'origin/main'
+[33m039304d[m 코사인 유사도 스프링에 실행파일 넣어서 올림(올리니까 너무 느림 10초 넘는거 같음) 지도위에 chart로 그래프 만들어 봄
+[33m053e53a[m 구 입력 받으면 ai_learn, home 모든 데이터 가져오기
+[33m1ab3174[m address 입력 받아서 보여줌
+[33me24e2a9[m reStart
+[33m11c95b6[m 정삭적으로 작동하게 수정함
+[33m4e701ed[m Merge remote-tracking branch 'origin/main'
+[33m932de3d[m 카카오 맵 추가(일단 좌표로 이동하는거랑 마커찍는거는 됨 나중에 위도 경도 받아와서 넣어서 하는 거 추가해야함)
+[33mfd40330[m 구 조회하는 코드
+[33m7eeb271[m 주석 추가
+[33mc9c44e6[m Merge remote-tracking branch 'origin/main'
+[33mf46ce82[m 주석 추가
+[33m1c3175c[m front add
+[33m26b8a1a[m 그냥 커밋
+[33ma4dc4e4[m Merge branch 'main' of https://github.com/errorzeroo/MetaHome
+[33macd808e[m Remove distance file
+[33m32da2fd[m front(슬라이드랑,홈화면 위쪽 간단한 버튼만 만듦)
+[33mde9b014[m Merge remote-tracking branch 'origin/main'
+[33mfc08a15[m front(슬라이드랑,홈화면 위쪽 간단한 버튼만 만듦)
+[33mceb8db1[m del distance csv
+[33m576d204[m add distance csv
+[33m5ba91f3[m add csv files except final
+[33m947fc85[m add csv files
+[33m9fc70ff[m del files
+[33m95b1df7[m re spring boot
+[33ma7e4889[m Merge remote-tracking branch 'origin/main'
+[33m3ed2e6d[m re
+[33m3393568[m applicaiton properties add
+[33md251799[m add distance file
+[33ma48b360[m gradle.properties
+[33m650151d[m Ignore .idea folder
+[33m7e4df17[m Merge branch 'main' of https://github.com/errorzeroo/MetaHome
+[33mb896252[m add Intellij project: spring-mybatis2
+[33m070004d[m[33m ([m[1;32mmaster[m[33m)[m Merge branch 'main' of https://github.com/errorzeroo/MetaHome
+[33mdd6e6e0[m git test
+[33mb095eaa[m viewtest
+[33m31b343e[m test
+[33m0200d2d[m test
+[33m397cedb[m Initial commit
