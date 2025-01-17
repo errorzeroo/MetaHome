@@ -1,7 +1,6 @@
 package com.metafinal.home.mapper;
 
 
-import com.metafinal.home.domain.HomeDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

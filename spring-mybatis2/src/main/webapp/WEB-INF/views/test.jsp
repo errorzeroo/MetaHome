@@ -4,6 +4,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Metahome</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>MetaHome</title>
 </head>
 <style>
@@ -239,8 +241,20 @@
         top: 66px; /* 위에서 10px 아래 */
         width:100%;
         height:100%;
+        z-index: 1;
     }
-
+    .chart-container {
+        position: absolute; /* 절대 위치 */
+        top: 150px; /* 차트를 맵 위에 적절히 배치 */
+        left: 50px; /* 원하는 위치 지정 */
+        width: 700px;
+        height: 400px;
+        z-index: 10; /* 맵보다 높은 계층 */
+        background-color: rgba(255, 255, 255, 0.8); /* 차트 배경 설정 */
+        border: 1px solid lightgray; /* 차트 경계선 */
+        border-radius: 8px; /* 모서리 둥글게 */
+        padding: 10px;
+    }
 
 
 
@@ -282,6 +296,55 @@
             <!-- <button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button> -->
         </div>
     </div>
+
+        <!-- 차트 추가 -->
+        <div class="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <script>
+            // JSP에서 JSON 데이터를 안전하게 가져오기
+            const jsonData = ${jsonData}; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
+            console.log("JSON Data:", jsonData);
+            const parsedData = jsonData;
+
+            // 데이터 처리
+            const labels = parsedData.map(item => item.adress); // 주소를 라벨로 사용
+            const similarities = parsedData.map(item => item.similarity); // 유사도 점수
+
+            console.log("Parsed Data: ", parsedData);
+            console.log("Labels: ", labels);
+            console.log("Similarities: ", similarities);
+
+            // Chart.js로 차트 생성
+            try {
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels, // X축 라벨
+                        datasets: [{
+                            label: '유사도 점수',
+                            data: similarities, // Y축 데이터
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true, // Y축 0부터 시작
+                                max: 1.1 // 최대값 1.1로 설정
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error("Chart.js 렌더링 중 오류 발생:", error);
+            }
+
+        </script>
 
     <!-- 카카오맵 -->
     <div id="map" class = "map"></div>

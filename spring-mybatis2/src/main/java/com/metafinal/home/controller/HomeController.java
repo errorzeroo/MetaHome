@@ -1,12 +1,10 @@
 package com.metafinal.home.controller;
 
 
-import com.metafinal.home.domain.HomeDTO;
 import com.metafinal.home.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +22,7 @@ import java.util.Map;
 public class HomeController {
 
     private final HomeService homeService;
+    private final PythonRunner pythonRunner = new PythonRunner();
 
     @GetMapping()
     @ResponseBody
@@ -38,6 +37,37 @@ public class HomeController {
         log.info("homeList : {}", homeList);
         m.addAttribute("homes", homeList);
 //        System.out.println("Home List: " + homeList);
-        return "test"; // "test", �׸��� getHomeList ������ Ÿ���� String List<Map<String, Object>>
+        return "test"; // "test", �׸��� getHomeList ������ Ÿ���� String List<Map<String, Object>>
     }
+
+    @GetMapping("/find")
+    public String findSimilarAddresses(
+            @RequestParam String columns, // 사용자 입력 컬럼
+            @RequestParam String values,   // 사용자 입력 값
+            Model model
+    ) {
+        String result = pythonRunner.runPythonScript(columns, values);
+
+        if (result == null) {
+            model.addAttribute("error", "Python 실행 중 오류가 발생했습니다.");
+            return "error";
+        }
+
+        log.info("python result: {}", result);
+
+        // JSON 데이터를 Java 객체로 변환
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<Map<String, Object>> addressList = objectMapper.readValue(result, new TypeReference<List<Map<String, Object>>>() {});
+            String jsonString = objectMapper.writeValueAsString(addressList); // JSON 문자열로 변환
+            model.addAttribute("jsonData", jsonString); // JSP에 JSON 문자열 전달
+        } catch (JsonProcessingException e) {
+            log.error("JSON 변환 오류", e);
+            model.addAttribute("error", "JSON 데이터를 처리하는 중 오류가 발생했습니다.");
+            return "error";
+        }
+
+        return "test";
+    }
+
 }
