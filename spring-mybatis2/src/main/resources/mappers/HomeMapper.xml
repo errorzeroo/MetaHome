@@ -3,15 +3,30 @@
 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.metafinal.home.mapper.HomeMapper">
+    <!-- 전체 데이터 조회 -->
+    <select id="getAllHomes" resultType="map">
+        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
+        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
+        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
+        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
+        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
+        FROM HOME h
+        LEFT JOIN AI_LEARN al
+        ON h.HOME_ADDRESS = al.ADDRESS
+    </select>
 
-
-    <select id="getHomeList" resultType="com.metafinal.home.domain.HomeDTO" parameterType="String">
-        SELECT ADDRESS<!--, PARK_NAME, PARK_DIST, HOS_NAME, HOS_DIST, SUB_NAME, SUB_DIST,
-        BUS_NAME, BUS_DIST, PARKING_NAME, PARKING_DIST, LOW_NAME, LOW_DIST,
-        MID_NAME, MID_DIST, HI_NAME, HI_DIST, CF_NAME, CF_DIST,
-        CONVE_NAME, CONVE_DIST, ART_NAME, ART_DIST-->
-        FROM AI_LEARN
-        WHERE ADDRESS LIKE '%' || #{address} || '%'
+    <!-- 조건부 데이터 조회 -->
+    <select id="getHomeList" parameterType="string" resultType="map">
+        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
+        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
+        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
+        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
+        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
+        FROM HOME h
+        LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
+        WHERE AL.ADDRESS LIKE CONCAT('%', #{address}) <!-- 뒤에 , '%' 추가 -->
     </select>
 
 </mapper>

@@ -24,3 +24,24 @@ CONVE_NAME VARCHAR2(1000) UNIQUE,
 CONVE_DIST INTEGER,
 ART_NAME VARCHAR2(1000) UNIQUE,
 ART_DIST INTEGER);
+
+INSERT INTO AI_LEARN (ADDRESS, PARK_NAME, PARK_DIST, HOS_NAME, HOS_DIST,
+						SUB_NAME, SUB_DIST, BUS_NAME, BUS_DIST, PARKING_NAME, PARKING_DIST,
+						LOW_NAME, LOW_DIST, MID_NAME, MID_DIST, HI_NAME, HI_DIST,
+						CF_NAME, CF_DIST, CONVE_NAME, CONVE_DIST, ART_NAME, ART_DIST)
+					VALUES ('test_ad', 'test_pn', 10, 'test_hosn', 1, 'test_subn', 2, 'test_bus', 3, 'test_pkn', 4,
+					'test_ln', 5, 'test_mn', 6, 'test_hn', 7, 'test_cfn', 8, 'test_cvn', 9, 'test_artn', 11);
+
+INSERT INTO AI_LEARN (ADDRESS, PARK_NAME, PARK_DIST, HOS_NAME, HOS_DIST,
+						SUB_NAME, SUB_DIST, BUS_NAME, BUS_DIST, PARKING_NAME, PARKING_DIST,
+						LOW_NAME, LOW_DIST, MID_NAME, MID_DIST, HI_NAME, HI_DIST,
+						CF_NAME, CF_DIST, CONVE_NAME, CONVE_DIST, ART_NAME, ART_DIST)
+					VALUES ('test_ad_은평구', 'test_pn2', 10, 'test_hosn2', 1, 'test_subn2', 2, 'test_bus2', 3, 'test_pkn2', 4,
+					'test_ln2', 5, 'test_mn2', 6, 'test_hn2', 7, 'test_cfn2', 8, 'test_cvn2', 9, 'test_artn2', 11);
+
+INSERT INTO AI_LEARN (ADDRESS, PARK_NAME, PARK_DIST, HOS_NAME, HOS_DIST,
+						SUB_NAME, SUB_DIST, BUS_NAME, BUS_DIST, PARKING_NAME, PARKING_DIST,
+						LOW_NAME, LOW_DIST, MID_NAME, MID_DIST, HI_NAME, HI_DIST,
+						CF_NAME, CF_DIST, CONVE_NAME, CONVE_DIST, ART_NAME, ART_DIST)
+					VALUES ('test_ad_강남구', 'test_pn3', 10, 'test_hosn3', 1, 'test_subn3', 2, 'test_bus3', 3, 'test_pkn3', 4,
+					'test_ln3', 5, 'test_mn3', 6, 'test_hn3', 7, 'test_cfn3', 8, 'test_cvn3', 9, 'test_artn3', 11);
