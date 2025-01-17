@@ -6,10 +6,10 @@
 
 
     <select id="getHomeList" resultType="com.metafinal.home.domain.HomeDTO" parameterType="String">
-        SELECT ADDRESS, PARK_NAME, PARK_DIST, HOS_NAME, HOS_DIST, SUB_NAME, SUB_DIST,
+        SELECT ADDRESS<!--, PARK_NAME, PARK_DIST, HOS_NAME, HOS_DIST, SUB_NAME, SUB_DIST,
         BUS_NAME, BUS_DIST, PARKING_NAME, PARKING_DIST, LOW_NAME, LOW_DIST,
         MID_NAME, MID_DIST, HI_NAME, HI_DIST, CF_NAME, CF_DIST,
-        CONVE_NAME, CONVE_DIST, ART_NAME, ART_DIST
+        CONVE_NAME, CONVE_DIST, ART_NAME, ART_DIST-->
         FROM AI_LEARN
         WHERE ADDRESS LIKE '%' || #{address} || '%'
     </select>

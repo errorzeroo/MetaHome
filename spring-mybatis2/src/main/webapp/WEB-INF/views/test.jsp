@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Metahome</title>
+  <title>MetaHome</title>
 </head>
 <style>
     body, html {

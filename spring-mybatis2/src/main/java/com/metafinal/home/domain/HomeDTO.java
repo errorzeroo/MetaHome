@@ -1,10 +1,11 @@
 package com.metafinal.home.domain;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
+@Data
 public class HomeDTO {
 
     private String address;          // 주소
