@@ -6,10 +6,8 @@
   <meta charset="UTF-8">
   <title>Metahome</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!--<link ref="stylesheet" type="text/css" href="C:/Lecture/MetaHome/spring-mybatis2/src/main/resources/static/css/style.css">
--->
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <script src="/js/script.js"></script>
 </head>
 
 <body>
@@ -54,7 +52,6 @@
         <div class="chart-container">
             <canvas id="myChart"></canvas>
         </div>
-        <!--<script src="/js/kakao.js"></script>-->
         <script>
             // JSP에서 JSON 데이터를 안전하게 가져오기
             const jsonData = ${jsonData}; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
@@ -162,11 +159,6 @@
 
     </script>
 
-<!--<script src="/js/map.js"></script>
-    <script src="/js/slide.js"></script>-->
     <!-- 동적 슬라이드를 위한 자바 스크립트 -->
-    
-
-
 </body>
 </html>

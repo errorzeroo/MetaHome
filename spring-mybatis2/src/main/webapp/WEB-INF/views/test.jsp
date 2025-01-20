@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -248,10 +249,10 @@
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 50px; /* 원하는 위치 지정 */
-        width: 700px;
-        height: 400px;
+        width: 450px; /* 여기에 if문으로 차트 크기 조절 */
+        height: 200px;
         z-index: 10; /* 맵보다 높은 계층 */
-        background-color: rgba(255, 255, 255, 0.8); /* 차트 배경 설정 */
+        background-color: rgba(255, 255, 255, 1); /* 차트 배경 설정 */
         border: 1px solid lightgray; /* 차트 경계선 */
         border-radius: 8px; /* 모서리 둥글게 */
         padding: 10px;
@@ -310,12 +311,70 @@
             const parsedData = jsonData;
 
             // 데이터 처리
-            const labels = parsedData.map(item => item.adress); // 주소를 라벨로 사용
-            const similarities = parsedData.map(item => item.similarity); // 유사도 점수
+            const labels = parsedData.map(item => item.address); // 주소를 라벨로 사용
+            const similarities = parsedData.map(item => item.similar); // 유사도 점수
+            const parks = parsedData.map(item => item.park); // 공원
+            const hospitals = parsedData.map(item => item.hospital); // 병원
+            const subways = parsedData.map(item => item.subway); // 지하철
+            const buses = parsedData.map(item => item.bus); // 버스
+            const elements = parsedData.map(item => item.element); // 초등학교
+            const middles = parsedData.map(item => item.middle); // 중학교
+            const highes = parsedData.map(item => item.high); // 고등학교
+            const hcounts = parsedData.map(item => item.hospitalcount); // 병원수
+
+            if (parks == null){
+                park = 0
+            }else{
+                park = parks[0]*100
+            }
+            if (hospitals == null){
+                hospital = 0
+            }else{
+                hospital = hospitals[0]*100
+            }
+            if (subways == null){
+                subway = 0
+            }else{
+                subway = subways[0]*100
+            }
+            if (buses == null){
+                bus = 0
+            }else{
+                bus = buses[0]*100
+            }
+            if (elements == null){
+                element = 0
+            }else{
+                element = elements[0]*100
+            }
+            if (middles == null){
+                middle = 0
+            }else{
+                middle = middles[0]*100
+            }
+            if (highes == null){
+                high = 0
+            }else{
+                high = highes[0]*100
+            }
+            if (hcounts == null){
+                hcount = 0
+            }else{
+                hcount = hcounts[0]*100
+            }
 
             console.log("Parsed Data: ", parsedData);
             console.log("Labels: ", labels);
             console.log("Similarities: ", similarities);
+            console.log("p", parks);
+            console.log("h", hospitals);
+            console.log("s", subways);
+            console.log("b", buses);
+            console.log("e", elements);
+            console.log("m", middles);
+            console.log("hi", highes);
+            console.log("hc", hcounts);
+
 
             // Chart.js로 차트 생성
             try {
@@ -323,21 +382,61 @@
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: labels, // X축 라벨
+                        labels: ['공원', '병원', '지하철', '버스', '초등학교', '중학교', '고등학교', '병원수'], // X축 라벨
                         datasets: [{
-                            label: '유사도 점수',
-                            data: similarities, // Y축 데이터
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
+                            label: (similarities[0]*100).toFixed(2),
+                            data: [
+                            park, // Y축 데이터 park
+                            hospital, // Y축 데이터 hospital
+                            bus, // Y축 데이터 bus
+                            subway, // Y축 데이터 subway
+                            element, // Y축 데이터 element
+                            middle, // Y축 데이터 middle
+                            high, // Y축 데이터 high
+                            hcount, // Y축 데이터 hospitalcount
+                            ],
+                            backgroundColor: [
+                                'rgba(111, 140, 93, 1)',
+                                'rgba(255, 107, 107, 1)',
+                                'rgba(255, 111, 60, 1)',
+                                'rgba(134, 205, 255, 1)',
+                                'rgba(255, 255, 86, 1)',
+                                'rgba(155, 136, 255, 1)',
+                                'rgba(175, 136, 101, 1)',
+                                'rgba(255, 107, 107, 1)',
+                            ],
+                            //borderColor: 'rgba(106, 193, 255, 1)',
+                            borderWidth: 1,
+                            maxBarThickness: 20, // 최대 bar의 두께 설정
+                            borderSkipped:false,
+                            borderRadius: [
+                                { topLeft: 20, topRight: 20},
+                            ]
                         }]
                     },
                     options: {
+                        title : {
+                            display: true,
+                            text: "title"
+                        },
+                        legend: {
+                            display: true,
+                            position: 'right'
+                        },
                         scales: {
+                            x: {
+                              beginAtZero: true,
+                              scaleLineColor: 'red',
+                              grid: {
+                              color: 'transparent',
+                              },
+                            },
                             y: {
                                 beginAtZero: true, // Y축 0부터 시작
-                                max: 1.1 // 최대값 1.1로 설정
-                            }
+                                grid: {
+                                color: 'transparent',
+                                }
+                            },
                         }
                     }
                 });
