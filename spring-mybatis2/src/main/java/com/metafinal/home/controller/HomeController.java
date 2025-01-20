@@ -1,17 +1,20 @@
 package com.metafinal.home.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.metafinal.home.PythonRunner;
 import com.metafinal.home.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +49,7 @@ public class HomeController {
             @RequestParam String values,   // 사용자 입력 값
             Model model
     ) {
+        PythonRunner pythonRunner = new PythonRunner();
         String result = pythonRunner.runPythonScript(columns, values);
 
         if (result == null) {
