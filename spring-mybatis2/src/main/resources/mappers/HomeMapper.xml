@@ -26,7 +26,7 @@
         al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
         FROM HOME h
         LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
-        WHERE AL.ADDRESS LIKE CONCAT('%', #{address}) <!-- 뒤에 , '%' 추가 -->
+        WHERE AL.ADDRESS LIKE '%' || #{address} || '%' <!-- 뒤에  추가 -->
     </select>
 
 </mapper>

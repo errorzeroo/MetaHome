@@ -28,7 +28,6 @@ public class HomeController {
     private final PythonRunner pythonRunner = new PythonRunner();
 
     @GetMapping()
-    @ResponseBody
     public String getList(Model m, @RequestParam(required = false, defaultValue = "") String address) {
         List<Map<String, Object>> homeList;
 //        List<HomeDTO> homeList;
@@ -40,7 +39,7 @@ public class HomeController {
         log.info("homeList : {}", homeList);
         m.addAttribute("homes", homeList);
 //        System.out.println("Home List: " + homeList);
-        return "test"; // "test", �׸��� getHomeList ������ Ÿ���� String List<Map<String, Object>>
+        return "test";
     }
 
     @GetMapping("/find")
