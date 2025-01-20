@@ -207,7 +207,7 @@
     .sliding-panel {
         position: absolute;
         top: 66px; /* 위쪽 공간을 10px로 줄임 */
-        left: -430px; /* 처음에는 화면 밖에 위치 */
+        left: 0px; /* 처음에는 화면 밖에 위치 */
         height: 100%;
         width: 430px;
         background-color: white;
@@ -258,6 +258,100 @@
         padding: 10px;
     }
 
+    .list-item {
+        padding: 0; /* 내부 여백 제거 */
+        border: none; /* 테두리 제거 */
+        background-color: transparent; /* 배경 투명 */
+        box-shadow: none; /* 박스 섀도우 제거 */
+        height: 190px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border-bottom: 1px solid black; /* 회색 선 추가 */
+        cursor: pointer; /* 마우스 오버 시 손 모양 */
+    }
+    .list-item:last-child {
+        border-bottom: none; /* 마지막 항목에는 선 제거 */
+    }
+
+
+    .list-header {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        position: relative; /* 기준 위치에서 이동 */
+        left: 20px; /* 오른쪽으로 20px 이동 */
+        top: 20px;
+    }
+
+    .vertical-line {
+        width: 100%; /* 선의 너비 */
+        height: 1px; /* 선의 두께 */
+        background-color: #ccc; /* 회색 선 */
+        position: relative; /* 기준 위치에서 이동 */
+        left: 20px; /* 오른쪽으로 20px 이동 */
+        top: 30px;
+    }
+
+
+    .list-subtitle {
+        font-size: 14px;
+        color: #666;
+        position: relative; /* 기준 위치에서 이동 */
+        left: 10px; /* 오른쪽으로 20px 이동 */
+        top: 35px;
+    }
+
+    .vertical-line2 {
+        width: 1.5px; /* 선의 너비 */
+        height: 100%; /* 선의 두께 */
+        background-color: #ccc; /* 회색 선 */
+        position: relative; /* 기준 위치에서 이동 */
+        left: 195px; /* 오른쪽으로 20px 이동 */
+        top: 30px;
+    }
+
+    .co {
+        font-size: 14px;
+        color: #555;
+        position: relative; /* 기준 위치에서 이동 */
+        left: 10px; /* 오른쪽으로 20px 이동 */
+        top: -20px;
+    }
+    .dep {
+        font-size: 14px;
+        color: #555;
+        position: relative; /* 기준 위치에서 이동 */
+        left: 210px; /* 오른쪽으로 20px 이동 */
+        top: -15px;
+    }
+    .month {
+        font-size: 14px;
+        color: #555;
+        position: relative; /* 기준 위치에서 이동 */
+        left: 210px; /* 오른쪽으로 20px 이동 */
+        top: 10px;
+    }
+
+    .detail-label {
+        font-weight: bold;
+        color: #777;
+    }
+
+    .detail-value {
+        font-weight: bold;
+        color: #222;
+    }
+
+    .slide-content-container {
+        overflow-y: auto; /* 수직 스크롤 허용 */
+        max-height: 570px; /* 스크롤 가능한 최대 높이 */
+        margin-top: 70px; /* 상단에서 100px 떨어지게 설정 */
+        padding: 10px; /* 내부 여백 추가 */
+    }
+
+
+
 
 
 </style>
@@ -272,6 +366,34 @@
 
     <!-- 위쪽 선 -->
     <hr class="styled-line1">
+
+    <!-- 템플릿 -->
+     <template id="slide-item-template">
+         <div class="list-item">
+             <div class="list-header">
+                 <span class="list-title"></span>
+             </div>
+             <div class="vertical-line"></div>
+             <div class="list-subtitle">
+                 <span class="list-type"></span>
+             </div>
+             <div class="vertical-line2"></div>
+            <div class="dep">
+                 <span class="detail-label">임대 보증금:</span>
+                 <span class="detail-value deposit"></span>
+             </div>
+
+             <div class="month">
+                 <span class="detail-label">월 임대료:</span>
+                 <span class="detail-value monthly-rent"></span>
+             </div>
+              <div class="co">
+                 <span class="detail-label">임대사업자:</span>
+                 <span class="detail-value company"></span>
+             </div>
+         </div>
+     </template>
+
 
     <!-- slide area -->
     <div class="sliding-container">
@@ -293,6 +415,10 @@
               <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
             </button>
             <hr class="styled-line2">
+
+            <div id="slideContentContainer" class="slide-content-container"></div>
+            <div id="detailContainer"></div>
+
 
             <!-- 버튼이 아니라 백에서 코드로 실행 좌표도 그때 넣어줘야함 -->
             <!-- <button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button> -->
@@ -509,6 +635,126 @@
 
     </script>
 
+    <script>
+        // 서버에서 전달된 JSON 데이터
+        const slideData = JSON.parse('${filteredListJson}');
+        const DataText = JSON.parse('${homeListJson}');
+        console.log("Slide Data: ", slideData);
+        console.log("Slide Data: ", DataText);
+
+        // 템플릿과 컨테이너 참조
+        const template = document.getElementById("slide-item-template");
+        const slideContainer = document.getElementById("slideContentContainer");
+
+        let currentPage = 1; // 현재 페이지
+        let isLoading = false; // 데이터 로딩 상태
+        const itemsPerPage = 10; // 한 번에 보여줄 아이템 수
+
+        // 초기 데이터 렌더링 함수
+        function populateSlideContent(data) {
+            if (!data || data.length === 0) {
+                slideContainer.innerHTML = "<p>데이터가 없습니다.</p>";
+                return;
+            }
+
+            data.forEach((item) => {
+                const clone = template.content.cloneNode(true);
+                clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+                clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+                clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+                clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+                clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+
+                const listItem = clone.querySelector(".list-item");
+
+                listItem.addEventListener("click", () => {
+                    console.log("선택된 데이터:", item);
+
+                    // HOME_ADDRESS 필드를 사용하여 비교
+                    const filteredData = DataText.filter(home =>
+                        home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
+                    );
+
+                    console.log("filteredData Data: ", filteredData);
+
+                    // 필터링된 데이터를 보여주는 함수 호출
+                    showFilteredData(filteredData);
+                });
+
+                slideContainer.appendChild(clone);
+            });
+        }
+
+        function showFilteredData(data) {
+            const detailContainer = document.getElementById("detailContainer");
+            detailContainer.innerHTML = "";
+
+            if (data.length === 0) {
+                detailContainer.innerHTML = "<p>관련 데이터가 없습니다.</p>";
+                return;
+            }
+
+            data.forEach((detail) => {
+                const detailItem = document.createElement("div");
+                detailItem.classList.add("detail-item");
+                detailItem.innerHTML = `
+                    <p>주소: ${detail.address}</p>
+                    <p>보증금: ${detail.deposit}</p>
+                    <p>월세: ${detail.monthlyRent}</p>
+                    <p>임대사업자: ${detail.company}</p>
+                `;
+                detailContainer.appendChild(detailItem);
+            });
+        }
+
+        // 데이터를 페이지별로 나누는 함수
+        function getPaginatedData(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            return slideData.slice(start, end);
+        }
+
+        // 초기 데이터 로드
+        function init() {
+            const initialData = getPaginatedData(currentPage);
+            populateSlideContent(initialData);
+        }
+
+        // 스크롤 이벤트 핸들러
+        async function handleScroll() {
+            const { scrollTop, scrollHeight, clientHeight } = slideContainer;
+
+            // 스크롤 하단에 도달 시 추가 데이터 로드
+            if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoading) {
+                isLoading = true;
+                currentPage++;
+
+                const newData = getPaginatedData(currentPage);
+                if (newData.length > 0) {
+                    populateSlideContent(newData);
+                } else {
+                    console.log("더 이상 데이터가 없습니다.");
+                }
+
+                isLoading = false;
+            }
+        }
+
+        // 슬라이드 패널 토글 버튼
+        document.getElementById("slideToggleButton").addEventListener("click", function () {
+            const panel = document.getElementById("slidingPanel");
+            panel.classList.toggle("active");
+            this.textContent = panel.classList.contains("active") ? "❮" : "❯";
+        });
+
+        // 이벤트 등록 및 초기화
+        document.addEventListener("DOMContentLoaded", () => {
+            init();
+            slideContainer.addEventListener("scroll", handleScroll);
+        });
+    </script>
+
+
 <!--<script src="/js/map.js"></script>
     <script src="/js/slide.js"></script>-->
     <!-- 동적 슬라이드를 위한 자바 스크립트 -->
@@ -520,6 +766,8 @@
             // 버튼 아이콘 변경 (❮ ↔ ❯)
             this.textContent = panel.classList.contains("active") ? "❮" : "❯";
         });
+
+
     </script>
 
 

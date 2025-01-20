@@ -16,8 +16,8 @@
         ON h.HOME_ADDRESS = al.ADDRESS
     </select>
 
-    <!-- 조건부 데이터 조회 -->
-    <select id="getHomeList" parameterType="string" resultType="map">
+    <!-- 조건부 데이터 조회 지역만 선택했을 경우 -->
+    <select id="getHomeArea" parameterType="string" resultType="map">
         SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
         h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
         AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
@@ -27,6 +27,32 @@
         FROM HOME h
         LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
         WHERE AL.ADDRESS LIKE '%' || #{address} || '%' <!-- 뒤에  추가 -->
+    </select>
+
+    <!-- 조건부 데이터 조회 주택유형만 선택했을 경우 -->
+    <select id="getHomeKind" parameterType="string" resultType="map">
+        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
+        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
+        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
+        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
+        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
+        FROM HOME h
+        LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
+        WHERE h.HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
+    </select>
+
+    <!-- 조건부 데이터 조회 주택유형,지역 선택했을 경우 -->
+    <select id="getMyHome" parameterType="string" resultType="map">
+        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
+        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
+        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
+        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
+        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
+        FROM HOME h
+        LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
+        WHERE AL.ADDRESS LIKE '%' || #{address} || '%' AND h.HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
     </select>
 
 </mapper>
