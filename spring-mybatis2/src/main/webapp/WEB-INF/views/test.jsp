@@ -525,42 +525,6 @@
     .info-card-label {
       font-weight: bold;
     }
-    .slider-wrapper {
-        position: relative;
-        width: 100%;
-        max-width: 800px;
-        margin: auto;
-        overflow: hidden;
-    }
-
-    .slider-container {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        width: 100%;
-    }
-
-    .slide {
-        flex: 0 0 100%;
-        box-sizing: border-box;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin: 0 10px;
-        text-align: left;
-    }
-
-    .slider-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #333;
-        color: white;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        z-index: 10;
-    }
 
     #prevSlide {
         left: 10px;
@@ -569,6 +533,49 @@
     #nextSlide {
         right: 10px;
     }
+    .hidden {
+        display: none;
+    }
+
+    #slideOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .slide-container {
+        background: white;
+        width: 80%;
+        max-width: 800px;
+        padding: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .slides {
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px 0;
+    }
+
+    .slide {
+        flex: 0 0 100%;
+        background: #f9f9f9;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
 
 
 
@@ -721,6 +728,7 @@
 
     <div id="infoCard" class="info-card hidden">
           <button id="closeInfoCard" class="close-info-card">×</button>
+          <button id="prevSlide" class="slider-button">이전</button>
           <h4 class="info-card-title"><span id="infoCardName"></span></h4>
           <hr>
           <p><span class="info-card-label">공급번호 |</span> <span id="infoCardNo"></span>
@@ -741,6 +749,7 @@
           <hr>
           <p><span class="info-card-label">이미지</span>
           </p>
+          <button id="nextSlide" class="slider-button">다음</button>
     </div>
 
         <!-- 차트 추가 -->
@@ -961,35 +970,74 @@
                 return;
             }
 
-            // 데이터 리스트 렌더링
             data.forEach((item) => {
-              const clone = template.content.cloneNode(true);
-              clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
-              clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
-              clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
-              clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-              clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
-
-              const listItem = clone.querySelector(".list-item");
+                const clone = template.content.cloneNode(true);
+                clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+                clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+                clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+                clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+                clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+                const listItem = clone.querySelector(".list-item");
 
                 listItem.addEventListener("click", () => {
-                    console.log("선택된 데이터:", item);
-                    // HOME_ADDRESS 필드를 사용하여 비교
-                    const filteredData = DataText.filter(home =>
-                        home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
+                    // HOME_ADDRESS 필드를 사용하여 데이터 필터링
+                    const filteredData = DataText.filter(
+                        (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
                     );
-                    console.log("filteredData Data: ", filteredData);
+
+                    // 슬라이드 데이터 준비
+                    const slides = document.getElementById("infoCard");
+                    const prevButton = document.getElementById("prevSlide");
+                    const nextButton = document.getElementById("nextSlide");
+
+                    let currentIndex = 0;
+
+                    // 슬라이드 데이터 렌더링 함수
+                    function renderSlide(index) {
+                        const slideData = filteredData[index];
+
+                        document.getElementById("infoCardName").textContent = slideData.HOME_NAME || "정보 없음";
+                        document.getElementById("infoCardNo").textContent = slideData.HOME_NO || "정보 없음";
+                        document.getElementById("infoCardCompany").textContent = slideData.HOME_CO || "정보 없음";
+                        document.getElementById("infoCardCount").textContent = slideData.HOME_COUNT || "정보 없음";
+                        document.getElementById("infoCardParking").textContent = slideData.HOME_PARKING || "정보 없음";
+                        document.getElementById("infoCardAddress").textContent = slideData.HOME_ADDRESS || "정보 없음";
+                        document.getElementById("infoCardDeposit").textContent = slideData.HOME_DEP || "정보 없음";
+                        document.getElementById("infoCardRent").textContent = slideData.HOME_MOTH_PAI || "정보 없음";
+                        document.getElementById("infoCardMy").textContent = slideData.HOME_MYAREA || "정보 없음";
+                        document.getElementById("infoCardWe").textContent = slideData.HOME_WEAREA || "정보 없음";
+
+                        console.log("Showing Slide:", index, slideData);
+                    }
+
+                    // 이전 버튼 클릭 이벤트
+                    prevButton.addEventListener("click", () => {
+                        currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
+                        renderSlide(currentIndex);
+                    });
+
+                    // 다음 버튼 클릭 이벤트
+                    nextButton.addEventListener("click", () => {
+                        currentIndex = (currentIndex + 1) % filteredData.length;
+                        renderSlide(currentIndex);
+                    });
+
+                    // 첫 슬라이드 렌더링
+                    renderSlide(currentIndex);
+
+                    // 슬라이드 표시
+                    slides.classList.add("visible");
                 });
 
                 slideContainer.appendChild(clone);
-              });
+            });
 
             // 닫기 버튼 이벤트 처리
             document.getElementById("closeInfoCard").addEventListener("click", () => {
-              document.getElementById("infoCard").classList.remove("visible");
+                document.getElementById("infoCard").classList.remove("visible");
             });
-
         }
+
 
 
         // 데이터를 페이지별로 나누는 함수
