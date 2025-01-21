@@ -321,7 +321,7 @@
     }
 
     .chart-container-with-score {
-        display: flex; /* Flexbox로 수평 배치 */
+        display: none; /* Flexbox로 수평 배치 //flex*/
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
@@ -484,7 +484,7 @@
     .info-card {
       position: fixed;
       bottom: 20px; /* 화면 아래쪽에서 띄움 */
-      right: 20px; /* 화면 오른쪽에 고정 */
+      left: 400px; /* 화면 오른쪽에 고정 */
       width: 300px; /* 카드 너비 */
       background-color: #fff; /* 흰색 배경 */
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -940,103 +940,144 @@
     <script>
 
     // 기본 지도 그리기
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                mapOption = {
-                    center: new kakao.maps.LatLng(37.4833939381, 127.01698271446), // 초기 위치
-                    level: 5 // 확대 레벨
-                };
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.4833939381, 127.01698271446), // 초기 위치
+            level: 5 // 확대 레벨
+        };
 
-            var map = new kakao.maps.Map(mapContainer, mapOption);
+    var map = new kakao.maps.Map(mapContainer, mapOption);
 
 
-        // 서버에서 전달된 JSON 데이터
-        const slideData = JSON.parse('${filteredListJson}');
-        const DataText = JSON.parse('${homeListJson}');
-        console.log("Slide Data: ", slideData);
-        console.log("All Data: ", DataText);
+    // 서버에서 전달된 JSON 데이터
+    const slideData = JSON.parse('${filteredListJson}');
+    const DataText = JSON.parse('${homeListJson}');
+    console.log("Slide Data: ", slideData);
+    console.log("All Data: ", DataText);
 
-        // 템플릿과 컨테이너 참조
-        const template = document.getElementById("slide-item-template");
-        const slideContainer = document.getElementById("slideContentContainer");
+    // 템플릿과 컨테이너 참조
+    const template = document.getElementById("slide-item-template");
+    const slideContainer = document.getElementById("slideContentContainer");
 
-        let currentPage = 1; // 현재 페이지
-        let isLoading = false; // 데이터 로딩 상태
-        const itemsPerPage = 10; // 한 번에 보여줄 아이템 수
+    let currentPage = 1; // 현재 페이지
+    let isLoading = false; // 데이터 로딩 상태
+    const itemsPerPage = 10; // 한 번에 보여줄 아이템 수
 
-        // 초기 데이터 렌더링 함수
-        function populateSlideContent(data) {
-            if (!data || data.length === 0) {
-                slideContainer.innerHTML = "<p>데이터가 없습니다.</p>";
-                return;
-            }
+    // 초기 데이터 렌더링 함수
+    function populateSlideContent(data) {
+        if (!data || data.length === 0) {
+            slideContainer.innerHTML = "<p>데이터가 없습니다.</p>";
+            return;
+        }
 
-            data.forEach((item) => {
-                const clone = template.content.cloneNode(true);
-                clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
-                clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
-                clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
-                clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-                clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
-                const listItem = clone.querySelector(".list-item");
+        data.forEach((item) => {
+            const clone = template.content.cloneNode(true);
+            clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+            clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+            clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+            clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+            clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+            const listItem = clone.querySelector(".list-item");
 
-                listItem.addEventListener("click", () => {
-                    // HOME_ADDRESS 필드를 사용하여 데이터 필터링
-                    const filteredData = DataText.filter(
-                        (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
-                    );
+            listItem.addEventListener("click", () => {
+                // HOME_ADDRESS 필드를 사용하여 데이터 필터링
+                const filteredData = DataText.filter(
+                    (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
+                );
+                // 주소-좌표 변환 객체를 생성합니다
+                var geocoder = new kakao.maps.services.Geocoder();
 
-                    // 슬라이드 데이터 준비
-                    const slides = document.getElementById("infoCard");
-                    const prevButton = document.getElementById("prevSlide");
-                    const nextButton = document.getElementById("nextSlide");
+                // 주소로 좌표를 검색합니다
+                geocoder.addressSearch(item.HOME_ADDRESS, function(result, status) {
 
-                    let currentIndex = 0;
+                    // 정상적으로 검색이 완료됐으면
+                     if (status === kakao.maps.services.Status.OK) {
 
-                    // 슬라이드 데이터 렌더링 함수
-                    function renderSlide(index) {
-                        const slideData = filteredData[index];
+                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                        document.getElementById("infoCardName").textContent = slideData.HOME_NAME || "정보 없음";
-                        document.getElementById("infoCardNo").textContent = slideData.HOME_NO || "정보 없음";
-                        document.getElementById("infoCardCompany").textContent = slideData.HOME_CO || "정보 없음";
-                        document.getElementById("infoCardCount").textContent = slideData.HOME_COUNT || "정보 없음";
-                        document.getElementById("infoCardParking").textContent = slideData.HOME_PARKING || "정보 없음";
-                        document.getElementById("infoCardAddress").textContent = slideData.HOME_ADDRESS || "정보 없음";
-                        document.getElementById("infoCardDeposit").textContent = slideData.HOME_DEP || "정보 없음";
-                        document.getElementById("infoCardRent").textContent = slideData.HOME_MOTH_PAI || "정보 없음";
-                        document.getElementById("infoCardMy").textContent = slideData.HOME_MYAREA || "정보 없음";
-                        document.getElementById("infoCardWe").textContent = slideData.HOME_WEAREA || "정보 없음";
+                        // 결과값으로 받은 위치를 마커로 표시합니다
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords
+                        });
 
-                        console.log("Showing Slide:", index, slideData);
+                        // 인포윈도우로 장소에 대한 설명을 표시합니다
+                        var infowindow = new kakao.maps.InfoWindow({
+                            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                        });
+                        infowindow.open(map, marker);
+
+                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                        map.setCenter(coords);
+                        // 지도 중심 이동: 화면 오른쪽 절반으로 이동
+                        // 지도 중심 이동: 선택된 좌표가 화면의 200px 왼쪽에 오도록 이동
+                        const mapWidth = mapContainer.offsetWidth;
+                        const mapHeight = mapContainer.offsetHeight;
+
+                        // 화면에서 좌표가 위치해야 할 X축 위치 (200px 왼쪽)
+                        const moveX = selectedCoordinates.getLng() - (150 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
+                        const moveY = selectedCoordinates.getLat();  // 세로는 그대로 중앙
+
+                        // 새로 이동할 지도 중심 좌표
+                        const newCenter = new kakao.maps.LatLng(moveY, moveX);
+
+                        // 지도 이동
+                        map.panTo(newCenter);
                     }
-
-                    // 이전 버튼 클릭 이벤트
-                    prevButton.addEventListener("click", () => {
-                        currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
-                        renderSlide(currentIndex);
-                    });
-
-                    // 다음 버튼 클릭 이벤트
-                    nextButton.addEventListener("click", () => {
-                        currentIndex = (currentIndex + 1) % filteredData.length;
-                        renderSlide(currentIndex);
-                    });
-
-                    // 첫 슬라이드 렌더링
-                    renderSlide(currentIndex);
-
-                    // 슬라이드 표시
-                    slides.classList.add("visible");
                 });
 
-                slideContainer.appendChild(clone);
+                // 슬라이드 데이터 준비
+                const slides = document.getElementById("infoCard");
+                const prevButton = document.getElementById("prevSlide");
+                const nextButton = document.getElementById("nextSlide");
+
+                let currentIndex = 0;
+
+                // 슬라이드 데이터 렌더링 함수
+                function renderSlide(index) {
+                    const slideData = filteredData[index];
+
+                    document.getElementById("infoCardName").textContent = slideData.HOME_NAME || "정보 없음";
+                    document.getElementById("infoCardNo").textContent = slideData.HOME_NO || "정보 없음";
+                    document.getElementById("infoCardCompany").textContent = slideData.HOME_CO || "정보 없음";
+                    document.getElementById("infoCardCount").textContent = slideData.HOME_COUNT || "정보 없음";
+                    document.getElementById("infoCardParking").textContent = slideData.HOME_PARKING || "정보 없음";
+                    document.getElementById("infoCardAddress").textContent = slideData.HOME_ADDRESS || "정보 없음";
+                    document.getElementById("infoCardDeposit").textContent = slideData.HOME_DEP || "정보 없음";
+                    document.getElementById("infoCardRent").textContent = slideData.HOME_MOTH_PAI || "정보 없음";
+                    document.getElementById("infoCardMy").textContent = slideData.HOME_MYAREA || "정보 없음";
+                    document.getElementById("infoCardWe").textContent = slideData.HOME_WEAREA || "정보 없음";
+
+                    console.log("Showing Slide:", index, slideData);
+                }
+
+                // 이전 버튼 클릭 이벤트
+                prevButton.addEventListener("click", () => {
+                    currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
+                    renderSlide(currentIndex);
+                });
+
+                // 다음 버튼 클릭 이벤트
+                nextButton.addEventListener("click", () => {
+                    currentIndex = (currentIndex + 1) % filteredData.length;
+                    renderSlide(currentIndex);
+                });
+
+                // 첫 슬라이드 렌더링
+                renderSlide(currentIndex);
+
+                // 슬라이드 표시
+                slides.classList.add("visible");
             });
 
-            // 닫기 버튼 이벤트 처리
-            document.getElementById("closeInfoCard").addEventListener("click", () => {
-                document.getElementById("infoCard").classList.remove("visible");
-            });
-        }
+            slideContainer.appendChild(clone);
+        });
+
+        // 닫기 버튼 이벤트 처리
+        document.getElementById("closeInfoCard").addEventListener("click", () => {
+            document.getElementById("infoCard").classList.remove("visible");
+        });
+    }
 
 
 
