@@ -42,7 +42,7 @@ data['similar'] = similarity_scores
 most_similar_addresses = data.sort_values(by='similar', ascending=False).head(5)
 
 # 사용자 선택 열만 포함한 JSON 생성 (주소, 유사도, 선택 열)
-result = most_similar_addresses[['adress', 'similar'] + selected_columns].to_dict(orient='records')
+result = most_similar_addresses[['address', 'similar'] + selected_columns].to_dict(orient='records')
 
 # JSON 형태로 결과 출력
 output_json = json.dumps(result, ensure_ascii=False, indent=4)

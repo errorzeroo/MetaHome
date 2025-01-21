@@ -248,9 +248,9 @@
     .chart-container {
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
-        left: 50px; /* 원하는 위치 지정 */
+        left: 850px; /* 원하는 위치 지정 */
         width: 450px; /* 여기에 if문으로 차트 크기 조절 */
-        height: 200px;
+        height: 300px;
         z-index: 10; /* 맵보다 높은 계층 */
         background-color: rgba(255, 255, 255, 1); /* 차트 배경 설정 */
         border: 1px solid lightgray; /* 차트 경계선 */
@@ -436,114 +436,71 @@
             console.log("JSON Data:", jsonData);
             const parsedData = jsonData;
 
-            // 데이터 처리
-            const labels = parsedData.map(item => item.address); // 주소를 라벨로 사용
-            const similarities = parsedData.map(item => item.similar); // 유사도 점수
-            const parks = parsedData.map(item => item.park); // 공원
-            const hospitals = parsedData.map(item => item.hospital); // 병원
-            const subways = parsedData.map(item => item.subway); // 지하철
-            const buses = parsedData.map(item => item.bus); // 버스
-            const elements = parsedData.map(item => item.element); // 초등학교
-            const middles = parsedData.map(item => item.middle); // 중학교
-            const highes = parsedData.map(item => item.high); // 고등학교
-            const hcounts = parsedData.map(item => item.hospitalcount); // 병원수
+            // 1. 키 배열 가져오기
+            const keys = Object.keys(parsedData[0]);
+            console.log("All Keys:", keys); // 모든 키 확인
 
-            if (parks == null){
-                park = 0
-            }else{
-                park = parks[0]*100
-            }
-            if (hospitals == null){
-                hospital = 0
-            }else{
-                hospital = hospitals[0]*100
-            }
-            if (subways == null){
-                subway = 0
-            }else{
-                subway = subways[0]*100
-            }
-            if (buses == null){
-                bus = 0
-            }else{
-                bus = buses[0]*100
-            }
-            if (elements == null){
-                element = 0
-            }else{
-                element = elements[0]*100
-            }
-            if (middles == null){
-                middle = 0
-            }else{
-                middle = middles[0]*100
-            }
-            if (highes == null){
-                high = 0
-            }else{
-                high = highes[0]*100
-            }
-            if (hcounts == null){
-                hcount = 0
-            }else{
-                hcount = hcounts[0]*100
-            }
+            // 2. 첫 번째와 두 번째 키를 제외
+            const relevantKeys = keys.slice(2); // 첫 번째(0)와 두 번째(1) 키 제외
+            console.log("Relevant Keys:", relevantKeys); // 예: ["park", "bus", "subway", ...]
 
-            console.log("Parsed Data: ", parsedData);
-            console.log("Labels: ", labels);
-            console.log("Similarities: ", similarities);
-            console.log("p", parks);
-            console.log("h", hospitals);
-            console.log("s", subways);
-            console.log("b", buses);
-            console.log("e", elements);
-            console.log("m", middles);
-            console.log("hi", highes);
-            console.log("hc", hcounts);
+            // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
+            const keyMapping = {
+                park: "공원",
+                bus: "버스",
+                subway: "지하철",
+                hospitalcount: "병원",
+                element: "초등학교",
+                middle: "중학교",
+                high: "고등학교",
+                parking: "주차장"
+            };
 
+            // 4. 라벨과 데이터 추출
+            const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
+            const data = relevantKeys.map((key) => parsedData[0][key] * 100); // 퍼센트 변환
+            console.log("Labels (한국어):", labels); // ["공원", "버스", ...]
+            console.log("Data:", data); // [숫자 배열]
 
-            // Chart.js로 차트 생성
+            // 5. backgroundColor 동적 생성
+            const backgroundColors = relevantKeys.map((_, index) => {
+                const colors = [
+                    'rgba(111, 140, 93, 1)',
+                    'rgba(255, 107, 107, 1)',
+                    'rgba(255, 111, 60, 1)',
+                    'rgba(134, 205, 255, 1)',
+                    'rgba(255, 255, 86, 1)',
+                    'rgba(155, 136, 255, 1)',
+                    'rgba(175, 136, 101, 1)',
+                    'rgba(255, 107, 107, 1)',
+                ];
+                return colors[index % colors.length]; // 순환하여 색상 선택
+            });
+            console.log("Background Colors:", backgroundColors);
+
+            // 4. Chart.js로 차트 생성
             try {
                 const ctx = document.getElementById('myChart').getContext('2d');
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['공원', '병원', '지하철', '버스', '초등학교', '중학교', '고등학교', '병원수'], // X축 라벨
+                        labels: labels, // X축 라벨 (처음과 마지막 키를 제외한 키들)
                         datasets: [{
-                            label: (similarities[0]*100).toFixed(2),
-                            data: [
-                            park, // Y축 데이터 park
-                            hospital, // Y축 데이터 hospital
-                            bus, // Y축 데이터 bus
-                            subway, // Y축 데이터 subway
-                            element, // Y축 데이터 element
-                            middle, // Y축 데이터 middle
-                            high, // Y축 데이터 high
-                            hcount, // Y축 데이터 hospitalcount
-                            ],
-                            backgroundColor: [
-                                'rgba(111, 140, 93, 1)',
-                                'rgba(255, 107, 107, 1)',
-                                'rgba(255, 111, 60, 1)',
-                                'rgba(134, 205, 255, 1)',
-                                'rgba(255, 255, 86, 1)',
-                                'rgba(155, 136, 255, 1)',
-                                'rgba(175, 136, 101, 1)',
-                                'rgba(255, 107, 107, 1)',
-                            ],
-                            //borderColor: 'rgba(106, 193, 255, 1)',
+                            label: "생활 인프라 매칭 점수",
+                            data: data, // Y축 데이터
+                            backgroundColor: backgroundColors, // 동적 색상
                             borderWidth: 1,
                             maxBarThickness: 20, // 최대 bar의 두께 설정
-                            borderSkipped:false,
+                            borderSkipped: false,
                             borderRadius: [
-                                { topLeft: 20, topRight: 20},
+                                { topLeft: 20, topRight: 20 },
                             ]
                         }]
                     },
                     options: {
-                        title : {
+                        title: {
                             display: true,
-                            text: "title"
+                            text: "생활 인프라 매칭 점수 차트"
                         },
                         legend: {
                             display: true,
@@ -551,16 +508,15 @@
                         },
                         scales: {
                             x: {
-                              beginAtZero: true,
-                              scaleLineColor: 'red',
-                              grid: {
-                              color: 'transparent',
-                              },
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'transparent',
+                                },
                             },
                             y: {
                                 beginAtZero: true, // Y축 0부터 시작
                                 grid: {
-                                color: 'transparent',
+                                    color: 'transparent',
                                 }
                             },
                         }
