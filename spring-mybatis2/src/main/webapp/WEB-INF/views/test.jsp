@@ -216,6 +216,10 @@
         padding: 0px;
     }
 
+    .sliding-panel.collapsed {
+        left: -430px;
+    }
+
     .sliding-panel.active {
         left: 0; /* 화면 안으로 이동 */
     }
@@ -234,9 +238,69 @@
         transition: transform 0.3s ease;
     }
 
-    .slide-toggle-button:hover {
-        transform: translateY(-50%) scale(1.1);
+
+    .box {
+          display: none;
+
+        }
+
+        .box.active{
+          display: block;
+        }
+
+    #box1{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid black;
+        position : absolute;
+        top: 40px;
+        left: 20px;
+        width: 70px; /* 박스 너비 */
+        height: 300px; /* 박스 높이 */
+        overflow-y:scroll
+
     }
+
+    #box2{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid black;
+        position : absolute;
+        top: 40px;
+        left: 130px;
+        width: 70px; /* 박스 너비 */
+        height: 300px; /* 박스 높이 */
+    }
+
+    #box3{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid black;
+        position : absolute;
+        top: 50px;
+        left: 200px;
+        width: 150px; /* 박스 너비 */
+        height: 300px; /* 박스 높이 */
+        overflow-y:scroll
+    }
+
+    .scroll-button{
+        background-color: white; /* 기본 배경색 */
+        border: 1px solid gray;
+        padding: 10px;
+        margin: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .scroll-button.selected{
+        background-color: red;
+        color: white;
+    }
+
 
     .map {
         position: absolute; /* 절대 위치 */
@@ -245,18 +309,65 @@
         height:100%;
         z-index: 1;
     }
-    .chart-container {
+
+    .chart-container-with-score {
+        display: flex; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
-        left: 50px; /* 원하는 위치 지정 */
+        left: 850px; /* 원하는 위치 지정 */
         width: 450px; /* 여기에 if문으로 차트 크기 조절 */
-        height: 200px;
+        height: 300px;
+        background-color: #fff; /* 배경 색상 */
+        border: 1px solid lightgray; /* 경계선 */
+        border-radius: 12px; /* 모서리 둥글게 */
+        padding: 20px; /* 내부 여백 */
+        height: 300px;
         z-index: 10; /* 맵보다 높은 계층 */
-        background-color: rgba(255, 255, 255, 1); /* 차트 배경 설정 */
-        border: 1px solid lightgray; /* 차트 경계선 */
-        border-radius: 8px; /* 모서리 둥글게 */
-        padding: 10px;
     }
+
+
+    .chart-container {
+        flex: 2; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
+        height: 300px; /* 차트 컨테이너 높이 */
+        position: relative;
+    }
+    .chart-container canvas {
+        width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
+        height: 300px !important;
+    }
+
+    .score-container {
+        flex: 1; /* 점수 컨테이너가 차트보다 좁게 설정 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .score-content {
+        text-align: center;
+    }
+
+    .score-image {
+        width: 80px; /* 이미지 크기 */
+        height: 80px;
+        margin-bottom: 10px; /* 텍스트와 간격 */
+    }
+
+    .score-text {
+        font-size: 40px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .score-number {
+        font-size: 48px; /* 점수 숫자 크기 */
+        font-weight: bold;
+        color: black; /* 숫자 색상 */
+    }
+
+
 
     .list-item {
         padding: 0; /* 내부 여백 제거 */
@@ -350,6 +461,51 @@
         padding: 10px; /* 내부 여백 추가 */
     }
 
+    /* 정보 카드 기본 스타일 */
+    .info-card {
+      position: fixed;
+      bottom: 20px; /* 화면 아래쪽에서 띄움 */
+      right: 20px; /* 화면 오른쪽에 고정 */
+      width: 300px; /* 카드 너비 */
+      background-color: #fff; /* 흰색 배경 */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+      border-radius: 10px; /* 둥근 모서리 */
+      padding: 20px; /* 내부 여백 */
+      z-index: 1000; /* 다른 요소 위로 */
+      display: none; /* 기본적으로 숨김 */
+    }
+
+    /* 카드 표시 시 */
+    .info-card.visible {
+      display: block; /* 카드가 보이도록 */
+    }
+
+    /* 닫기 버튼 스타일 */
+    .close-info-card {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .close-info-card:hover {
+      color: #000;
+    }
+
+    /* 카드 내부 텍스트 스타일 */
+    .info-card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .info-card-label {
+      font-weight: bold;
+    }
 
 
 
@@ -362,7 +518,7 @@
     <button class = "white-button1">맞춤 지도</button>
     <button class = "white-button2">우리 동네 이사와 생활 서비스</button>
     <button class = "white-button3">로그인</button>
-    <button class = "white-button4">멤버쉽 가입</button>
+    <button class = "white-button4">멤버쉽  가입</button>
 
     <!-- 위쪽 선 -->
     <hr class="styled-line1">
@@ -398,23 +554,94 @@
     <!-- slide area -->
     <div class="sliding-container">
         <div class="sliding-panel" id="slidingPanel">
-            <button id="slideToggleButton" class="slide-toggle-button">❯</button>
-            <button class="dropdown-button1">
+            <button id="slideToggleButton" class="slide-toggle-button">❮</button>
+            <button class="dropdown-button1" onclick="toggleBox('box1')">
               지역 선택
               <span class="dropdown-icon"></span> <!-- 화살표 -->
             </button>
-            <button class="dropdown-button2">
+            <button class="dropdown-button2" onclick="toggleBox('box2')">
               주택 유형
-              <span class="dropdown-icon"></span> <!-- 화살표 -->
+              <span class="dropdown-icon" ></span> <!-- 화살표 -->
             </button>
-            <button class="dropdown-button3">
+            <button class="dropdown-button3" onclick="toggleBox('box3')">
               생활 인프라 매칭하기
               <span class="dropdown-icon"></span> <!-- 화살표 -->
             </button>
-            <button class="icon-button">
+            <button class="icon-button" id="refreshButton" onclick="resetSelection()">
               <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
             </button>
             <hr class="styled-line2">
+
+            <!-- 지역선택버튼들 -->
+            <div class="box" id="box1" >
+                <div class = "scrollable-box">
+
+                    <button class="scroll-button" onclick="selectButton(this)">강남구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">강동구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">강북구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">강서구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">관악구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">광진구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">구로구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">금천구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">노원구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">도봉구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">동대문구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">동작구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">마포구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">서대문구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">서초구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">성동구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">성북구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">송파구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">양천구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">영등포구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">용산구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">은평구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">종로구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">중구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">중랑구</button>
+
+                </div>
+            </div>
+
+            <!-- 주택유형버튼들 -->
+            <div class="box" id="box2"><div class = "scrollable-box">
+                <button class="scroll-button" onclick="selectButton(this)">아파트</button>
+                <button class="scroll-button" onclick="selectButton(this)">연립/다세대</button>
+                <button class="scroll-button" onclick="selectButton(this)">단독/다가구</button>
+                <button class="scroll-button" onclick="selectButton(this)">오피스텔</button>
+            </div></div>
+
+            <!-- 생활인프라슬라이더 -->
+            <div class="box" id="box3">
+                <div>
+
+                <input type="range" id="slider1" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider2" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider3" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider4" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider5" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider6" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider7" min="0" max="100" value="50" class="slider">
+                </div>
+                <button id="submitButton">제출</button>
+            </div>
+
+
+
 
             <div id="slideContentContainer" class="slide-content-container"></div>
             <div id="detailContainer"></div>
@@ -425,10 +652,32 @@
         </div>
     </div>
 
+    <div id="infoCard" class="info-card hidden">
+      <button id="closeInfoCard" class="close-info-card">×</button>
+      <h4 class="info-card-title">상세 정보</h4>
+      <p><span class="info-card-label">주소:</span> <span id="infoCardAddress"></span></p>
+      <p><span class="info-card-label">보증금:</span> <span id="infoCardDeposit"></span></p>
+      <p><span class="info-card-label">월세:</span> <span id="infoCardRent"></span></p>
+      <p><span class="info-card-label">임대사업자:</span> <span id="infoCardCompany"></span></p>
+    </div>
+
         <!-- 차트 추가 -->
-        <div class="chart-container">
-            <canvas id="myChart"></canvas>
+        <div class="chart-container-with-score">
+            <!-- 그래프 컨테이너 -->
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+            <!-- 오른쪽 이미지와 점수 -->
+            <div class="score-container">
+                <div class="score-content">
+                    <img src="path-to-your-image.png" alt="점수 아이콘" class="score-image">
+                    <div class="score-text">
+                        <span class="score-number">96</span><span>점</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <!--<script src="/js/kakao.js"></script>-->
         <script>
             // JSP에서 JSON 데이터를 안전하게 가져오기
@@ -436,135 +685,134 @@
             console.log("JSON Data:", jsonData);
             const parsedData = jsonData;
 
-            // 데이터 처리
-            const labels = parsedData.map(item => item.address); // 주소를 라벨로 사용
-            const similarities = parsedData.map(item => item.similar); // 유사도 점수
-            const parks = parsedData.map(item => item.park); // 공원
-            const hospitals = parsedData.map(item => item.hospital); // 병원
-            const subways = parsedData.map(item => item.subway); // 지하철
-            const buses = parsedData.map(item => item.bus); // 버스
-            const elements = parsedData.map(item => item.element); // 초등학교
-            const middles = parsedData.map(item => item.middle); // 중학교
-            const highes = parsedData.map(item => item.high); // 고등학교
-            const hcounts = parsedData.map(item => item.hospitalcount); // 병원수
+            // 1. 키 배열 가져오기
+            const keys = Object.keys(parsedData[0]);
+            console.log("All Keys:", keys); // 모든 키 확인
 
-            if (parks == null){
-                park = 0
-            }else{
-                park = parks[0]*100
-            }
-            if (hospitals == null){
-                hospital = 0
-            }else{
-                hospital = hospitals[0]*100
-            }
-            if (subways == null){
-                subway = 0
-            }else{
-                subway = subways[0]*100
-            }
-            if (buses == null){
-                bus = 0
-            }else{
-                bus = buses[0]*100
-            }
-            if (elements == null){
-                element = 0
-            }else{
-                element = elements[0]*100
-            }
-            if (middles == null){
-                middle = 0
-            }else{
-                middle = middles[0]*100
-            }
-            if (highes == null){
-                high = 0
-            }else{
-                high = highes[0]*100
-            }
-            if (hcounts == null){
-                hcount = 0
-            }else{
-                hcount = hcounts[0]*100
-            }
+            // similar 값을 가져와 100을 곱한 점수를 계산
+            const score = Math.floor(parsedData[0].similar * 100); // 첫 번째 데이터의 similar 값 사용
+            console.log("Score:", score); // 콘솔로 점수 확인
 
-            console.log("Parsed Data: ", parsedData);
-            console.log("Labels: ", labels);
-            console.log("Similarities: ", similarities);
-            console.log("p", parks);
-            console.log("h", hospitals);
-            console.log("s", subways);
-            console.log("b", buses);
-            console.log("e", elements);
-            console.log("m", middles);
-            console.log("hi", highes);
-            console.log("hc", hcounts);
+            // 점수를 HTML에 표시
+            document.querySelector(".score-number").textContent = score;
 
+            // 2. 첫 번째와 두 번째 키를 제외
+            const relevantKeys = keys.slice(2); // 첫 번째(0)와 두 번째(1) 키 제외
+            console.log("Relevant Keys:", relevantKeys); // 예: ["park", "bus", "subway", ...]
 
-            // Chart.js로 차트 생성
+            // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
+            const keyMapping = {
+                park: "공원",
+                bus: "버스",
+                subway: "지하철",
+                hospitalcount: "병원",
+                element: "초등학교",
+                middle: "중학교",
+                high: "고등학교",
+                parking: "주차장"
+            };
+
+            // 라벨별 이미지를 정의
+            const labelImages = [
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png"
+            ];
+
+            // 4. 라벨과 데이터 추출
+            const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
+            const data = relevantKeys.map((key) => parsedData[0][key] * 100); // 퍼센트 변환
+            console.log("Labels (한국어):", labels); // ["공원", "버스", ...]
+            console.log("Data:", data); // [숫자 배열]
+
+            // 5. backgroundColor 동적 생성
+            const backgroundColors = relevantKeys.map((_, index) => {
+                const colors = [
+                    'rgba(111, 140, 93, 1)',
+                    'rgba(255, 107, 107, 1)',
+                    'rgba(255, 111, 60, 1)',
+                    'rgba(134, 205, 255, 1)',
+                    'rgba(255, 255, 86, 1)',
+                    'rgba(155, 136, 255, 1)',
+                    'rgba(175, 136, 101, 1)',
+                    'rgba(255, 107, 107, 1)',
+                ];
+                return colors[index % colors.length]; // 순환하여 색상 선택
+            });
+            console.log("Background Colors:", backgroundColors);
+
+            // 4. Chart.js로 차트 생성
             try {
                 const ctx = document.getElementById('myChart').getContext('2d');
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['공원', '병원', '지하철', '버스', '초등학교', '중학교', '고등학교', '병원수'], // X축 라벨
+                        labels: labels, // X축 라벨
                         datasets: [{
-                            label: (similarities[0]*100).toFixed(2),
-                            data: [
-                            park, // Y축 데이터 park
-                            hospital, // Y축 데이터 hospital
-                            bus, // Y축 데이터 bus
-                            subway, // Y축 데이터 subway
-                            element, // Y축 데이터 element
-                            middle, // Y축 데이터 middle
-                            high, // Y축 데이터 high
-                            hcount, // Y축 데이터 hospitalcount
-                            ],
-                            backgroundColor: [
-                                'rgba(111, 140, 93, 1)',
-                                'rgba(255, 107, 107, 1)',
-                                'rgba(255, 111, 60, 1)',
-                                'rgba(134, 205, 255, 1)',
-                                'rgba(255, 255, 86, 1)',
-                                'rgba(155, 136, 255, 1)',
-                                'rgba(175, 136, 101, 1)',
-                                'rgba(255, 107, 107, 1)',
-                            ],
-                            //borderColor: 'rgba(106, 193, 255, 1)',
+                            label: "생활 인프라 매칭 점수",
+                            data: data, // Y축 데이터
+                            backgroundColor: backgroundColors,
                             borderWidth: 1,
-                            maxBarThickness: 20, // 최대 bar의 두께 설정
-                            borderSkipped:false,
+                            maxBarThickness: 15, // 막대 최대 두께
+                            borderSkipped: false,
                             borderRadius: [
-                                { topLeft: 20, topRight: 20},
+                                { topLeft: 10, topRight: 10 },
                             ]
                         }]
                     },
                     options: {
-                        title : {
-                            display: true,
-                            text: "title"
-                        },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
                             x: {
-                              beginAtZero: true,
-                              scaleLineColor: 'red',
-                              grid: {
-                              color: 'transparent',
-                              },
-                            },
-                            y: {
-                                beginAtZero: true, // Y축 0부터 시작
-                                grid: {
-                                color: 'transparent',
+                                beginAtZero: true,
+                                ticks: {
+                                    font: {
+                                        size: 14 // 라벨 글자 크기 조절
+                                    }
                                 }
                             },
+                            y: {
+                                beginAtZero: true,
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
                         }
-                    }
+                    },
+                    plugins: [
+                        {
+                            id: 'custom-label-images',
+                            afterDraw(chart) {
+                                const ctx = chart.ctx;
+                                const xAxis = chart.scales.x;
+                                const yAxisBottom = chart.scales.y.bottom;
+
+                                xAxis.ticks.forEach((_, index) => {
+                                    const x = xAxis.getPixelForTick(index);
+                                    const image = new Image();
+                                    image.src = labelImages[index];
+                                    image.onload = () => {
+                                        ctx.drawImage(image, x - 10, yAxisBottom + 10, 20, 20); // 이미지 크기와 위치 조정
+                                    };
+                                    image.onerror = () => {
+                                        console.error(`Image failed to load at index ${index}: ${image.src}`);
+                                    };
+                                });
+                            }
+                        }
+                    ]
                 });
             } catch (error) {
                 console.error("Chart.js 렌더링 중 오류 발생:", error);
@@ -657,53 +905,39 @@
                 return;
             }
 
+            // 데이터 리스트 렌더링
             data.forEach((item) => {
-                const clone = template.content.cloneNode(true);
-                clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
-                clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
-                clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
-                clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-                clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+              const clone = template.content.cloneNode(true);
+              clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+              clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+              clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+              clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+              clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
 
-                const listItem = clone.querySelector(".list-item");
+              const listItem = clone.querySelector(".list-item");
 
-                listItem.addEventListener("click", () => {
-                    console.log("선택된 데이터:", item);
+              // 리스트 클릭 시 이벤트 처리
+              listItem.addEventListener("click", () => {
+                // 카드에 데이터 삽입
+                document.getElementById("infoCardAddress").textContent = item.HOME_ADDRESS || "정보 없음";
+                document.getElementById("infoCardDeposit").textContent = item.HOME_DEP || "정보 없음";
+                document.getElementById("infoCardRent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+                document.getElementById("infoCardCompany").textContent = item.HOME_CO || "정보 없음";
 
-                    // HOME_ADDRESS 필드를 사용하여 비교
-                    const filteredData = DataText.filter(home =>
-                        home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
-                    );
+                // 카드 표시
+                document.getElementById("infoCard").classList.add("visible");
+              });
 
-
-                    // 필터링된 데이터를 보여주는 함수 호출
-                    showFilteredData(filteredData);
-                });
-
-                slideContainer.appendChild(clone);
+              slideContainer.appendChild(clone);
             });
+
+            // 닫기 버튼 이벤트 처리
+            document.getElementById("closeInfoCard").addEventListener("click", () => {
+              document.getElementById("infoCard").classList.remove("visible");
+            });
+
         }
 
-        function showFilteredData(data) {
-            const detailContainer = document.getElementById("detailContainer");
-            detailContainer.innerHTML = "";
-
-            if (data.length === 0) {
-                detailContainer.innerHTML = "<p>관련 데이터가 없습니다.</p>";
-                return;
-            }
-            data.forEach((detail) => {
-                const detailItem = document.createElement("div");
-                detailItem.classList.add("detail-item");
-                detailItem.innerHTML = `
-                    <p>주소: detail.HOME_ADDRESS</p>
-                    <p>보증금: ${detail.HOME_DEP}</p>
-                    <p>월세: ${detail.HOME_MOTH_PAI}</p>
-                    <p>임대사업자: ${detail.HOME_CO}</p>
-                `;
-                detailContainer.appendChild(detailItem);
-            });
-        }
 
         // 데이터를 페이지별로 나누는 함수
         function getPaginatedData(page) {
@@ -738,12 +972,7 @@
             }
         }
 
-        // 슬라이드 패널 토글 버튼
-        document.getElementById("slideToggleButton").addEventListener("click", function () {
-            const panel = document.getElementById("slidingPanel");
-            panel.classList.toggle("active");
-            this.textContent = panel.classList.contains("active") ? "❮" : "❯";
-        });
+
 
         // 이벤트 등록 및 초기화
         document.addEventListener("DOMContentLoaded", () => {
@@ -757,13 +986,112 @@
     <script src="/js/slide.js"></script>-->
     <!-- 동적 슬라이드를 위한 자바 스크립트 -->
     <script>
-        document.getElementById("slideToggleButton").addEventListener("click", function () {
-            const panel = document.getElementById("slidingPanel");
-            panel.classList.toggle("active");
+        document.addEventListener("DOMContentLoaded", function () {
+                const panel = document.getElementById("slidingPanel");
+                const button = document.getElementById("slideToggleButton");
 
-            // 버튼 아이콘 변경 (❮ ↔ ❯)
-            this.textContent = panel.classList.contains("active") ? "❮" : "❯";
-        });
+                panel.classList.add("active");
+
+                button.addEventListener("click", function () {
+                    if (panel.classList.contains("collapsed")) {
+                        panel.classList.remove("collapsed");
+                        panel.classList.add("active");
+                        button.textContent = "❮"; // 아이콘 변경
+                    } else {
+                        panel.classList.remove("active");
+                        panel.classList.add("collapsed");
+                        button.textContent = "❯"; // 아이콘 변경
+                    }
+                });
+              });
+
+
+
+
+
+        function toggleBox(boxId) {
+                const targetBox = document.getElementById(boxId);
+                const activeBox = document.querySelector('.box.active'); // 현재 활성화된 박스를 찾기
+
+                // 현재 활성화된 박스가 있을 경우 비활성화
+                if (activeBox && activeBox !== targetBox) {
+                    activeBox.classList.remove('active');
+                }
+
+                // 클릭된 박스를 활성화 또는 비활성화
+                if (targetBox) {
+                    targetBox.classList.toggle('active');
+                    }
+                }
+
+
+                // 지역선택, 주택유형 버튼 인터랙션
+                document.querySelectorAll('.scroll-button').forEach(button => {
+                button.addEventListener('click', () => {
+                // 클릭된 버튼이 이미 선택되어 있는지 확인
+                    if (button.classList.contains('selected')) {
+                    // 이미 선택된 버튼이면 선택 해제
+                        button.classList.remove('selected');
+                    } else {
+                    // 선택되지 않은 버튼이면 선택 상태로 변경
+                        button.classList.add('selected');
+                        }
+                    });
+                });
+
+                document.getElementById('submitButton').addEventListener('click', function() {
+                // 슬라이더 값 가져오기
+                const slider1Value = document.getElementById('slider1').value;
+                const slider2Value = document.getElementById('slider2').value;
+                const slider3Value = document.getElementById('slider3').value;
+                const slider4Value = document.getElementById('slider4').value;
+                const slider5Value = document.getElementById('slider5').value;
+                const slider6Value = document.getElementById('slider6').value;
+                const slider7Value = document.getElementById('slider7').value;
+
+
+                // 값 확인 (콘솔에 출력)
+                console.log("Slider 1 Value: " + slider1Value);
+                console.log("Slider 2 Value: " + slider2Value);
+                console.log("Slider 3 Value: " + slider3Value);
+                console.log("Slider 4 Value: " + slider4Value);
+                console.log("Slider 5 Value: " + slider5Value);
+                console.log("Slider 6 Value: " + slider6Value);
+                console.log("Slider 7 Value: " + slider7Value);
+                });
+
+
+                //새로고침
+                function resetSelection() {
+                // box1의 모든 버튼 선택 해제
+                const buttons1 = document.querySelectorAll('#box1 .scroll-button');
+                buttons1.forEach(button => button.classList.remove('selected'));
+
+                // box2의 모든 버튼 선택 해제
+                const buttons2 = document.querySelectorAll('#box2 .scroll-button');
+                buttons2.forEach(button => button.classList.remove('selected'));
+
+                // 슬라이더 값 초기화 (50)
+                const sliders = document.querySelectorAll('.slider');
+                sliders.forEach(slider => {
+                    slider.value = 50; // 각 슬라이더의 값을 50으로 설정
+                    slider.dispatchEvent(new Event('input')); // 슬라이더 값 변경 이벤트 발생시켜 UI에 반영
+                });
+                }
+
+                // 슬라이더 값 변경 시 UI 반영
+                const sliders = document.querySelectorAll('.slider');
+                sliders.forEach(slider => {
+                    slider.addEventListener('input', function () {
+                        // 슬라이더 값에 따라 UI 반영 작업을 추가 (예: 슬라이더 값 표시)
+                        console.log('Slider value:', slider.value); // 슬라이더 값 확인용
+                    });
+                });
+
+                document.getElementById("refreshButton").addEventListener("click", resetSelection);
+
+
+
 
 
     </script>
