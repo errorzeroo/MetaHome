@@ -9,6 +9,11 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!--<link ref="stylesheet" type="text/css" href="C:/Lecture/MetaHome/spring-mybatis2/src/main/resources/static/css/style.css">
 -->
+
+<!-- 카카오맵 -->
+<div id="map" class = "map"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
+
 </head>
 <style>
     body, html {
@@ -180,7 +185,7 @@
         transition: background-color 0.3s ease, transform 0.3s ease;
         position: absolute; /* 절대 위치 */
         top: 18px; /* 위에서 10px 아래 */
-        left: 378px;
+        left: 10px;
     }
 
     hr.vertical-line {
@@ -238,15 +243,20 @@
         transition: transform 0.3s ease;
     }
 
+    .searchButton{
+        position: absolute;
+        left: 380px;
+        top:15px;
+    }
 
     .box {
           display: none;
 
         }
 
-        .box.active{
-          display: block;
-        }
+    .box.active{
+      display: block;
+    }
 
     #box1{
         margin-top: 10px;
@@ -311,7 +321,7 @@
     }
 
     .chart-container-with-score {
-        display: flex; /* Flexbox로 수평 배치 */
+        display: none; /* Flexbox로 수평 배치 //flex*/
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
@@ -473,7 +483,7 @@
     .info-card {
       position: fixed;
       bottom: 20px; /* 화면 아래쪽에서 띄움 */
-      right: 20px; /* 화면 오른쪽에 고정 */
+      left: 400px; /* 화면 오른쪽에 고정 */
       width: 300px; /* 카드 너비 */
       background-color: #fff; /* 흰색 배경 */
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -514,42 +524,6 @@
     .info-card-label {
       font-weight: bold;
     }
-    .slider-wrapper {
-        position: relative;
-        width: 100%;
-        max-width: 800px;
-        margin: auto;
-        overflow: hidden;
-    }
-
-    .slider-container {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        width: 100%;
-    }
-
-    .slide {
-        flex: 0 0 100%;
-        box-sizing: border-box;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin: 0 10px;
-        text-align: left;
-    }
-
-    .slider-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #333;
-        color: white;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        z-index: 10;
-    }
 
     #prevSlide {
         left: 10px;
@@ -558,6 +532,49 @@
     #nextSlide {
         right: 10px;
     }
+    .hidden {
+        display: none;
+    }
+
+    #slideOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .slide-container {
+        background: white;
+        width: 80%;
+        max-width: 800px;
+        padding: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .slides {
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px 0;
+    }
+
+    .slide {
+        flex: 0 0 100%;
+        background: #f9f9f9;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
 
 
 
@@ -577,7 +594,7 @@
 
     <!-- 템플릿 -->
      <template id="slide-item-template">
-         <div class="list-item">
+         <div class="list-item" data-address="{{address}}">
              <div class="list-header">
                  <span class="list-title"></span>
              </div>
@@ -618,15 +635,18 @@
             <button class="dropdown-button3" onclick="toggleBox('box3')">
               생활 인프라 매칭하기
               <span class="dropdown-icon"></span> <!-- 화살표 -->
+              <button class="searchButton">검색</button>
             </button>
-            <button class="icon-button" id="refreshButton" onclick="resetSelection()">
-              <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
-            </button>
+
             <hr class="styled-line2">
 
             <!-- 지역선택버튼들 -->
             <div class="box" id="box1" >
                 <div class = "scrollable-box">
+
+                    <button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
+                                  <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
+                    </button>
 
                     <button class="scroll-button" onclick="selectButton(this)">강남구</button>
                     <button class="scroll-button" onclick="selectButton(this)">강동구</button>
@@ -667,8 +687,10 @@
 
             <!-- 생활인프라슬라이더 -->
             <div class="box" id="box3">
+                <button class="icon-button" id="refreshButton2" onclick="resetSelection2()">
+                    <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
+                </button>
                 <div>
-
                 <input type="range" id="slider1" min="0" max="100" value="50" class="slider">
                 </div>
                 <div>
@@ -694,7 +716,6 @@
 
 
 
-
             <div id="slideContentContainer" class="slide-content-container"></div>
             <div id="detailContainer"></div>
 
@@ -706,6 +727,7 @@
 
     <div id="infoCard" class="info-card hidden">
           <button id="closeInfoCard" class="close-info-card">×</button>
+          <button id="prevSlide" class="slider-button">이전</button>
           <h4 class="info-card-title"><span id="infoCardName"></span></h4>
           <hr>
           <p><span class="info-card-label">공급번호 |</span> <span id="infoCardNo"></span>
@@ -726,6 +748,7 @@
           <hr>
           <p><span class="info-card-label">이미지</span>
           </p>
+          <button id="nextSlide" class="slider-button">다음</button>
     </div>
 
         <!-- 차트 추가 -->
@@ -914,120 +937,149 @@
 
         </script>
 
-    <!-- 카카오맵 -->
-    <div id="map" class = "map"></div>
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
     <script>
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-            mapOption = {
-            center: new kakao.maps.LatLng(37.4833939381, 127.01698271446),
-            level: 5
+
+    // 기본 지도 그리기
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(37.4833939381, 127.01698271446), // 초기 위치
+            level: 5 // 확대 레벨
         };
 
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        function panTo() {
-            <!--  이동할 위도 경도 위치를 생성합니다 -->
-            var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
 
-            <!-- 지도 중심을 부드럽게 이동시킵니다 -->
-            <!-- 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다 -->
-            map.panTo(moveLatLon);
+    // 서버에서 전달된 JSON 데이터
+    const slideData = JSON.parse('${filteredListJson}');
+    const DataText = JSON.parse('${homeListJson}');
+    console.log("Slide Data: ", slideData);
+    console.log("All Data: ", DataText);
+
+    // 템플릿과 컨테이너 참조
+    const template = document.getElementById("slide-item-template");
+    const slideContainer = document.getElementById("slideContentContainer");
+
+    let currentPage = 1; // 현재 페이지
+    let isLoading = false; // 데이터 로딩 상태
+    const itemsPerPage = 10; // 한 번에 보여줄 아이템 수
+
+    // 초기 데이터 렌더링 함수
+    function populateSlideContent(data) {
+        if (!data || data.length === 0) {
+            slideContainer.innerHTML = "<p>데이터가 없습니다.</p>";
+            return;
         }
 
-        var positions = [
-            {
-                title: '카카오',
-                latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-            },
-            {
-                title: '생태연못',
-                latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-            },
-            {
-                title: '텃밭',
-                latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-            },
-            {
-                title: '근린공원',
-                latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-            }
-        ];
+        data.forEach((item) => {
+            const clone = template.content.cloneNode(true);
+            clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+            clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+            clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+            clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+            clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+            const listItem = clone.querySelector(".list-item");
 
-        // 마커 이미지의 이미지 주소입니다
-        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+            listItem.addEventListener("click", () => {
+                // HOME_ADDRESS 필드를 사용하여 데이터 필터링
+                const filteredData = DataText.filter(
+                    (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
+                );
+                // 주소-좌표 변환 객체를 생성합니다
+                var geocoder = new kakao.maps.services.Geocoder();
 
-        for (var i = 0; i < positions.length; i ++) {
+                // 주소로 좌표를 검색합니다
+                geocoder.addressSearch(item.HOME_ADDRESS, function(result, status) {
 
-            // 마커 이미지의 이미지 크기 입니다
-            var imageSize = new kakao.maps.Size(24, 35);
+                    // 정상적으로 검색이 완료됐으면
+                     if (status === kakao.maps.services.Status.OK) {
 
-            // 마커 이미지를 생성합니다
-            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-                map: map, // 마커를 표시할 지도
-                position: positions[i].latlng, // 마커를 표시할 위치
-                title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-                image : markerImage // 마커 이미지
-            });
-        }
+                        // 결과값으로 받은 위치를 마커로 표시합니다
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords
+                        });
 
-    </script>
+                        // 인포윈도우로 장소에 대한 설명을 표시합니다
+                        var infowindow = new kakao.maps.InfoWindow({
+                            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                        });
+                        infowindow.open(map, marker);
 
-    <script>
-        // 서버에서 전달된 JSON 데이터
-        const slideData = JSON.parse('${filteredListJson}');
-        const DataText = JSON.parse('${homeListJson}');
-        console.log("Slide Data: ", slideData);
-        console.log("All Data: ", DataText);
+                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                        map.setCenter(coords);
+                        // 지도 중심 이동: 화면 오른쪽 절반으로 이동
+                        // 지도 중심 이동: 선택된 좌표가 화면의 200px 왼쪽에 오도록 이동
+                        const mapWidth = mapContainer.offsetWidth;
+                        const mapHeight = mapContainer.offsetHeight;
 
-        // 템플릿과 컨테이너 참조
-        const template = document.getElementById("slide-item-template");
-        const slideContainer = document.getElementById("slideContentContainer");
+                        // 화면에서 좌표가 위치해야 할 X축 위치 (200px 왼쪽)
+                        const moveX = selectedCoordinates.getLng() - (150 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
+                        const moveY = selectedCoordinates.getLat();  // 세로는 그대로 중앙
 
-        let currentPage = 1; // 현재 페이지
-        let isLoading = false; // 데이터 로딩 상태
-        const itemsPerPage = 10; // 한 번에 보여줄 아이템 수
+                        // 새로 이동할 지도 중심 좌표
+                        const newCenter = new kakao.maps.LatLng(moveY, moveX);
 
-        // 초기 데이터 렌더링 함수
-        function populateSlideContent(data) {
-            if (!data || data.length === 0) {
-                slideContainer.innerHTML = "<p>데이터가 없습니다.</p>";
-                return;
-            }
-
-            // 데이터 리스트 렌더링
-            data.forEach((item) => {
-              const clone = template.content.cloneNode(true);
-              clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
-              clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
-              clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
-              clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-              clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
-
-              const listItem = clone.querySelector(".list-item");
-
-                listItem.addEventListener("click", () => {
-                    console.log("선택된 데이터:", item);
-                    // HOME_ADDRESS 필드를 사용하여 비교
-                    const filteredData = DataText.filter(home =>
-                        home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
-                    );
-                    console.log("filteredData Data: ", filteredData);
+                        // 지도 이동
+                        map.panTo(newCenter);
+                    }
                 });
 
-                slideContainer.appendChild(clone);
-              });
+                // 슬라이드 데이터 준비
+                const slides = document.getElementById("infoCard");
+                const prevButton = document.getElementById("prevSlide");
+                const nextButton = document.getElementById("nextSlide");
 
-            // 닫기 버튼 이벤트 처리
-            document.getElementById("closeInfoCard").addEventListener("click", () => {
-              document.getElementById("infoCard").classList.remove("visible");
+                let currentIndex = 0;
+
+                // 슬라이드 데이터 렌더링 함수
+                function renderSlide(index) {
+                    const slideData = filteredData[index];
+
+                    document.getElementById("infoCardName").textContent = slideData.HOME_NAME || "정보 없음";
+                    document.getElementById("infoCardNo").textContent = slideData.HOME_NO || "정보 없음";
+                    document.getElementById("infoCardCompany").textContent = slideData.HOME_CO || "정보 없음";
+                    document.getElementById("infoCardCount").textContent = slideData.HOME_COUNT || "정보 없음";
+                    document.getElementById("infoCardParking").textContent = slideData.HOME_PARKING || "정보 없음";
+                    document.getElementById("infoCardAddress").textContent = slideData.HOME_ADDRESS || "정보 없음";
+                    document.getElementById("infoCardDeposit").textContent = slideData.HOME_DEP || "정보 없음";
+                    document.getElementById("infoCardRent").textContent = slideData.HOME_MOTH_PAI || "정보 없음";
+                    document.getElementById("infoCardMy").textContent = slideData.HOME_MYAREA || "정보 없음";
+                    document.getElementById("infoCardWe").textContent = slideData.HOME_WEAREA || "정보 없음";
+
+                    console.log("Showing Slide:", index, slideData);
+                }
+
+                // 이전 버튼 클릭 이벤트
+                prevButton.addEventListener("click", () => {
+                    currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
+                    renderSlide(currentIndex);
+                });
+
+                // 다음 버튼 클릭 이벤트
+                nextButton.addEventListener("click", () => {
+                    currentIndex = (currentIndex + 1) % filteredData.length;
+                    renderSlide(currentIndex);
+                });
+
+                // 첫 슬라이드 렌더링
+                renderSlide(currentIndex);
+
+                // 슬라이드 표시
+                slides.classList.add("visible");
             });
 
-        }
+            slideContainer.appendChild(clone);
+        });
+
+        // 닫기 버튼 이벤트 처리
+        document.getElementById("closeInfoCard").addEventListener("click", () => {
+            document.getElementById("infoCard").classList.remove("visible");
+        });
+    }
+
 
 
         // 데이터를 페이지별로 나누는 함수
@@ -1073,119 +1125,105 @@
     </script>
 
 
+
 <!--<script src="/js/map.js"></script>
     <script src="/js/slide.js"></script>-->
     <!-- 동적 슬라이드를 위한 자바 스크립트 -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-                const panel = document.getElementById("slidingPanel");
-                const button = document.getElementById("slideToggleButton");
+            const panel = document.getElementById("slidingPanel");
+            const button = document.getElementById("slideToggleButton");
 
-                panel.classList.add("active");
+            panel.classList.add("active");
 
-                button.addEventListener("click", function () {
-                    if (panel.classList.contains("collapsed")) {
-                        panel.classList.remove("collapsed");
-                        panel.classList.add("active");
-                        button.textContent = "❮"; // 아이콘 변경
-                    } else {
-                        panel.classList.remove("active");
-                        panel.classList.add("collapsed");
-                        button.textContent = "❯"; // 아이콘 변경
-                    }
-                });
-              });
-
-
-
-
+            button.addEventListener("click", function () {
+                if (panel.classList.contains("collapsed")) {
+                    panel.classList.remove("collapsed");
+                    panel.classList.add("active");
+                    button.textContent = "❮"; // 아이콘 변경
+                } else {
+                    panel.classList.remove("active");
+                    panel.classList.add("collapsed");
+                    button.textContent = "❯"; // 아이콘 변경
+                }
+            });
+        });
 
         function toggleBox(boxId) {
-                const targetBox = document.getElementById(boxId);
-                const activeBox = document.querySelector('.box.active'); // 현재 활성화된 박스를 찾기
+            const targetBox = document.getElementById(boxId);
+            const activeBox = document.querySelector('.box.active'); // 현재 활성화된 박스를 찾기
 
-                // 현재 활성화된 박스가 있을 경우 비활성화
-                if (activeBox && activeBox !== targetBox) {
-                    activeBox.classList.remove('active');
-                }
+            // 현재 활성화된 박스가 있을 경우 비활성화
+            if (activeBox && activeBox !== targetBox) {
+                activeBox.classList.remove('active');
+            }
 
-                // 클릭된 박스를 활성화 또는 비활성화
-                if (targetBox) {
-                    targetBox.classList.toggle('active');
-                    }
-                }
+            // 클릭된 박스를 활성화 또는 비활성화
+            if (targetBox) {
+                targetBox.classList.toggle('active');
+            }
+        }
 
-
-                // 지역선택, 주택유형 버튼 인터랙션
-                document.querySelectorAll('.scroll-button').forEach(button => {
-                button.addEventListener('click', () => {
+        // 지역선택, 주택유형 버튼 인터랙션
+        document.querySelectorAll('.scroll-button').forEach(button => {
+            button.addEventListener('click', () => {
                 // 클릭된 버튼이 이미 선택되어 있는지 확인
-                    if (button.classList.contains('selected')) {
+                if (button.classList.contains('selected')) {
                     // 이미 선택된 버튼이면 선택 해제
-                        button.classList.remove('selected');
-                    } else {
+                    button.classList.remove('selected');
+                } else {
                     // 선택되지 않은 버튼이면 선택 상태로 변경
-                        button.classList.add('selected');
-                        }
-                    });
-                });
-
-                document.getElementById('submitButton').addEventListener('click', function() {
-                // 슬라이더 값 가져오기
-                const slider1Value = document.getElementById('slider1').value;
-                const slider2Value = document.getElementById('slider2').value;
-                const slider3Value = document.getElementById('slider3').value;
-                const slider4Value = document.getElementById('slider4').value;
-                const slider5Value = document.getElementById('slider5').value;
-                const slider6Value = document.getElementById('slider6').value;
-                const slider7Value = document.getElementById('slider7').value;
-
-
-                // 값 확인 (콘솔에 출력)
-                console.log("Slider 1 Value: " + slider1Value);
-                console.log("Slider 2 Value: " + slider2Value);
-                console.log("Slider 3 Value: " + slider3Value);
-                console.log("Slider 4 Value: " + slider4Value);
-                console.log("Slider 5 Value: " + slider5Value);
-                console.log("Slider 6 Value: " + slider6Value);
-                console.log("Slider 7 Value: " + slider7Value);
-                });
-
-
-                //새로고침
-                function resetSelection() {
-                // box1의 모든 버튼 선택 해제
-                const buttons1 = document.querySelectorAll('#box1 .scroll-button');
-                buttons1.forEach(button => button.classList.remove('selected'));
-
-                // box2의 모든 버튼 선택 해제
-                const buttons2 = document.querySelectorAll('#box2 .scroll-button');
-                buttons2.forEach(button => button.classList.remove('selected'));
-
-                // 슬라이더 값 초기화 (50)
-                const sliders = document.querySelectorAll('.slider');
-                sliders.forEach(slider => {
-                    slider.value = 50; // 각 슬라이더의 값을 50으로 설정
-                    slider.dispatchEvent(new Event('input')); // 슬라이더 값 변경 이벤트 발생시켜 UI에 반영
-                });
+                    button.classList.add('selected');
                 }
+            });
+        });
 
-                // 슬라이더 값 변경 시 UI 반영
-                const sliders = document.querySelectorAll('.slider');
-                sliders.forEach(slider => {
-                    slider.addEventListener('input', function () {
-                        // 슬라이더 값에 따라 UI 반영 작업을 추가 (예: 슬라이더 값 표시)
-                        console.log('Slider value:', slider.value); // 슬라이더 값 확인용
-                    });
-                });
+        document.getElementById('submitButton').addEventListener('click', function () {
+            // 슬라이더 값 가져오기
+            const slider1Value = document.getElementById('slider1').value;
+            const slider2Value = document.getElementById('slider2').value;
+            const slider3Value = document.getElementById('slider3').value;
+            const slider4Value = document.getElementById('slider4').value;
+            const slider5Value = document.getElementById('slider5').value;
+            const slider6Value = document.getElementById('slider6').value;
+            const slider7Value = document.getElementById('slider7').value;
 
-                document.getElementById("refreshButton").addEventListener("click", resetSelection);
+            // 값 확인 (콘솔에 출력)
+            console.log("Slider 1 Value: " + slider1Value);
+            console.log("Slider 2 Value: " + slider2Value);
+            console.log("Slider 3 Value: " + slider3Value);
+            console.log("Slider 4 Value: " + slider4Value);
+            console.log("Slider 5 Value: " + slider5Value);
+            console.log("Slider 6 Value: " + slider6Value);
+            console.log("Slider 7 Value: " + slider7Value);
+        });
 
+        // 새로고침
+        function resetSelection1() {
+            // box1의 모든 버튼 선택 해제
+            const buttons1 = document.querySelectorAll('#box1 .scroll-button');
+            buttons1.forEach(button => button.classList.remove('selected'));
+        }
+
+        function resetSelection2() {
+            // 슬라이더 값 초기화 (50)
+            const sliders = document.querySelectorAll('.slider');
+            sliders.forEach(slider => {
+                slider.value = 50; // 각 슬라이더의 값을 50으로 설정
+                slider.dispatchEvent(new Event('input')); // 슬라이더 값 변경 이벤트 발생시켜 UI에 반영
+            });
+        }
+
+        document.getElementById("refreshButton1").addEventListener("click", resetSelection1);
+        document.getElementById("refreshButton2").addEventListener("click", resetSelection2);
 
 
 
 
     </script>
+
+
+
 
 
 </body>
