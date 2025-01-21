@@ -5,7 +5,7 @@
 <mapper namespace="com.metafinal.home.mapper.HomeMapper">
     <!-- 전체 데이터 조회 -->
     <select id="getAllHomes" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON, h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
         h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
         AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
         al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
@@ -18,7 +18,7 @@
 
     <!-- 조건부 데이터 조회 지역만 선택했을 경우 -->
     <select id="getHomeArea" parameterType="string" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
         h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
         AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
         al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
@@ -31,7 +31,7 @@
 
     <!-- 조건부 데이터 조회 주택유형만 선택했을 경우 -->
     <select id="getHomeKind" parameterType="string" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
         h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
         AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
         al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
@@ -44,7 +44,7 @@
 
     <!-- 조건부 데이터 조회 주택유형,지역 선택했을 경우 -->
     <select id="getMyHome" parameterType="string" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
+        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
         h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
         AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
         al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
