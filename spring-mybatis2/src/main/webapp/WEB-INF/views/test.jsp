@@ -249,9 +249,9 @@
 
         }
 
-        .box.active{
-          display: block;
-        }
+    .box.active{
+      display: block;
+    }
 
     #box1{
         margin-top: 10px;
@@ -829,68 +829,6 @@
 
         </script>
 
-    <!-- 카카오맵 -->
-    <div id="map" class = "map"></div>
-
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
-    <script>
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-            mapOption = {
-            center: new kakao.maps.LatLng(37.4833939381, 127.01698271446),
-            level: 5
-        };
-
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-        function panTo() {
-            <!--  이동할 위도 경도 위치를 생성합니다 -->
-            var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
-
-            <!-- 지도 중심을 부드럽게 이동시킵니다 -->
-            <!-- 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다 -->
-            map.panTo(moveLatLon);
-        }
-
-        var positions = [
-            {
-                title: '카카오',
-                latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-            },
-            {
-                title: '생태연못',
-                latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-            },
-            {
-                title: '텃밭',
-                latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-            },
-            {
-                title: '근린공원',
-                latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-            }
-        ];
-
-        // 마커 이미지의 이미지 주소입니다
-        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
-        for (var i = 0; i < positions.length; i ++) {
-
-            // 마커 이미지의 이미지 크기 입니다
-            var imageSize = new kakao.maps.Size(24, 35);
-
-            // 마커 이미지를 생성합니다
-            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-                map: map, // 마커를 표시할 지도
-                position: positions[i].latlng, // 마커를 표시할 위치
-                title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-                image : markerImage // 마커 이미지
-            });
-        }
-
-    </script>
 
     <script>
         // 서버에서 전달된 JSON 데이터
@@ -989,6 +927,10 @@
             slideContainer.addEventListener("scroll", handleScroll);
         });
     </script>
+
+<!-- 카카오맵 -->
+<div id="map" class = "map"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
 
 
 <!--<script src="/js/map.js"></script>
@@ -1107,11 +1049,22 @@
             });
         }
 
+        // 기본 지도 그리기
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(37.4833939381, 127.01698271446), // 초기 위치
+                level: 5 // 확대 레벨
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder(); // 주소 -> 좌표 변환 객체 생성
+
         // 매물 클릭 시 팝업 토글
         document.querySelectorAll(".list-item").forEach((room) => {
             room.addEventListener("click", (event) => {
                 const roomData = event.currentTarget;
-                const roomAddress = roomData.getAttribute("data-address");
+                const roomAddress = roomData.getAttribute("data-address"); // 클릭한 매물의 주소를 가져옵니다.
+                console.log("주소:", roomAddress); // 주소 확인용
 
                 // 해당 매물에 대한 상세 정보를 팝업으로 띄우기
                 const content = `
@@ -1121,10 +1074,33 @@
                     <p>월세: ${roomData.querySelector(".monthly-rent").textContent}</p>
                     <p>임대사업자: ${roomData.querySelector(".company").textContent}</p>
                 `;
-                showPopup(content);
+                showPopup(content); // 팝업을 표시
+
+                // 주소를 좌표로 변환
+                geocoder.addressSearch(roomAddress, function(result, status) {
+                    console.log("status:", status); // status 값 확인
+                    if (status === kakao.maps.services.Status.OK) {
+                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                        console.log("좌표:", coords); // 좌표 출력
+
+                        // 마커 생성
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords
+                        });
+
+                        // 지도 중심을 해당 위치로 이동
+                        map.setCenter(coords);
+                    } else {
+                        console.error("주소 변환 실패:", roomAddress);
+                    }
+                });
             });
         });
+
     </script>
+
+
 
 
 
