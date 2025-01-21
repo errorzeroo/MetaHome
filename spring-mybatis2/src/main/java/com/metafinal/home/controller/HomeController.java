@@ -81,10 +81,10 @@ public class HomeController {
         m.addAttribute("filteredListJson", filteredListJson);
 
         // 로그 출력
-        log.info("homeList.size() : {}", homeList.size());
-        log.info("filteredList.size() : {}", filteredList.size());
-        log.info("homeListJson : {}", homeListJson);
-        log.info("filteredListJson : {}", filteredListJson);
+        //log.info("homeList.size() : {}", homeList.size());
+        //log.info("filteredList.size() : {}", filteredList.size());
+        //log.info("homeListJson : {}", homeListJson);
+        //log.info("filteredListJson : {}", filteredListJson);
 
         return "test";
     }
@@ -104,7 +104,7 @@ public class HomeController {
             return "error";
         }
 
-        log.info("python result: {}", result);
+        //log.info("python result: {}", result);
 
         // JSON 데이터를 Java 객체로 변환
         ObjectMapper objectMapper = new ObjectMapper();

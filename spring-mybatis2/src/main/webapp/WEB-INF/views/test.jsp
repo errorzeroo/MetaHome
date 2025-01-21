@@ -332,7 +332,7 @@
 
 
     .chart-container {
-        flex: 2; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
+        flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
         height: 300px; /* 차트 컨테이너 높이 */
         position: relative;
     }
@@ -340,6 +340,15 @@
         width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
         height: 300px !important;
     }
+    .chart-title {
+        font-size: 18px; /* 글자 크기 */
+        font-weight: bold; /* 글자 두께 */
+        color: #333; /* 글자 색상 */
+        margin-bottom: 10px; /* 아래 여백 */
+        text-align: left; /* 텍스트 정렬 */
+        padding-left: 10px; /* 왼쪽 패딩 */
+    }
+
 
     .score-container {
         flex: 1; /* 점수 컨테이너가 차트보다 좁게 설정 */
@@ -377,8 +386,8 @@
     .list-item {
         padding: 0; /* 내부 여백 제거 */
         border: none; /* 테두리 제거 */
-        background-color: transparent; /* 배경 투명 */
-        box-shadow: none; /* 박스 섀도우 제거 */
+        background-color: #f9f9f9; /* 배경 투명 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 박스 섀도우 제거 */
         height: 190px;
         display: flex;
         flex-direction: column;
@@ -510,6 +519,50 @@
 
     .info-card-label {
       font-weight: bold;
+    }
+    .slider-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .slider-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%;
+    }
+
+    .slide {
+        flex: 0 0 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin: 0 10px;
+        text-align: left;
+    }
+
+    .slider-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #333;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    #prevSlide {
+        left: 10px;
+    }
+
+    #nextSlide {
+        right: 10px;
     }
 
 
@@ -662,12 +715,27 @@
     </div>
 
     <div id="infoCard" class="info-card hidden">
-      <button id="closeInfoCard" class="close-info-card">×</button>
-      <h4 class="info-card-title">상세 정보</h4>
-      <p><span class="info-card-label">주소:</span> <span id="infoCardAddress"></span></p>
-      <p><span class="info-card-label">보증금:</span> <span id="infoCardDeposit"></span></p>
-      <p><span class="info-card-label">월세:</span> <span id="infoCardRent"></span></p>
-      <p><span class="info-card-label">임대사업자:</span> <span id="infoCardCompany"></span></p>
+          <button id="closeInfoCard" class="close-info-card">×</button>
+          <h4 class="info-card-title"><span id="infoCardName"></span></h4>
+          <hr>
+          <p><span class="info-card-label">공급번호 |</span> <span id="infoCardNo"></span>
+          <span class="info-card-label">임대사업자 |</span> <span id="infoCardCompany"></span></p>
+          <p><span class="info-card-label">세대수  |</span> <span id="infoCardCount"></span>
+          <span class="info-card-label">주차대수 |</span> <span id="infoCardParking"></span></p>
+          <p><span class="info-card-label">주소   |</span> <span id="infoCardAddress"></span></p>
+          <hr>
+          <p><span class="info-card-label">임대 보증금 :</span> <span id="infoCardDeposit"></span></p>
+          <p><span class="info-card-label">월 임대료 :</span> <span id="infoCardRent"></span></p>
+          <hr>
+          <p><span class="info-card-label">공급면적</span>
+          <span class="info-card-label">전용 : </span> <span id="infoCardMy"></span>
+          <span class="info-card-label">공용 : </span><span id="infoCardWe"></span></p>
+          <hr>
+          <p><span class="info-card-label">우리집에서 얼마?</span>
+          </p>
+          <hr>
+          <p><span class="info-card-label">이미지</span>
+          </p>
     </div>
 
         <!-- 차트 추가 -->
@@ -723,14 +791,14 @@
 
             // 라벨별 이미지를 정의
             const labelImages = [
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png"
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png"
             ];
 
             // 4. 라벨과 데이터 추출
@@ -791,8 +859,22 @@
                             }
                         },
                         plugins: {
+                        title: {
+                                display: true, // 제목 표시
+                                text: '생활 인프라 매칭 점수', // 제목 텍스트
+                                font: {
+                                    size: 18, // 제목 글자 크기
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 20
+                                },
+                                align: 'start', // 제목 정렬 (start, center, end 중 선택)
+                                color: '#333' // 제목 색상
+                            },
                             legend: {
-                                display: true,
+                                 display: false, // 범례 숨기기
                                 position: 'top',
                             },
                             tooltip: {
@@ -806,22 +888,33 @@
                             afterDraw(chart) {
                                 const ctx = chart.ctx;
                                 const xAxis = chart.scales.x;
-                                const yAxisBottom = chart.scales.y.bottom;
+                                const yAxis = chart.scales.y;
 
-                                xAxis.ticks.forEach((_, index) => {
-                                    const x = xAxis.getPixelForTick(index);
+                                xAxis.ticks.forEach((tick, index) => {
+                                    const x = xAxis.getPixelForTick(index); // x축 위치 계산
+                                    const imageY = yAxis.bottom + 10; // 이미지를 축 아래로 약간 이동
+                                    const textY = imageY + 40; // 텍스트는 이미지 아래로 배치
                                     const image = new Image();
-                                    image.src = labelImages[index];
+                                    image.src = labelImages[index]; // 아이콘 이미지 경로
+
+                                    // 이미지를 그리기
                                     image.onload = () => {
-                                        ctx.drawImage(image, x - 10, yAxisBottom + 10, 20, 20); // 이미지 크기와 위치 조정
+                                        ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 크기 및 위치 조정
                                     };
                                     image.onerror = () => {
-                                        console.error(`Image failed to load at index ${index}: ${image.src}`);
+                                        console.error(`이미지를 불러오는 데 실패했습니다. 인덱스: ${index}, 경로: ${image.src}`);
                                     };
+
+                                    // 텍스트를 이미지 아래에 그리기
+                                    ctx.font = '10px Arial'; // 글꼴 크기 및 스타일
+                                    ctx.textAlign = 'center';
+                                    ctx.fillStyle = 'black'; // 텍스트 색상
+                                    ctx.fillText(labels[index], x, textY); // 텍스트를 이미지 아래로 배치
                                 });
                             }
                         }
                     ]
+
                 });
             } catch (error) {
                 console.error("Chart.js 렌더링 중 오류 발생:", error);
@@ -834,8 +927,8 @@
         // 서버에서 전달된 JSON 데이터
         const slideData = JSON.parse('${filteredListJson}');
         const DataText = JSON.parse('${homeListJson}');
-        console.log("Slide Data: ", slideData);
-        console.log("Slide Data: ", DataText);
+        //console.log("Slide Data: ", slideData);
+        //console.log("All Data: ", DataText);
 
         // 템플릿과 컨테이너 참조
         const template = document.getElementById("slide-item-template");
@@ -866,10 +959,17 @@
               // 리스트 클릭 시 이벤트 처리
               listItem.addEventListener("click", () => {
                 // 카드에 데이터 삽입
+                document.getElementById("infoCardName").textContent = item.HOME_NAME || "정보 없음";
+                //document.getElementById("infoCardKind").textContent = item.HOME_KIND || "정보 없음";
+                document.getElementById("infoCardNo").textContent = item.HOME_NO || "정보 없음";
+                document.getElementById("infoCardCompany").textContent = item.HOME_CO || "정보 없음";
+                document.getElementById("infoCardCount").textContent = item.HOME_COUNT || "정보 없음";
+                document.getElementById("infoCardParking").textContent = item.HOME_PARKING || "정보 없음";
                 document.getElementById("infoCardAddress").textContent = item.HOME_ADDRESS || "정보 없음";
                 document.getElementById("infoCardDeposit").textContent = item.HOME_DEP || "정보 없음";
                 document.getElementById("infoCardRent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-                document.getElementById("infoCardCompany").textContent = item.HOME_CO || "정보 없음";
+                document.getElementById("infoCardMy").textContent = item.HOME_MYAREA || "정보 없음";
+                document.getElementById("infoCardWe").textContent = item.HOME_WEAREA || "정보 없음";
 
                 // 카드 표시
                 document.getElementById("infoCard").classList.add("visible");
