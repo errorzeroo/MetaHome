@@ -309,18 +309,65 @@
         height:100%;
         z-index: 1;
     }
-    .chart-container {
+
+    .chart-container-with-score {
+        display: flex; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
         width: 450px; /* 여기에 if문으로 차트 크기 조절 */
         height: 300px;
+        background-color: #fff; /* 배경 색상 */
+        border: 1px solid lightgray; /* 경계선 */
+        border-radius: 12px; /* 모서리 둥글게 */
+        padding: 20px; /* 내부 여백 */
+        height: 300px;
         z-index: 10; /* 맵보다 높은 계층 */
-        background-color: rgba(255, 255, 255, 1); /* 차트 배경 설정 */
-        border: 1px solid lightgray; /* 차트 경계선 */
-        border-radius: 8px; /* 모서리 둥글게 */
-        padding: 10px;
     }
+
+
+    .chart-container {
+        flex: 2; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
+        height: 300px; /* 차트 컨테이너 높이 */
+        position: relative;
+    }
+    .chart-container canvas {
+        width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
+        height: 300px !important;
+    }
+
+    .score-container {
+        flex: 1; /* 점수 컨테이너가 차트보다 좁게 설정 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .score-content {
+        text-align: center;
+    }
+
+    .score-image {
+        width: 80px; /* 이미지 크기 */
+        height: 80px;
+        margin-bottom: 10px; /* 텍스트와 간격 */
+    }
+
+    .score-text {
+        font-size: 40px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .score-number {
+        font-size: 48px; /* 점수 숫자 크기 */
+        font-weight: bold;
+        color: black; /* 숫자 색상 */
+    }
+
+
 
     .list-item {
         padding: 0; /* 내부 여백 제거 */
@@ -414,6 +461,51 @@
         padding: 10px; /* 내부 여백 추가 */
     }
 
+    /* 정보 카드 기본 스타일 */
+    .info-card {
+      position: fixed;
+      bottom: 20px; /* 화면 아래쪽에서 띄움 */
+      right: 20px; /* 화면 오른쪽에 고정 */
+      width: 300px; /* 카드 너비 */
+      background-color: #fff; /* 흰색 배경 */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+      border-radius: 10px; /* 둥근 모서리 */
+      padding: 20px; /* 내부 여백 */
+      z-index: 1000; /* 다른 요소 위로 */
+      display: none; /* 기본적으로 숨김 */
+    }
+
+    /* 카드 표시 시 */
+    .info-card.visible {
+      display: block; /* 카드가 보이도록 */
+    }
+
+    /* 닫기 버튼 스타일 */
+    .close-info-card {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .close-info-card:hover {
+      color: #000;
+    }
+
+    /* 카드 내부 텍스트 스타일 */
+    .info-card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .info-card-label {
+      font-weight: bold;
+    }
 
 
 
@@ -560,10 +652,32 @@
         </div>
     </div>
 
+    <div id="infoCard" class="info-card hidden">
+      <button id="closeInfoCard" class="close-info-card">×</button>
+      <h4 class="info-card-title">상세 정보</h4>
+      <p><span class="info-card-label">주소:</span> <span id="infoCardAddress"></span></p>
+      <p><span class="info-card-label">보증금:</span> <span id="infoCardDeposit"></span></p>
+      <p><span class="info-card-label">월세:</span> <span id="infoCardRent"></span></p>
+      <p><span class="info-card-label">임대사업자:</span> <span id="infoCardCompany"></span></p>
+    </div>
+
         <!-- 차트 추가 -->
-        <div class="chart-container">
-            <canvas id="myChart"></canvas>
+        <div class="chart-container-with-score">
+            <!-- 그래프 컨테이너 -->
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+            <!-- 오른쪽 이미지와 점수 -->
+            <div class="score-container">
+                <div class="score-content">
+                    <img src="path-to-your-image.png" alt="점수 아이콘" class="score-image">
+                    <div class="score-text">
+                        <span class="score-number">96</span><span>점</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <!--<script src="/js/kakao.js"></script>-->
         <script>
             // JSP에서 JSON 데이터를 안전하게 가져오기
@@ -574,6 +688,13 @@
             // 1. 키 배열 가져오기
             const keys = Object.keys(parsedData[0]);
             console.log("All Keys:", keys); // 모든 키 확인
+
+            // similar 값을 가져와 100을 곱한 점수를 계산
+            const score = Math.floor(parsedData[0].similar * 100); // 첫 번째 데이터의 similar 값 사용
+            console.log("Score:", score); // 콘솔로 점수 확인
+
+            // 점수를 HTML에 표시
+            document.querySelector(".score-number").textContent = score;
 
             // 2. 첫 번째와 두 번째 키를 제외
             const relevantKeys = keys.slice(2); // 첫 번째(0)와 두 번째(1) 키 제외
@@ -590,6 +711,18 @@
                 high: "고등학교",
                 parking: "주차장"
             };
+
+            // 라벨별 이미지를 정의
+            const labelImages = [
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png",
+                "/static/images/Elephant.png"
+            ];
 
             // 4. 라벨과 데이터 추출
             const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
@@ -619,43 +752,67 @@
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: labels, // X축 라벨 (처음과 마지막 키를 제외한 키들)
+                        labels: labels, // X축 라벨
                         datasets: [{
                             label: "생활 인프라 매칭 점수",
                             data: data, // Y축 데이터
-                            backgroundColor: backgroundColors, // 동적 색상
+                            backgroundColor: backgroundColors,
                             borderWidth: 1,
-                            maxBarThickness: 20, // 최대 bar의 두께 설정
+                            maxBarThickness: 15, // 막대 최대 두께
                             borderSkipped: false,
                             borderRadius: [
-                                { topLeft: 20, topRight: 20 },
+                                { topLeft: 10, topRight: 10 },
                             ]
                         }]
                     },
                     options: {
-                        title: {
-                            display: true,
-                            text: "생활 인프라 매칭 점수 차트"
-                        },
-                        legend: {
-                            display: true,
-                            position: 'right'
-                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
                             x: {
                                 beginAtZero: true,
-                                grid: {
-                                    color: 'transparent',
-                                },
-                            },
-                            y: {
-                                beginAtZero: true, // Y축 0부터 시작
-                                grid: {
-                                    color: 'transparent',
+                                ticks: {
+                                    font: {
+                                        size: 14 // 라벨 글자 크기 조절
+                                    }
                                 }
                             },
+                            y: {
+                                beginAtZero: true,
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
                         }
-                    }
+                    },
+                    plugins: [
+                        {
+                            id: 'custom-label-images',
+                            afterDraw(chart) {
+                                const ctx = chart.ctx;
+                                const xAxis = chart.scales.x;
+                                const yAxisBottom = chart.scales.y.bottom;
+
+                                xAxis.ticks.forEach((_, index) => {
+                                    const x = xAxis.getPixelForTick(index);
+                                    const image = new Image();
+                                    image.src = labelImages[index];
+                                    image.onload = () => {
+                                        ctx.drawImage(image, x - 10, yAxisBottom + 10, 20, 20); // 이미지 크기와 위치 조정
+                                    };
+                                    image.onerror = () => {
+                                        console.error(`Image failed to load at index ${index}: ${image.src}`);
+                                    };
+                                });
+                            }
+                        }
+                    ]
                 });
             } catch (error) {
                 console.error("Chart.js 렌더링 중 오류 발생:", error);
@@ -748,55 +905,39 @@
                 return;
             }
 
+            // 데이터 리스트 렌더링
             data.forEach((item) => {
-                const clone = template.content.cloneNode(true);
-                clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
-                clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
-                clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
-                clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-                clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+              const clone = template.content.cloneNode(true);
+              clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+              clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+              clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+              clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+              clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
 
-                const listItem = clone.querySelector(".list-item");
+              const listItem = clone.querySelector(".list-item");
 
-                listItem.addEventListener("click", () => {
-                    console.log("선택된 데이터:", item);
+              // 리스트 클릭 시 이벤트 처리
+              listItem.addEventListener("click", () => {
+                // 카드에 데이터 삽입
+                document.getElementById("infoCardAddress").textContent = item.HOME_ADDRESS || "정보 없음";
+                document.getElementById("infoCardDeposit").textContent = item.HOME_DEP || "정보 없음";
+                document.getElementById("infoCardRent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+                document.getElementById("infoCardCompany").textContent = item.HOME_CO || "정보 없음";
 
-                    // HOME_ADDRESS 필드를 사용하여 비교
-                    const filteredData = DataText.filter(home =>
-                        home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
-                    );
+                // 카드 표시
+                document.getElementById("infoCard").classList.add("visible");
+              });
 
-                    console.log("filteredData Data: ", filteredData);
-
-                    // 필터링된 데이터를 보여주는 함수 호출
-                    showFilteredData(filteredData);
-                });
-
-                slideContainer.appendChild(clone);
+              slideContainer.appendChild(clone);
             });
+
+            // 닫기 버튼 이벤트 처리
+            document.getElementById("closeInfoCard").addEventListener("click", () => {
+              document.getElementById("infoCard").classList.remove("visible");
+            });
+
         }
 
-        function showFilteredData(data) {
-            const detailContainer = document.getElementById("detailContainer");
-            detailContainer.innerHTML = "";
-
-            if (data.length === 0) {
-                detailContainer.innerHTML = "<p>관련 데이터가 없습니다.</p>";
-                return;
-            }
-
-            data.forEach((detail) => {
-                const detailItem = document.createElement("div");
-                detailItem.classList.add("detail-item");
-                detailItem.innerHTML = `
-                    <p>주소: ${detail.address}</p>
-                    <p>보증금: ${detail.deposit}</p>
-                    <p>월세: ${detail.monthlyRent}</p>
-                    <p>임대사업자: ${detail.company}</p>
-                `;
-                detailContainer.appendChild(detailItem);
-            });
-        }
 
         // 데이터를 페이지별로 나누는 함수
         function getPaginatedData(page) {
