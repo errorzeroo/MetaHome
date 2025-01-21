@@ -927,8 +927,8 @@
         // 서버에서 전달된 JSON 데이터
         const slideData = JSON.parse('${filteredListJson}');
         const DataText = JSON.parse('${homeListJson}');
-        //console.log("Slide Data: ", slideData);
-        //console.log("All Data: ", DataText);
+        console.log("Slide Data: ", slideData);
+        console.log("All Data: ", DataText);
 
         // 템플릿과 컨테이너 참조
         const template = document.getElementById("slide-item-template");
@@ -956,27 +956,17 @@
 
               const listItem = clone.querySelector(".list-item");
 
-              // 리스트 클릭 시 이벤트 처리
-              listItem.addEventListener("click", () => {
-                // 카드에 데이터 삽입
-                document.getElementById("infoCardName").textContent = item.HOME_NAME || "정보 없음";
-                //document.getElementById("infoCardKind").textContent = item.HOME_KIND || "정보 없음";
-                document.getElementById("infoCardNo").textContent = item.HOME_NO || "정보 없음";
-                document.getElementById("infoCardCompany").textContent = item.HOME_CO || "정보 없음";
-                document.getElementById("infoCardCount").textContent = item.HOME_COUNT || "정보 없음";
-                document.getElementById("infoCardParking").textContent = item.HOME_PARKING || "정보 없음";
-                document.getElementById("infoCardAddress").textContent = item.HOME_ADDRESS || "정보 없음";
-                document.getElementById("infoCardDeposit").textContent = item.HOME_DEP || "정보 없음";
-                document.getElementById("infoCardRent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-                document.getElementById("infoCardMy").textContent = item.HOME_MYAREA || "정보 없음";
-                document.getElementById("infoCardWe").textContent = item.HOME_WEAREA || "정보 없음";
+                listItem.addEventListener("click", () => {
+                    console.log("선택된 데이터:", item);
+                    // HOME_ADDRESS 필드를 사용하여 비교
+                    const filteredData = DataText.filter(home =>
+                        home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
+                    );
+                    console.log("filteredData Data: ", filteredData);
+                });
 
-                // 카드 표시
-                document.getElementById("infoCard").classList.add("visible");
+                slideContainer.appendChild(clone);
               });
-
-              slideContainer.appendChild(clone);
-            });
 
             // 닫기 버튼 이벤트 처리
             document.getElementById("closeInfoCard").addEventListener("click", () => {
