@@ -640,7 +640,7 @@
         const slideData = JSON.parse('${filteredListJson}');
         const DataText = JSON.parse('${homeListJson}');
         console.log("Slide Data: ", slideData);
-        console.log("Slide Data: ", DataText);
+        console.log("All Data: ", DataText);
 
         // 템플릿과 컨테이너 참조
         const template = document.getElementById("slide-item-template");
@@ -675,7 +675,6 @@
                         home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
                     );
 
-                    console.log("filteredData Data: ", filteredData);
 
                     // 필터링된 데이터를 보여주는 함수 호출
                     showFilteredData(filteredData);
@@ -693,15 +692,14 @@
                 detailContainer.innerHTML = "<p>관련 데이터가 없습니다.</p>";
                 return;
             }
-
             data.forEach((detail) => {
                 const detailItem = document.createElement("div");
                 detailItem.classList.add("detail-item");
                 detailItem.innerHTML = `
-                    <p>주소: ${detail.address}</p>
-                    <p>보증금: ${detail.deposit}</p>
-                    <p>월세: ${detail.monthlyRent}</p>
-                    <p>임대사업자: ${detail.company}</p>
+                    <p>주소: detail.HOME_ADDRESS</p>
+                    <p>보증금: ${detail.HOME_DEP}</p>
+                    <p>월세: ${detail.HOME_MOTH_PAI}</p>
+                    <p>임대사업자: ${detail.HOME_CO}</p>
                 `;
                 detailContainer.appendChild(detailItem);
             });
