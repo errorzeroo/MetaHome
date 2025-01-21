@@ -9,6 +9,11 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!--<link ref="stylesheet" type="text/css" href="C:/Lecture/MetaHome/spring-mybatis2/src/main/resources/static/css/style.css">
 -->
+
+<!-- 카카오맵 -->
+<div id="map" class = "map"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
+
 </head>
 <style>
     body, html {
@@ -924,6 +929,17 @@
 
 
     <script>
+
+    // 기본 지도 그리기
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                    center: new kakao.maps.LatLng(37.4833939381, 127.01698271446), // 초기 위치
+                    level: 5 // 확대 레벨
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+
         // 서버에서 전달된 JSON 데이터
         const slideData = JSON.parse('${filteredListJson}');
         const DataText = JSON.parse('${homeListJson}');
@@ -1018,9 +1034,6 @@
         });
     </script>
 
-<!-- 카카오맵 -->
-<div id="map" class = "map"></div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
 
 
 <!--<script src="/js/map.js"></script>
@@ -1114,79 +1127,8 @@
         document.getElementById("refreshButton1").addEventListener("click", resetSelection1);
         document.getElementById("refreshButton2").addEventListener("click", resetSelection2);
 
-        // 매물 클릭 시 팝업 기능 구현
-        function showPopup(content) {
-            // 팝업이 이미 열려 있으면 닫기
-            const existingPopup = document.querySelector(".popup");
-            if (existingPopup) {
-                existingPopup.remove();
-            }
 
-            // 새로운 팝업 생성
-            const popup = document.createElement("div");
-            popup.className = "popup";
-            popup.innerHTML = `
-                <div class="popup-content">
-                    <div class="popup-close">×</div>
-                    <div>${content}</div>
-                </div>
-            `;
-            document.body.appendChild(popup);
 
-            // 닫기 버튼 클릭 시 팝업 닫기
-            popup.querySelector(".popup-close").addEventListener("click", () => {
-                popup.remove();
-            });
-        }
-
-        // 기본 지도 그리기
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-            mapOption = {
-                center: new kakao.maps.LatLng(37.4833939381, 127.01698271446), // 초기 위치
-                level: 5 // 확대 레벨
-            };
-
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-        var geocoder = new kakao.maps.services.Geocoder(); // 주소 -> 좌표 변환 객체 생성
-
-        // 매물 클릭 시 팝업 토글
-        document.querySelectorAll(".list-item").forEach((room) => {
-            room.addEventListener("click", (event) => {
-                const roomData = event.currentTarget;
-                const roomAddress = roomData.getAttribute("data-address"); // 클릭한 매물의 주소를 가져옵니다.
-                console.log("주소:", roomAddress); // 주소 확인용
-
-                // 해당 매물에 대한 상세 정보를 팝업으로 띄우기
-                const content = `
-                    <h3>${roomData.querySelector(".list-title").textContent}</h3>
-                    <p>주소: ${roomAddress}</p>
-                    <p>보증금: ${roomData.querySelector(".deposit").textContent}</p>
-                    <p>월세: ${roomData.querySelector(".monthly-rent").textContent}</p>
-                    <p>임대사업자: ${roomData.querySelector(".company").textContent}</p>
-                `;
-                showPopup(content); // 팝업을 표시
-
-                // 주소를 좌표로 변환
-                geocoder.addressSearch(roomAddress, function(result, status) {
-                    console.log("status:", status); // status 값 확인
-                    if (status === kakao.maps.services.Status.OK) {
-                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-                        console.log("좌표:", coords); // 좌표 출력
-
-                        // 마커 생성
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: coords
-                        });
-
-                        // 지도 중심을 해당 위치로 이동
-                        map.setCenter(coords);
-                    } else {
-                        console.error("주소 변환 실패:", roomAddress);
-                    }
-                });
-            });
-        });
 
     </script>
 
