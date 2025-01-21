@@ -372,8 +372,8 @@
     .list-item {
         padding: 0; /* 내부 여백 제거 */
         border: none; /* 테두리 제거 */
-        background-color: transparent; /* 배경 투명 */
-        box-shadow: none; /* 박스 섀도우 제거 */
+        background-color: #f9f9f9; /* 배경 투명 */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 박스 섀도우 제거 */
         height: 190px;
         display: flex;
         flex-direction: column;
@@ -505,6 +505,50 @@
 
     .info-card-label {
       font-weight: bold;
+    }
+    .slider-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .slider-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%;
+    }
+
+    .slide {
+        flex: 0 0 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin: 0 10px;
+        text-align: left;
+    }
+
+    .slider-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #333;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    #prevSlide {
+        left: 10px;
+    }
+
+    #nextSlide {
+        right: 10px;
     }
 
 
@@ -653,12 +697,27 @@
     </div>
 
     <div id="infoCard" class="info-card hidden">
-      <button id="closeInfoCard" class="close-info-card">×</button>
-      <h4 class="info-card-title">상세 정보</h4>
-      <p><span class="info-card-label">주소:</span> <span id="infoCardAddress"></span></p>
-      <p><span class="info-card-label">보증금:</span> <span id="infoCardDeposit"></span></p>
-      <p><span class="info-card-label">월세:</span> <span id="infoCardRent"></span></p>
-      <p><span class="info-card-label">임대사업자:</span> <span id="infoCardCompany"></span></p>
+          <button id="closeInfoCard" class="close-info-card">×</button>
+          <h4 class="info-card-title"><span id="infoCardName"></span></h4>
+          <hr>
+          <p><span class="info-card-label">공급번호 |</span> <span id="infoCardNo"></span>
+          <span class="info-card-label">임대사업자 |</span> <span id="infoCardCompany"></span></p>
+          <p><span class="info-card-label">세대수  |</span> <span id="infoCardCount"></span>
+          <span class="info-card-label">주차대수 |</span> <span id="infoCardParking"></span></p>
+          <p><span class="info-card-label">주소   |</span> <span id="infoCardAddress"></span></p>
+          <hr>
+          <p><span class="info-card-label">임대 보증금 :</span> <span id="infoCardDeposit"></span></p>
+          <p><span class="info-card-label">월 임대료 :</span> <span id="infoCardRent"></span></p>
+          <hr>
+          <p><span class="info-card-label">공급면적</span>
+          <span class="info-card-label">전용 : </span> <span id="infoCardMy"></span>
+          <span class="info-card-label">공용 : </span><span id="infoCardWe"></span></p>
+          <hr>
+          <p><span class="info-card-label">우리집에서 얼마?</span>
+          </p>
+          <hr>
+          <p><span class="info-card-label">이미지</span>
+          </p>
     </div>
 
         <!-- 차트 추가 -->
@@ -887,8 +946,8 @@
         // 서버에서 전달된 JSON 데이터
         const slideData = JSON.parse('${filteredListJson}');
         const DataText = JSON.parse('${homeListJson}');
-        console.log("Slide Data: ", slideData);
-        console.log("All Data: ", DataText);
+        //console.log("Slide Data: ", slideData);
+        //console.log("All Data: ", DataText);
 
         // 템플릿과 컨테이너 참조
         const template = document.getElementById("slide-item-template");
@@ -919,10 +978,17 @@
               // 리스트 클릭 시 이벤트 처리
               listItem.addEventListener("click", () => {
                 // 카드에 데이터 삽입
+                document.getElementById("infoCardName").textContent = item.HOME_NAME || "정보 없음";
+                //document.getElementById("infoCardKind").textContent = item.HOME_KIND || "정보 없음";
+                document.getElementById("infoCardNo").textContent = item.HOME_NO || "정보 없음";
+                document.getElementById("infoCardCompany").textContent = item.HOME_CO || "정보 없음";
+                document.getElementById("infoCardCount").textContent = item.HOME_COUNT || "정보 없음";
+                document.getElementById("infoCardParking").textContent = item.HOME_PARKING || "정보 없음";
                 document.getElementById("infoCardAddress").textContent = item.HOME_ADDRESS || "정보 없음";
                 document.getElementById("infoCardDeposit").textContent = item.HOME_DEP || "정보 없음";
                 document.getElementById("infoCardRent").textContent = item.HOME_MOTH_PAI || "정보 없음";
-                document.getElementById("infoCardCompany").textContent = item.HOME_CO || "정보 없음";
+                document.getElementById("infoCardMy").textContent = item.HOME_MYAREA || "정보 없음";
+                document.getElementById("infoCardWe").textContent = item.HOME_WEAREA || "정보 없음";
 
                 // 카드 표시
                 document.getElementById("infoCard").classList.add("visible");
