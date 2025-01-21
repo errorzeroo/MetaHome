@@ -426,7 +426,7 @@
     <button class = "white-button1">맞춤 지도</button>
     <button class = "white-button2">우리 동네 이사와 생활 서비스</button>
     <button class = "white-button3">로그인</button>
-    <button class = "white-button4">멤버쉽 가입</button>
+    <button class = "white-button4">멤버쉽  가입</button>
 
     <!-- 위쪽 선 -->
     <hr class="styled-line1">
