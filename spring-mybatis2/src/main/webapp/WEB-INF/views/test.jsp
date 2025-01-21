@@ -359,9 +359,8 @@
     }
 
     .score-image {
-        width: 80px; /* 이미지 크기 */
-        height: 80px;
-        margin-bottom: 10px; /* 텍스트와 간격 */
+        width: 90px; /* 이미지 크기 */
+        height: 110px;
     }
 
     .score-text {
@@ -738,7 +737,7 @@
             <!-- 오른쪽 이미지와 점수 -->
             <div class="score-container">
                 <div class="score-content">
-                    <img src="path-to-your-image.png" alt="점수 아이콘" class="score-image">
+                    <img src="/images/Elephant.png" alt="점수 아이콘" class="score-image">
                     <div class="score-text">
                         <span class="score-number">96</span><span>점</span>
                     </div>
@@ -839,7 +838,9 @@
                         scales: {
                             x: {
                                 beginAtZero: true,
+
                                 ticks: {
+                                    color: 'white', // 라벨 글자 색상 (하얀색)
                                     font: {
                                         size: 14 // 라벨 글자 크기 조절
                                     }
@@ -884,7 +885,7 @@
                                 xAxis.ticks.forEach((tick, index) => {
                                     const x = xAxis.getPixelForTick(index); // x축 위치 계산
                                     const imageY = yAxis.bottom + 10; // 이미지를 축 아래로 약간 이동
-                                    const textY = imageY + 40; // 텍스트는 이미지 아래로 배치
+                                    const textY = imageY + 45; // 텍스트는 이미지 아래로 배치
                                     const image = new Image();
                                     image.src = labelImages[index]; // 아이콘 이미지 경로
 
