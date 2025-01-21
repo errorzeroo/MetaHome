@@ -180,7 +180,7 @@
         transition: background-color 0.3s ease, transform 0.3s ease;
         position: absolute; /* 절대 위치 */
         top: 18px; /* 위에서 10px 아래 */
-        left: 378px;
+        left: 10px;
     }
 
     hr.vertical-line {
@@ -238,6 +238,11 @@
         transition: transform 0.3s ease;
     }
 
+    .searchButton{
+        position: absolute;
+        left: 380px;
+        top:15px;
+    }
 
     .box {
           display: none;
@@ -525,7 +530,7 @@
 
     <!-- 템플릿 -->
      <template id="slide-item-template">
-         <div class="list-item">
+         <div class="list-item" data-address="{{address}}">
              <div class="list-header">
                  <span class="list-title"></span>
              </div>
@@ -566,15 +571,18 @@
             <button class="dropdown-button3" onclick="toggleBox('box3')">
               생활 인프라 매칭하기
               <span class="dropdown-icon"></span> <!-- 화살표 -->
+              <button class="searchButton">검색</button>
             </button>
-            <button class="icon-button" id="refreshButton" onclick="resetSelection()">
-              <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
-            </button>
+
             <hr class="styled-line2">
 
             <!-- 지역선택버튼들 -->
             <div class="box" id="box1" >
                 <div class = "scrollable-box">
+
+                    <button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
+                                  <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
+                    </button>
 
                     <button class="scroll-button" onclick="selectButton(this)">강남구</button>
                     <button class="scroll-button" onclick="selectButton(this)">강동구</button>
@@ -615,8 +623,10 @@
 
             <!-- 생활인프라슬라이더 -->
             <div class="box" id="box3">
+                <button class="icon-button" id="refreshButton2" onclick="resetSelection2()">
+                    <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
+                </button>
                 <div>
-
                 <input type="range" id="slider1" min="0" max="100" value="50" class="slider">
                 </div>
                 <div>
@@ -639,7 +649,6 @@
                 </div>
                 <button id="submitButton">제출</button>
             </div>
-
 
 
 
@@ -987,114 +996,136 @@
     <!-- 동적 슬라이드를 위한 자바 스크립트 -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-                const panel = document.getElementById("slidingPanel");
-                const button = document.getElementById("slideToggleButton");
+            const panel = document.getElementById("slidingPanel");
+            const button = document.getElementById("slideToggleButton");
 
-                panel.classList.add("active");
+            panel.classList.add("active");
 
-                button.addEventListener("click", function () {
-                    if (panel.classList.contains("collapsed")) {
-                        panel.classList.remove("collapsed");
-                        panel.classList.add("active");
-                        button.textContent = "❮"; // 아이콘 변경
-                    } else {
-                        panel.classList.remove("active");
-                        panel.classList.add("collapsed");
-                        button.textContent = "❯"; // 아이콘 변경
-                    }
-                });
-              });
-
-
-
-
+            button.addEventListener("click", function () {
+                if (panel.classList.contains("collapsed")) {
+                    panel.classList.remove("collapsed");
+                    panel.classList.add("active");
+                    button.textContent = "❮"; // 아이콘 변경
+                } else {
+                    panel.classList.remove("active");
+                    panel.classList.add("collapsed");
+                    button.textContent = "❯"; // 아이콘 변경
+                }
+            });
+        });
 
         function toggleBox(boxId) {
-                const targetBox = document.getElementById(boxId);
-                const activeBox = document.querySelector('.box.active'); // 현재 활성화된 박스를 찾기
+            const targetBox = document.getElementById(boxId);
+            const activeBox = document.querySelector('.box.active'); // 현재 활성화된 박스를 찾기
 
-                // 현재 활성화된 박스가 있을 경우 비활성화
-                if (activeBox && activeBox !== targetBox) {
-                    activeBox.classList.remove('active');
-                }
+            // 현재 활성화된 박스가 있을 경우 비활성화
+            if (activeBox && activeBox !== targetBox) {
+                activeBox.classList.remove('active');
+            }
 
-                // 클릭된 박스를 활성화 또는 비활성화
-                if (targetBox) {
-                    targetBox.classList.toggle('active');
-                    }
-                }
+            // 클릭된 박스를 활성화 또는 비활성화
+            if (targetBox) {
+                targetBox.classList.toggle('active');
+            }
+        }
 
-
-                // 지역선택, 주택유형 버튼 인터랙션
-                document.querySelectorAll('.scroll-button').forEach(button => {
-                button.addEventListener('click', () => {
+        // 지역선택, 주택유형 버튼 인터랙션
+        document.querySelectorAll('.scroll-button').forEach(button => {
+            button.addEventListener('click', () => {
                 // 클릭된 버튼이 이미 선택되어 있는지 확인
-                    if (button.classList.contains('selected')) {
+                if (button.classList.contains('selected')) {
                     // 이미 선택된 버튼이면 선택 해제
-                        button.classList.remove('selected');
-                    } else {
+                    button.classList.remove('selected');
+                } else {
                     // 선택되지 않은 버튼이면 선택 상태로 변경
-                        button.classList.add('selected');
-                        }
-                    });
-                });
-
-                document.getElementById('submitButton').addEventListener('click', function() {
-                // 슬라이더 값 가져오기
-                const slider1Value = document.getElementById('slider1').value;
-                const slider2Value = document.getElementById('slider2').value;
-                const slider3Value = document.getElementById('slider3').value;
-                const slider4Value = document.getElementById('slider4').value;
-                const slider5Value = document.getElementById('slider5').value;
-                const slider6Value = document.getElementById('slider6').value;
-                const slider7Value = document.getElementById('slider7').value;
-
-
-                // 값 확인 (콘솔에 출력)
-                console.log("Slider 1 Value: " + slider1Value);
-                console.log("Slider 2 Value: " + slider2Value);
-                console.log("Slider 3 Value: " + slider3Value);
-                console.log("Slider 4 Value: " + slider4Value);
-                console.log("Slider 5 Value: " + slider5Value);
-                console.log("Slider 6 Value: " + slider6Value);
-                console.log("Slider 7 Value: " + slider7Value);
-                });
-
-
-                //새로고침
-                function resetSelection() {
-                // box1의 모든 버튼 선택 해제
-                const buttons1 = document.querySelectorAll('#box1 .scroll-button');
-                buttons1.forEach(button => button.classList.remove('selected'));
-
-                // box2의 모든 버튼 선택 해제
-                const buttons2 = document.querySelectorAll('#box2 .scroll-button');
-                buttons2.forEach(button => button.classList.remove('selected'));
-
-                // 슬라이더 값 초기화 (50)
-                const sliders = document.querySelectorAll('.slider');
-                sliders.forEach(slider => {
-                    slider.value = 50; // 각 슬라이더의 값을 50으로 설정
-                    slider.dispatchEvent(new Event('input')); // 슬라이더 값 변경 이벤트 발생시켜 UI에 반영
-                });
+                    button.classList.add('selected');
                 }
+            });
+        });
 
-                // 슬라이더 값 변경 시 UI 반영
-                const sliders = document.querySelectorAll('.slider');
-                sliders.forEach(slider => {
-                    slider.addEventListener('input', function () {
-                        // 슬라이더 값에 따라 UI 반영 작업을 추가 (예: 슬라이더 값 표시)
-                        console.log('Slider value:', slider.value); // 슬라이더 값 확인용
-                    });
-                });
+        document.getElementById('submitButton').addEventListener('click', function () {
+            // 슬라이더 값 가져오기
+            const slider1Value = document.getElementById('slider1').value;
+            const slider2Value = document.getElementById('slider2').value;
+            const slider3Value = document.getElementById('slider3').value;
+            const slider4Value = document.getElementById('slider4').value;
+            const slider5Value = document.getElementById('slider5').value;
+            const slider6Value = document.getElementById('slider6').value;
+            const slider7Value = document.getElementById('slider7').value;
 
-                document.getElementById("refreshButton").addEventListener("click", resetSelection);
+            // 값 확인 (콘솔에 출력)
+            console.log("Slider 1 Value: " + slider1Value);
+            console.log("Slider 2 Value: " + slider2Value);
+            console.log("Slider 3 Value: " + slider3Value);
+            console.log("Slider 4 Value: " + slider4Value);
+            console.log("Slider 5 Value: " + slider5Value);
+            console.log("Slider 6 Value: " + slider6Value);
+            console.log("Slider 7 Value: " + slider7Value);
+        });
 
+        // 새로고침
+        function resetSelection1() {
+            // box1의 모든 버튼 선택 해제
+            const buttons1 = document.querySelectorAll('#box1 .scroll-button');
+            buttons1.forEach(button => button.classList.remove('selected'));
+        }
 
+        function resetSelection2() {
+            // 슬라이더 값 초기화 (50)
+            const sliders = document.querySelectorAll('.slider');
+            sliders.forEach(slider => {
+                slider.value = 50; // 각 슬라이더의 값을 50으로 설정
+                slider.dispatchEvent(new Event('input')); // 슬라이더 값 변경 이벤트 발생시켜 UI에 반영
+            });
+        }
 
+        document.getElementById("refreshButton1").addEventListener("click", resetSelection1);
+        document.getElementById("refreshButton2").addEventListener("click", resetSelection2);
 
+        // 매물 클릭 시 팝업 기능 구현
+        function showPopup(content) {
+            // 팝업이 이미 열려 있으면 닫기
+            const existingPopup = document.querySelector(".popup");
+            if (existingPopup) {
+                existingPopup.remove();
+            }
 
+            // 새로운 팝업 생성
+            const popup = document.createElement("div");
+            popup.className = "popup";
+            popup.innerHTML = `
+                <div class="popup-content">
+                    <div class="popup-close">×</div>
+                    <div>${content}</div>
+                </div>
+            `;
+            document.body.appendChild(popup);
+
+            // 닫기 버튼 클릭 시 팝업 닫기
+            popup.querySelector(".popup-close").addEventListener("click", () => {
+                popup.remove();
+            });
+        }
+
+        // 매물 클릭 시 팝업 토글
+        document.querySelectorAll(".list-item").forEach((room) => {
+            room.addEventListener("click", (event) => {
+                const roomData = event.currentTarget;
+                const roomAddress = roomData.getAttribute("data-address");
+
+                // 해당 매물에 대한 상세 정보를 팝업으로 띄우기
+                const content = `
+                    <h3>${roomData.querySelector(".list-title").textContent}</h3>
+                    <p>주소: ${roomAddress}</p>
+                    <p>보증금: ${roomData.querySelector(".deposit").textContent}</p>
+                    <p>월세: ${roomData.querySelector(".monthly-rent").textContent}</p>
+                    <p>임대사업자: ${roomData.querySelector(".company").textContent}</p>
+                `;
+                showPopup(content);
+            });
+        });
     </script>
+
 
 
 </body>
