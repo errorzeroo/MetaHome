@@ -327,7 +327,7 @@
 
 
     .chart-container {
-        flex: 2; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
+        flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
         height: 300px; /* 차트 컨테이너 높이 */
         position: relative;
     }
@@ -335,6 +335,15 @@
         width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
         height: 300px !important;
     }
+    .chart-title {
+        font-size: 18px; /* 글자 크기 */
+        font-weight: bold; /* 글자 두께 */
+        color: #333; /* 글자 색상 */
+        margin-bottom: 10px; /* 아래 여백 */
+        text-align: left; /* 텍스트 정렬 */
+        padding-left: 10px; /* 왼쪽 패딩 */
+    }
+
 
     .score-container {
         flex: 1; /* 점수 컨테이너가 차트보다 좁게 설정 */
@@ -782,14 +791,14 @@
 
             // 라벨별 이미지를 정의
             const labelImages = [
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png",
-                "/static/images/Elephant.png"
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png",
+                "/images/Elephant.png"
             ];
 
             // 4. 라벨과 데이터 추출
@@ -850,8 +859,22 @@
                             }
                         },
                         plugins: {
+                        title: {
+                                display: true, // 제목 표시
+                                text: '생활 인프라 매칭 점수', // 제목 텍스트
+                                font: {
+                                    size: 18, // 제목 글자 크기
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 20
+                                },
+                                align: 'start', // 제목 정렬 (start, center, end 중 선택)
+                                color: '#333' // 제목 색상
+                            },
                             legend: {
-                                display: true,
+                                 display: false, // 범례 숨기기
                                 position: 'top',
                             },
                             tooltip: {
@@ -865,22 +888,33 @@
                             afterDraw(chart) {
                                 const ctx = chart.ctx;
                                 const xAxis = chart.scales.x;
-                                const yAxisBottom = chart.scales.y.bottom;
+                                const yAxis = chart.scales.y;
 
-                                xAxis.ticks.forEach((_, index) => {
-                                    const x = xAxis.getPixelForTick(index);
+                                xAxis.ticks.forEach((tick, index) => {
+                                    const x = xAxis.getPixelForTick(index); // x축 위치 계산
+                                    const imageY = yAxis.bottom + 10; // 이미지를 축 아래로 약간 이동
+                                    const textY = imageY + 40; // 텍스트는 이미지 아래로 배치
                                     const image = new Image();
-                                    image.src = labelImages[index];
+                                    image.src = labelImages[index]; // 아이콘 이미지 경로
+
+                                    // 이미지를 그리기
                                     image.onload = () => {
-                                        ctx.drawImage(image, x - 10, yAxisBottom + 10, 20, 20); // 이미지 크기와 위치 조정
+                                        ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 크기 및 위치 조정
                                     };
                                     image.onerror = () => {
-                                        console.error(`Image failed to load at index ${index}: ${image.src}`);
+                                        console.error(`이미지를 불러오는 데 실패했습니다. 인덱스: ${index}, 경로: ${image.src}`);
                                     };
+
+                                    // 텍스트를 이미지 아래에 그리기
+                                    ctx.font = '10px Arial'; // 글꼴 크기 및 스타일
+                                    ctx.textAlign = 'center';
+                                    ctx.fillStyle = 'black'; // 텍스트 색상
+                                    ctx.fillText(labels[index], x, textY); // 텍스트를 이미지 아래로 배치
                                 });
                             }
                         }
                     ]
+
                 });
             } catch (error) {
                 console.error("Chart.js 렌더링 중 오류 발생:", error);
@@ -955,8 +989,8 @@
         // 서버에서 전달된 JSON 데이터
         const slideData = JSON.parse('${filteredListJson}');
         const DataText = JSON.parse('${homeListJson}');
-        //console.log("Slide Data: ", slideData);
-        //console.log("All Data: ", DataText);
+        console.log("Slide Data: ", slideData);
+        console.log("All Data: ", DataText);
 
         // 템플릿과 컨테이너 참조
         const template = document.getElementById("slide-item-template");
