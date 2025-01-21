@@ -216,6 +216,10 @@
         padding: 0px;
     }
 
+    .sliding-panel.collapsed {
+        left: -430px;
+    }
+
     .sliding-panel.active {
         left: 0; /* 화면 안으로 이동 */
     }
@@ -234,9 +238,69 @@
         transition: transform 0.3s ease;
     }
 
-    .slide-toggle-button:hover {
-        transform: translateY(-50%) scale(1.1);
+
+    .box {
+          display: none;
+
+        }
+
+        .box.active{
+          display: block;
+        }
+
+    #box1{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid black;
+        position : absolute;
+        top: 40px;
+        left: 20px;
+        width: 70px; /* 박스 너비 */
+        height: 300px; /* 박스 높이 */
+        overflow-y:scroll
+
     }
+
+    #box2{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid black;
+        position : absolute;
+        top: 40px;
+        left: 130px;
+        width: 70px; /* 박스 너비 */
+        height: 300px; /* 박스 높이 */
+    }
+
+    #box3{
+        margin-top: 10px;
+        padding: 10px;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid black;
+        position : absolute;
+        top: 50px;
+        left: 200px;
+        width: 150px; /* 박스 너비 */
+        height: 300px; /* 박스 높이 */
+        overflow-y:scroll
+    }
+
+    .scroll-button{
+        background-color: white; /* 기본 배경색 */
+        border: 1px solid gray;
+        padding: 10px;
+        margin: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .scroll-button.selected{
+        background-color: red;
+        color: white;
+    }
+
 
     .map {
         position: absolute; /* 절대 위치 */
@@ -398,23 +462,94 @@
     <!-- slide area -->
     <div class="sliding-container">
         <div class="sliding-panel" id="slidingPanel">
-            <button id="slideToggleButton" class="slide-toggle-button">❯</button>
-            <button class="dropdown-button1">
+            <button id="slideToggleButton" class="slide-toggle-button">❮</button>
+            <button class="dropdown-button1" onclick="toggleBox('box1')">
               지역 선택
               <span class="dropdown-icon"></span> <!-- 화살표 -->
             </button>
-            <button class="dropdown-button2">
+            <button class="dropdown-button2" onclick="toggleBox('box2')">
               주택 유형
-              <span class="dropdown-icon"></span> <!-- 화살표 -->
+              <span class="dropdown-icon" ></span> <!-- 화살표 -->
             </button>
-            <button class="dropdown-button3">
+            <button class="dropdown-button3" onclick="toggleBox('box3')">
               생활 인프라 매칭하기
               <span class="dropdown-icon"></span> <!-- 화살표 -->
             </button>
-            <button class="icon-button">
+            <button class="icon-button" id="refreshButton" onclick="resetSelection()">
               <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
             </button>
             <hr class="styled-line2">
+
+            <!-- 지역선택버튼들 -->
+            <div class="box" id="box1" >
+                <div class = "scrollable-box">
+
+                    <button class="scroll-button" onclick="selectButton(this)">강남구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">강동구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">강북구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">강서구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">관악구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">광진구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">구로구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">금천구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">노원구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">도봉구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">동대문구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">동작구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">마포구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">서대문구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">서초구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">성동구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">성북구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">송파구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">양천구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">영등포구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">용산구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">은평구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">종로구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">중구</button>
+                    <button class="scroll-button" onclick="selectButton(this)">중랑구</button>
+
+                </div>
+            </div>
+
+            <!-- 주택유형버튼들 -->
+            <div class="box" id="box2"><div class = "scrollable-box">
+                <button class="scroll-button" onclick="selectButton(this)">아파트</button>
+                <button class="scroll-button" onclick="selectButton(this)">연립/다세대</button>
+                <button class="scroll-button" onclick="selectButton(this)">단독/다가구</button>
+                <button class="scroll-button" onclick="selectButton(this)">오피스텔</button>
+            </div></div>
+
+            <!-- 생활인프라슬라이더 -->
+            <div class="box" id="box3">
+                <div>
+
+                <input type="range" id="slider1" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider2" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider3" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider4" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider5" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider6" min="0" max="100" value="50" class="slider">
+                </div>
+                <div>
+                <input type="range" id="slider7" min="0" max="100" value="50" class="slider">
+                </div>
+                <button id="submitButton">제출</button>
+            </div>
+
+
+
 
             <div id="slideContentContainer" class="slide-content-container"></div>
             <div id="detailContainer"></div>
@@ -696,12 +831,7 @@
             }
         }
 
-        // 슬라이드 패널 토글 버튼
-        document.getElementById("slideToggleButton").addEventListener("click", function () {
-            const panel = document.getElementById("slidingPanel");
-            panel.classList.toggle("active");
-            this.textContent = panel.classList.contains("active") ? "❮" : "❯";
-        });
+
 
         // 이벤트 등록 및 초기화
         document.addEventListener("DOMContentLoaded", () => {
@@ -715,13 +845,112 @@
     <script src="/js/slide.js"></script>-->
     <!-- 동적 슬라이드를 위한 자바 스크립트 -->
     <script>
-        document.getElementById("slideToggleButton").addEventListener("click", function () {
-            const panel = document.getElementById("slidingPanel");
-            panel.classList.toggle("active");
+        document.addEventListener("DOMContentLoaded", function () {
+                const panel = document.getElementById("slidingPanel");
+                const button = document.getElementById("slideToggleButton");
 
-            // 버튼 아이콘 변경 (❮ ↔ ❯)
-            this.textContent = panel.classList.contains("active") ? "❮" : "❯";
-        });
+                panel.classList.add("active");
+
+                button.addEventListener("click", function () {
+                    if (panel.classList.contains("collapsed")) {
+                        panel.classList.remove("collapsed");
+                        panel.classList.add("active");
+                        button.textContent = "❮"; // 아이콘 변경
+                    } else {
+                        panel.classList.remove("active");
+                        panel.classList.add("collapsed");
+                        button.textContent = "❯"; // 아이콘 변경
+                    }
+                });
+              });
+
+
+
+
+
+        function toggleBox(boxId) {
+                const targetBox = document.getElementById(boxId);
+                const activeBox = document.querySelector('.box.active'); // 현재 활성화된 박스를 찾기
+
+                // 현재 활성화된 박스가 있을 경우 비활성화
+                if (activeBox && activeBox !== targetBox) {
+                    activeBox.classList.remove('active');
+                }
+
+                // 클릭된 박스를 활성화 또는 비활성화
+                if (targetBox) {
+                    targetBox.classList.toggle('active');
+                    }
+                }
+
+
+                // 지역선택, 주택유형 버튼 인터랙션
+                document.querySelectorAll('.scroll-button').forEach(button => {
+                button.addEventListener('click', () => {
+                // 클릭된 버튼이 이미 선택되어 있는지 확인
+                    if (button.classList.contains('selected')) {
+                    // 이미 선택된 버튼이면 선택 해제
+                        button.classList.remove('selected');
+                    } else {
+                    // 선택되지 않은 버튼이면 선택 상태로 변경
+                        button.classList.add('selected');
+                        }
+                    });
+                });
+
+                document.getElementById('submitButton').addEventListener('click', function() {
+                // 슬라이더 값 가져오기
+                const slider1Value = document.getElementById('slider1').value;
+                const slider2Value = document.getElementById('slider2').value;
+                const slider3Value = document.getElementById('slider3').value;
+                const slider4Value = document.getElementById('slider4').value;
+                const slider5Value = document.getElementById('slider5').value;
+                const slider6Value = document.getElementById('slider6').value;
+                const slider7Value = document.getElementById('slider7').value;
+
+
+                // 값 확인 (콘솔에 출력)
+                console.log("Slider 1 Value: " + slider1Value);
+                console.log("Slider 2 Value: " + slider2Value);
+                console.log("Slider 3 Value: " + slider3Value);
+                console.log("Slider 4 Value: " + slider4Value);
+                console.log("Slider 5 Value: " + slider5Value);
+                console.log("Slider 6 Value: " + slider6Value);
+                console.log("Slider 7 Value: " + slider7Value);
+                });
+
+
+                //새로고침
+                function resetSelection() {
+                // box1의 모든 버튼 선택 해제
+                const buttons1 = document.querySelectorAll('#box1 .scroll-button');
+                buttons1.forEach(button => button.classList.remove('selected'));
+
+                // box2의 모든 버튼 선택 해제
+                const buttons2 = document.querySelectorAll('#box2 .scroll-button');
+                buttons2.forEach(button => button.classList.remove('selected'));
+
+                // 슬라이더 값 초기화 (50)
+                const sliders = document.querySelectorAll('.slider');
+                sliders.forEach(slider => {
+                    slider.value = 50; // 각 슬라이더의 값을 50으로 설정
+                    slider.dispatchEvent(new Event('input')); // 슬라이더 값 변경 이벤트 발생시켜 UI에 반영
+                });
+                }
+
+                // 슬라이더 값 변경 시 UI 반영
+                const sliders = document.querySelectorAll('.slider');
+                sliders.forEach(slider => {
+                    slider.addEventListener('input', function () {
+                        // 슬라이더 값에 따라 UI 반영 작업을 추가 (예: 슬라이더 값 표시)
+                        console.log('Slider value:', slider.value); // 슬라이더 값 확인용
+                    });
+                });
+
+                document.getElementById("refreshButton").addEventListener("click", resetSelection);
+
+
+
 
 
     </script>
