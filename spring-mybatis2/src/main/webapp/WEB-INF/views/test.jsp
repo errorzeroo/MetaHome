@@ -257,6 +257,7 @@
         border: 1px solid lightgray; /* 경계선 */
         border-radius: 12px; /* 모서리 둥글게 */
         padding: 20px; /* 내부 여백 */
+        height: 300px;
         z-index: 10; /* 맵보다 높은 계층 */
     }
 
