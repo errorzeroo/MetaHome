@@ -55,4 +55,8 @@
         WHERE AL.ADDRESS LIKE '%' || #{address} || '%' AND h.HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
     </select>
 
+    <select id="getSubwayList" resultType="map">
+        select * from subway
+    </select>
+
 </mapper>

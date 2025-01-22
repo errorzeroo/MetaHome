@@ -184,6 +184,22 @@
         left: 10px;
     }
 
+    .icon-button2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 28px; /* 버튼의 너비와 높이를 동일하게 설정 */
+        height: 28px;
+        border: 1px solid #ccc; /* 테두리 */
+        border-radius: 50%; /* 둥근 모서리 */
+        background-color: white; /* 배경색 */
+        cursor: pointer; /* 클릭 가능한 포인터 */
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        position: absolute; /* 절대 위치 */
+        top: 17px; /* 위에서 10px 아래 */
+        left: 360px;
+    }
+
     hr.vertical-line {
         width: 2px; /* 세로선 너비 */
         height: 1600px; /* 세로선 높이 */
@@ -265,6 +281,7 @@
         width: 70px; /* 박스 너비 */
         height: 300px; /* 박스 높이 */
         overflow-y:scroll
+        z-index: 1001; /* 패널보다 위로 */
 
     }
 
@@ -278,20 +295,126 @@
         left: 130px;
         width: 70px; /* 박스 너비 */
         height: 300px; /* 박스 높이 */
+        z-index: 1001; /* 패널보다 위로 */
     }
 
-    #box3{
+    #box3 {
         margin-top: 10px;
         padding: 10px;
-        background-color: rgb(255, 255, 255);
-        border: 1px solid black;
-        position : absolute;
-        top: 50px;
-        left: 200px;
-        width: 150px; /* 박스 너비 */
-        height: 300px; /* 박스 높이 */
-        overflow-y:scroll
+        background-color: white; /* 배경색 흰색 */
+        position: absolute;
+        top: 52px;
+        border: none; /* 테두리 제거 */
+        width: 409px; /* 박스 너비 */
+        height: calc(100% - 150px); /* 하단 버튼 공간 확보 */
+        overflow-y: scroll; /* 세로 스크롤 활성화 */
+        z-index: 1001; /* 패널보다 위로 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+        border-radius: 10px; /* 모서리 둥글게 */
     }
+
+    /* 섹션 제목 스타일 */
+    .section-title {
+        text-align: center;
+        font-size: 14px;
+        margin: 10px 10;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* 항목 컨테이너 */
+    .infrastructure-item {
+        display: flex;
+        align-items: center;
+        margin: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+
+    /* 아이콘 및 명칭 컨테이너 */
+    .icon-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 15px;
+    }
+
+    /* 아이콘 스타일 */
+    .infrastructure-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* 명칭 스타일 */
+    .infrastructure-name {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 5px;
+        color: #444;
+        text-align: center;
+    }
+
+    /* 슬라이더 컨테이너 */
+    .slider-container {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 슬라이더 */
+    .slider-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* 슬라이더와 값 간격 */
+    }
+
+    .slider {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    /* 슬라이더 값 */
+    .slider-value {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    }
+
+    /* 라벨 스타일 */
+    .slider-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #666;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .fixed-bottom-button {
+        position: fixed;
+        bottom: 10px;
+        left: 130px;
+        width: 150px; /* 박스 안에 맞춤 */
+        height: 35px; /* 버튼 높이 */
+        background-color: #ff6b3c; /* 버튼 색상 */
+        color: white;
+        border: none;
+        border-radius: 25px; /* 둥근 버튼 */
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼에 그림자 추가 */
+        z-index: 1002; /* 버튼을 최상위로 */
+    }
+
+    .fixed-bottom-button:hover {
+        background-color: #ff4500; /* 버튼 호버 색상 */
+    }
+
+
+
+
 
     .scroll-button{
         background-color: white; /* 기본 배경색 */
@@ -731,7 +854,7 @@
               주택 유형
               <span class="dropdown-icon" ></span> <!-- 화살표 -->
             </button>
-            <button class="dropdown-button3" onclick="toggleBox('box3')">
+            <button class="dropdown-button3">
               생활 인프라 매칭하기
               <span class="dropdown-icon"></span> <!-- 화살표 -->
               <button class="searchButton">검색</button>
@@ -746,72 +869,205 @@
                     <button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
                                   <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
                     </button>
-
-                    <button class="scroll-button" onclick="selectButton(this)">강남구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">강동구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">강북구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">강서구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">관악구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">광진구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">구로구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">금천구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">노원구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">도봉구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">동대문구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">동작구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">마포구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">서대문구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">서초구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">성동구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">성북구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">송파구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">양천구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">영등포구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">용산구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">은평구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">종로구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">중구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">중랑구</button>
+                        <button class="scroll-button" onclick="setAddress('')">전체</button>
+                        <button class="scroll-button" onclick="setAddress('강남구')">강남구</button>
+                        <button class="scroll-button" onclick="setAddress('강동구')">강동구</button>
+                        <button class="scroll-button" onclick="setAddress('강북구')">강북구</button>
+                        <button class="scroll-button" onclick="setAddress('강서구')">강서구</button>
+                        <button class="scroll-button" onclick="setAddress('관악구')">관악구</button>
+                        <button class="scroll-button" onclick="setAddress('광진구')">광진구</button>
+                        <button class="scroll-button" onclick="setAddress('구로구')">구로구</button>
+                        <button class="scroll-button" onclick="setAddress('금천구')">금천구</button>
+                        <button class="scroll-button" onclick="setAddress('노원구')">노원구</button>
+                        <button class="scroll-button" onclick="setAddress('도봉구')">도봉구</button>
+                        <button class="scroll-button" onclick="setAddress('동대문구')">동대문구</button>
+                        <button class="scroll-button" onclick="setAddress('동작구')">동작구</button>
+                        <button class="scroll-button" onclick="setAddress('마포구')">마포구</button>
+                        <button class="scroll-button" onclick="setAddress('서대문구')">서대문구</button>
+                        <button class="scroll-button" onclick="setAddress('서초구')">서초구</button>
+                        <button class="scroll-button" onclick="setAddress('성동구')">성동구</button>
+                        <button class="scroll-button" onclick="setAddress('성북구')">성북구</button>
+                        <button class="scroll-button" onclick="setAddress('송파구')">송파구</button>
+                        <button class="scroll-button" onclick="setAddress('양천구')">양천구</button>
+                        <button class="scroll-button" onclick="setAddress('영등포구')">영등포구</button>
+                        <button class="scroll-button" onclick="setAddress('용산구')">용산구</button>
+                        <button class="scroll-button" onclick="setAddress('은평구')">은평구</button>
+                        <button class="scroll-button" onclick="setAddress('종로구')">종로구</button>
+                        <button class="scroll-button" onclick="setAddress('중구')">중구</button>
+                        <button class="scroll-button" onclick="setAddress('중랑구')">중랑구</button>
 
                 </div>
             </div>
 
             <!-- 주택유형버튼들 -->
             <div class="box" id="box2"><div class = "scrollable-box">
-                <button class="scroll-button" onclick="selectButton(this)">아파트</button>
-                <button class="scroll-button" onclick="selectButton(this)">연립/다세대</button>
-                <button class="scroll-button" onclick="selectButton(this)">단독/다가구</button>
-                <button class="scroll-button" onclick="selectButton(this)">오피스텔</button>
+                <button class="scroll-button" onclick="setHomeKind('')">전체</button>
+                <button class="scroll-button" onclick="setHomeKind('아파트')">아파트</button>
+                <button class="scroll-button" onclick="setHomeKind('연립/다세대')">연립/다세대</button>
+                <button class="scroll-button" onclick="setHomeKind('단독/다가구')">단독/다가구</button>
+                <button class="scroll-button" onclick="setHomeKind('오피스텔')">오피스텔</button>
             </div></div>
 
-            <!-- 생활인프라슬라이더 -->
-            <div class="box" id="box3">
-                <button class="icon-button" id="refreshButton2" onclick="resetSelection2()">
-                    <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
-                </button>
-                <div>
-                <input type="range" id="slider1" min="0" max="100" value="50" class="slider">
+           <!-- 생활 인프라 슬라이더 -->
+           <div class="box" id="box3">
+               <button class="icon-button2" id="refreshButton2">
+                   <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
+               </button>
+
+
+               <h3 class="section-title">당신에게 얼마나 중요한지 알려주세요!</h3>
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="지하철 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">지하철</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="subwaySlider">
+                            <span class="slider-value" id="subwaySliderValue">1.00</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <input type="range" id="slider2" min="0" max="100" value="50" class="slider">
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="버스 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">버스</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="busSlider">
+                            <span class="slider-value" id="busSliderValue">1.00</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <input type="range" id="slider3" min="0" max="100" value="50" class="slider">
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="초등학교 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">초등학교</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="elementarySlider">
+                            <span class="slider-value" id="elementarySliderValue">0.00</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <input type="range" id="slider4" min="0" max="100" value="50" class="slider">
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="중학교 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">중학교</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="middleSlider">
+                            <span class="slider-value" id="middleSliderValue">0.00</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <input type="range" id="slider5" min="0" max="100" value="50" class="slider">
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="고등학교 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">고등학교</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="highSlider">
+                            <span class="slider-value" id="highSliderValue">0.00</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <input type="range" id="slider6" min="0" max="100" value="50" class="slider">
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="병원 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">병원</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="hospitalSlider">
+                            <span class="slider-value" id="hospitalSliderValue">0.00</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                <input type="range" id="slider7" min="0" max="100" value="50" class="slider">
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="주차장 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">주차장</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="parkingSlider">
+                            <span class="slider-value" id="parkingSliderValue">0.00</span>
+                        </div>
+                    </div>
                 </div>
-                <button id="submitButton">제출</button>
-            </div>
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="공원 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">공원</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="parkSlider">
+                            <span class="slider-value" id="parkSliderValue">0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+           </div>
+
+           <!-- 하단 고정 버튼 -->
+           <button class="fixed-bottom-button" id="submitButton">나에게 맞는 집 찾기!</button>
+
 
 
 
@@ -875,7 +1131,7 @@
     </div>
 
         <!-- 차트 추가 -->
-        <div class="chart-container-with-score">
+        <div class="chart-container-with-score" id = "chartContainer">
             <!-- 그래프 컨테이너 -->
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
@@ -909,7 +1165,7 @@
             document.querySelector(".score-number").textContent = score;
 
             // 2. 첫 번째와 두 번째 키를 제외
-            const relevantKeys = keys.slice(2); // 첫 번째(0)와 두 번째(1) 키 제외
+            const relevantKeys = keys.slice(3); // 첫 번째(0)와 두 번째(1) 키 제외
             console.log("Relevant Keys:", relevantKeys); // 예: ["park", "bus", "subway", ...]
 
             // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
@@ -933,7 +1189,7 @@
                 "/images/icon/elem_icon.png",
                 "/images/icon/middle_icon.png",
                 "/images/icon/high_icon.png",
-                "/images/Elephant.png",
+                "/images/Elephant.png"
             ];
 
             // 4. 라벨과 데이터 추출
@@ -1065,8 +1321,85 @@
         </script>
 
 
-    <script>
+<script>
+    // 초기값 설정
+    let selectedAddress = '${address}';
+    let selectedHomeKind = '${homeKind}';
 
+    // 서버에서 값이 전달되지 않을 경우 기본값으로 설정
+    if (!selectedAddress || selectedAddress === '${address}') {
+        selectedAddress = ''; // 초기 기본값
+    }
+    if (!selectedHomeKind || selectedHomeKind === '${homeKind}') {
+        selectedHomeKind = ''; // 초기 기본값
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log("초기 selectedAddress:", selectedAddress);
+        console.log("초기 selectedHomeKind:", selectedHomeKind);
+
+        // 초기값이 있다면 해당 버튼에 선택 클래스 추가
+        if (selectedAddress) {
+            document.querySelectorAll('.box#box1 .scroll-button').forEach(button => {
+                if (button.textContent.trim() === selectedAddress) {
+                    button.classList.add('selected');
+                }
+            });
+        }
+
+        if (selectedHomeKind) {
+            document.querySelectorAll('.box#box2 .scroll-button').forEach(button => {
+                if (button.textContent.trim() === selectedHomeKind) {
+                    button.classList.add('selected');
+                }
+            });
+        }
+    });
+
+
+
+    function setAddress(address) {
+        console.log("setAddress 호출 전 selectedAddress:", selectedAddress);
+        selectedAddress = address ? address.trim() : '';
+        console.log("setAddress 호출 후 selectedAddress:", selectedAddress);
+        updateURL();
+    }
+
+    function setHomeKind(homeKind) {
+        console.log("setHomeKind 호출 전 selectedHomeKind:", selectedHomeKind);
+        selectedHomeKind = homeKind ? homeKind.trim() : '';
+        console.log("setHomeKind 호출 후 selectedHomeKind:", selectedHomeKind);
+        updateURL();
+    }
+    function updateURL() {
+        console.log("updateURL 호출 직전 selectedAddress:", selectedAddress);
+        console.log("updateURL 호출 직전 selectedHomeKind:", selectedHomeKind);
+
+        const encodedAddress = encodeURIComponent(selectedAddress || '');
+        const encodedHomeKind = encodeURIComponent(selectedHomeKind || '');
+
+        console.log("updateURL: 인코딩된 selectedAddress:", encodedAddress);
+        console.log("updateURL: 인코딩된 selectedHomeKind:", encodedHomeKind);
+
+        const url = `/home?address=${encodedAddress}&homeKind=${encodedHomeKind}`;
+        console.log("updateURL: 생성된 URL:", url);
+    }
+
+    <%
+        System.out.println("address 값: " + request.getAttribute("address"));
+        System.out.println("homeKind 값: " + request.getAttribute("homeKind"));
+    %>
+</script>
+
+
+
+
+
+
+
+
+
+    <script>
     // 기본 지도 그리기
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
@@ -1076,6 +1409,15 @@
 
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+    // 차트를 보이는 함수
+    function showChart() {
+        document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
+    }
+
+    // 차트를 숨기는 함수
+    function hideChart() {
+        document.getElementById('chartContainer').style.display = 'none'; // 차트 컨테이너 숨김
+    }
 
     // 서버에서 전달된 JSON 데이터
     const slideData = JSON.parse('${filteredListJson}');
@@ -1090,6 +1432,8 @@
     let currentPage = 1; // 현재 페이지
     let isLoading = false; // 데이터 로딩 상태
     const itemsPerPage = 10; // 한 번에 보여줄 아이템 수
+
+
 
     // 초기 데이터 렌더링 함수
     function populateSlideContent(data) {
@@ -1110,12 +1454,10 @@
             const listItem = clone.querySelector(".list-item");
 
             listItem.addEventListener("click", () => {
-
                 // HOME_ADDRESS 필드를 사용하여 데이터 필터링
                 const filteredData = DataText.filter(
                     (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
                 );
-
                 // 주소-좌표 변환 객체를 생성합니다
                 const geocoder = new kakao.maps.services.Geocoder();
 
@@ -1190,6 +1532,11 @@
                     });
                 });
 
+
+
+
+
+                // 슬라이드 데이터 준비
                 const slides = document.getElementById("infoCard");
                 const prevButton = document.getElementById("prevSlide");
                 const nextButton = document.getElementById("nextSlide");
@@ -1376,6 +1723,56 @@
         document.getElementById("refreshButton1").addEventListener("click", resetSelection1);
         document.getElementById("refreshButton2").addEventListener("click", resetSelection2);
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const infraButton = document.querySelector('.dropdown-button3'); // 생활 인프라 매칭하기 버튼
+            const findHomeButton = document.getElementById('submitButton'); // 나에게 맞는 집 찾기 버튼
+            const box3 = document.getElementById('box3'); // 생활 인프라 섹션
+
+            // 슬라이더와 값 표시 요소 배열
+            const sliders = [
+                { slider: document.getElementById("subwaySlider"), value: document.getElementById("subwaySliderValue") },
+                { slider: document.getElementById("busSlider"), value: document.getElementById("busSliderValue") },
+                { slider: document.getElementById("elementarySlider"), value: document.getElementById("elementarySliderValue") },
+                { slider: document.getElementById("middleSlider"), value: document.getElementById("middleSliderValue") },
+                { slider: document.getElementById("highSlider"), value: document.getElementById("highSliderValue") },
+                { slider: document.getElementById("hospitalSlider"), value: document.getElementById("hospitalSliderValue") },
+                { slider: document.getElementById("parkingSlider"), value: document.getElementById("parkingSliderValue") },
+                { slider: document.getElementById("parkSlider"), value: document.getElementById("parkSliderValue") },
+            ];
+
+            // 각 슬라이더에 이벤트 리스너 등록
+            sliders.forEach(({ slider, value }) => {
+                slider.addEventListener("input", () => {
+                    value.textContent = parseFloat(slider.value).toFixed(2); // 소수점 두 자리까지 표시
+                });
+            });
+
+            // 새로 고침 버튼 동작
+            const refreshButton = document.getElementById("refreshButton2");
+            refreshButton.addEventListener("click", () => {
+                sliders.forEach(({ slider, value }) => {
+                    slider.value = 0.5; // 슬라이더 값을 0.5로 초기화
+                    value.textContent = "0.50"; // 화면 표시 값도 0.50으로 설정
+                });
+            });
+
+
+            // 초기 상태에서 버튼 숨기기
+            findHomeButton.style.display = "none";
+
+            // 생활 인프라 매칭하기 버튼 클릭 시 동작
+            infraButton.addEventListener("click", function () {
+                if (box3.classList.contains('active')) {
+                    // 활성화된 상태일 때 버튼 숨기기
+                    box3.classList.remove('active');
+                    findHomeButton.style.display = "none";
+                } else {
+                    // 비활성화된 상태일 때 버튼 보이기
+                    box3.classList.add('active');
+                    findHomeButton.style.display = "block";
+                }
+            });
+        });
 
 
 

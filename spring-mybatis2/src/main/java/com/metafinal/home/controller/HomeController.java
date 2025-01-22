@@ -44,6 +44,11 @@ public class HomeController {
             homeList = homeService.getMyHome(address, homeKind);
         }
 
+        List<Map<String, Object>> subwayList = homeService.getSubwayList();
+
+
+        log.info("address : {}", address,homeKind);
+
         // HOME_IMG 값을 배열로 변환 (homeList 처리)
         for (Map<String, Object> home : homeList) {
             String homeImg = (String) home.get("HOME_IMG");
@@ -68,18 +73,24 @@ public class HomeController {
         ObjectMapper objectMapper = new ObjectMapper();
         String homeListJson = "";
         String filteredListJson = "";
+        String subwayListJson = "";
 
         try {
             homeListJson = objectMapper.writeValueAsString(homeList); // homeList를 JSON 문자열로 변환
             filteredListJson = objectMapper.writeValueAsString(filteredList); // filteredList를 JSON 문자열로 변환
+            subwayListJson = objectMapper.writeValueAsString(subwayList); // filteredList를 JSON 문자열로 변환
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // JSP에 JSON 데이터를 전달
+        m.addAttribute("address", address);
+        m.addAttribute("homeKind", homeKind);
         m.addAttribute("homeListJson", homeListJson);
         m.addAttribute("filteredListJson", filteredListJson);
+        m.addAttribute("subwayListJson", subwayListJson);
 
+        log.info("subwayListJson : {}", subwayListJson);
         // 로그 출력
         //log.info("homeList.size() : {}", homeList.size());
         //log.info("filteredList.size() : {}", filteredList.size());
@@ -92,12 +103,14 @@ public class HomeController {
 
     @GetMapping("/find")
     public String findSimilarAddresses(
+            @RequestParam String address, // 사용자 입력 주소
+            @RequestParam String homeKind, // 사용자 입력 주택유형
             @RequestParam String columns, // 사용자 입력 컬럼
             @RequestParam String values,   // 사용자 입력 값
             Model model
     ) {
         PythonRunner pythonRunner = new PythonRunner();
-        String result = pythonRunner.runPythonScript(columns, values);
+        String result = pythonRunner.runPythonScript(address, homeKind, columns, values);
 
         if (result == null) {
             model.addAttribute("error", "Python 실행 중 오류가 발생했습니다.");

@@ -35,5 +35,10 @@ public class HomeServiceImpl implements HomeService{
         return homeMapper.getMyHome(address, homeKind);
     }
 
+    @Override
+    public List<Map<String, Object>> getSubwayList() {
+        return homeMapper.getSubwayList();
+    }
+
 
 }
