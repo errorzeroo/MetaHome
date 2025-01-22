@@ -9,5 +9,6 @@ public interface HomeService {
     List<Map<String, Object>> getAllHomes();
     List<Map<String, Object>> getHomeKind(String homeKind);
     List<Map<String, Object>> getMyHome(String address, String homeKind);
+    List<Map<String, Object>> getSubwayList();
 
 }

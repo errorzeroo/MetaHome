@@ -829,8 +829,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="subwaySlider">
-                            <span class="slider-value" id="subwaySliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="subwaySlider">
+                            <span class="slider-value" id="subwaySliderValue">1.00</span>
                         </div>
                     </div>
                 </div>
@@ -847,8 +847,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="busSlider">
-                            <span class="slider-value" id="busSliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="busSlider">
+                            <span class="slider-value" id="busSliderValue">1.00</span>
                         </div>
                     </div>
                 </div>
@@ -865,8 +865,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="elementarySlider">
-                            <span class="slider-value" id="elementarySliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="elementarySlider">
+                            <span class="slider-value" id="elementarySliderValue">0.00</span>
                         </div>
                     </div>
                 </div>
@@ -883,8 +883,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="middleSlider">
-                            <span class="slider-value" id="middleSliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="middleSlider">
+                            <span class="slider-value" id="middleSliderValue">0.00</span>
                         </div>
                     </div>
                 </div>
@@ -901,8 +901,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="highSlider">
-                            <span class="slider-value" id="highSliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="highSlider">
+                            <span class="slider-value" id="highSliderValue">0.00</span>
                         </div>
                     </div>
                 </div>
@@ -919,8 +919,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="hospitalSlider">
-                            <span class="slider-value" id="hospitalSliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="hospitalSlider">
+                            <span class="slider-value" id="hospitalSliderValue">0.00</span>
                         </div>
                     </div>
                 </div>
@@ -937,8 +937,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="parkingSlider">
-                            <span class="slider-value" id="parkingSliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="parkingSlider">
+                            <span class="slider-value" id="parkingSliderValue">0.00</span>
                         </div>
                     </div>
                 </div>
@@ -955,8 +955,8 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="0.5" class="slider" id="parkSlider">
-                            <span class="slider-value" id="parkSliderValue">0.50</span>
+                            <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="parkSlider">
+                            <span class="slider-value" id="parkSliderValue">0.00</span>
                         </div>
                     </div>
                 </div>

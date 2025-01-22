@@ -44,6 +44,9 @@ public class HomeController {
             homeList = homeService.getMyHome(address, homeKind);
         }
 
+        List<Map<String, Object>> subwayList = homeService.getSubwayList();
+
+
         // HOME_IMG 값을 배열로 변환 (homeList 처리)
         for (Map<String, Object> home : homeList) {
             String homeImg = (String) home.get("HOME_IMG");
@@ -68,10 +71,12 @@ public class HomeController {
         ObjectMapper objectMapper = new ObjectMapper();
         String homeListJson = "";
         String filteredListJson = "";
+        String subwayListJson = "";
 
         try {
             homeListJson = objectMapper.writeValueAsString(homeList); // homeList를 JSON 문자열로 변환
             filteredListJson = objectMapper.writeValueAsString(filteredList); // filteredList를 JSON 문자열로 변환
+            subwayListJson = objectMapper.writeValueAsString(subwayList); // filteredList를 JSON 문자열로 변환
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,7 +84,9 @@ public class HomeController {
         // JSP에 JSON 데이터를 전달
         m.addAttribute("homeListJson", homeListJson);
         m.addAttribute("filteredListJson", filteredListJson);
+        m.addAttribute("subwayListJson", subwayListJson);
 
+        log.info("subwayListJson : {}", subwayListJson);
         // 로그 출력
         //log.info("homeList.size() : {}", homeList.size());
         //log.info("filteredList.size() : {}", filteredList.size());
