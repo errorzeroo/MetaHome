@@ -1064,7 +1064,7 @@
                           if(!currentMarker.isClicked){
                           chartContainer.style.display = 'block';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = true;} else {
-                          chartContainer.style.display = 'none';  // 차트 컨테이너 고정 표시
+                          chartContainer.style.display = 'none';  // 차트 컨테이너 고정 표시하기
                           currentMarker.isClicked = false;
                           }
                            // 클릭 상태로 설정
