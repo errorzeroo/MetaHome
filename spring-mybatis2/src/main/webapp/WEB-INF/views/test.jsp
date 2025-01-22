@@ -1052,7 +1052,7 @@
 
                     // 마커에 마우스 아웃 이벤트 추가
 
-                    kakao.maps.event.addListener(currentMarker, 'mouseout', function() {
+                    kakao.maps.event.addListener(currentMarker, 'mouseout',  function() {
                        if (!currentMarker.isClicked) {
                                hideChart(); // 마우스를 내리면 차트를 숨김
                            }
