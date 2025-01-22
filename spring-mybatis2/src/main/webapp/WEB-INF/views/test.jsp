@@ -1203,7 +1203,7 @@
 
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-    // 차트를 보이게 하는 함수
+    // 차트를 보이는 함수
     function showChart() {
         document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
     }
