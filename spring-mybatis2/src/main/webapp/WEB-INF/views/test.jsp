@@ -770,42 +770,43 @@
                     <button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
                                   <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
                     </button>
-
-                    <button class="scroll-button" onclick="selectButton(this)">강남구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">강동구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">강북구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">강서구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">관악구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">광진구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">구로구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">금천구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">노원구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">도봉구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">동대문구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">동작구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">마포구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">서대문구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">서초구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">성동구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">성북구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">송파구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">양천구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">영등포구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">용산구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">은평구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">종로구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">중구</button>
-                    <button class="scroll-button" onclick="selectButton(this)">중랑구</button>
+                        <button class="scroll-button" onclick="setAddress('')">전체</button>
+                        <button class="scroll-button" onclick="setAddress('강남구')">강남구</button>
+                        <button class="scroll-button" onclick="setAddress('강동구')">강동구</button>
+                        <button class="scroll-button" onclick="setAddress('강북구')">강북구</button>
+                        <button class="scroll-button" onclick="setAddress('강서구')">강서구</button>
+                        <button class="scroll-button" onclick="setAddress('관악구')">관악구</button>
+                        <button class="scroll-button" onclick="setAddress('광진구')">광진구</button>
+                        <button class="scroll-button" onclick="setAddress('구로구')">구로구</button>
+                        <button class="scroll-button" onclick="setAddress('금천구')">금천구</button>
+                        <button class="scroll-button" onclick="setAddress('노원구')">노원구</button>
+                        <button class="scroll-button" onclick="setAddress('도봉구')">도봉구</button>
+                        <button class="scroll-button" onclick="setAddress('동대문구')">동대문구</button>
+                        <button class="scroll-button" onclick="setAddress('동작구')">동작구</button>
+                        <button class="scroll-button" onclick="setAddress('마포구')">마포구</button>
+                        <button class="scroll-button" onclick="setAddress('서대문구')">서대문구</button>
+                        <button class="scroll-button" onclick="setAddress('서초구')">서초구</button>
+                        <button class="scroll-button" onclick="setAddress('성동구')">성동구</button>
+                        <button class="scroll-button" onclick="setAddress('성북구')">성북구</button>
+                        <button class="scroll-button" onclick="setAddress('송파구')">송파구</button>
+                        <button class="scroll-button" onclick="setAddress('양천구')">양천구</button>
+                        <button class="scroll-button" onclick="setAddress('영등포구')">영등포구</button>
+                        <button class="scroll-button" onclick="setAddress('용산구')">용산구</button>
+                        <button class="scroll-button" onclick="setAddress('은평구')">은평구</button>
+                        <button class="scroll-button" onclick="setAddress('종로구')">종로구</button>
+                        <button class="scroll-button" onclick="setAddress('중구')">중구</button>
+                        <button class="scroll-button" onclick="setAddress('중랑구')">중랑구</button>
 
                 </div>
             </div>
 
             <!-- 주택유형버튼들 -->
             <div class="box" id="box2"><div class = "scrollable-box">
-                <button class="scroll-button" onclick="selectButton(this)">아파트</button>
-                <button class="scroll-button" onclick="selectButton(this)">연립/다세대</button>
-                <button class="scroll-button" onclick="selectButton(this)">단독/다가구</button>
-                <button class="scroll-button" onclick="selectButton(this)">오피스텔</button>
+                <button class="scroll-button" onclick="setHomeKind('')">전체</button>
+                <button class="scroll-button" onclick="setHomeKind('아파트')">아파트</button>
+                <button class="scroll-button" onclick="setHomeKind('연립/다세대')">연립/다세대</button>
+                <button class="scroll-button" onclick="setHomeKind('단독/다가구')">단독/다가구</button>
+                <button class="scroll-button" onclick="setHomeKind('오피스텔')">오피스텔</button>
             </div></div>
 
            <!-- 생활 인프라 슬라이더 -->
@@ -1042,7 +1043,7 @@
             document.querySelector(".score-number").textContent = score;
 
             // 2. 첫 번째와 두 번째 키를 제외
-            const relevantKeys = keys.slice(2); // 첫 번째(0)와 두 번째(1) 키 제외
+            const relevantKeys = keys.slice(3); // 첫 번째(0)와 두 번째(1) 키 제외
             console.log("Relevant Keys:", relevantKeys); // 예: ["park", "bus", "subway", ...]
 
             // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
@@ -1191,6 +1192,84 @@
             }
 
         </script>
+
+
+<script>
+    // 초기값 설정
+    let selectedAddress = '${address}';
+    let selectedHomeKind = '${homeKind}';
+
+    // 서버에서 값이 전달되지 않을 경우 기본값으로 설정
+    if (!selectedAddress || selectedAddress === '${address}') {
+        selectedAddress = ''; // 초기 기본값
+    }
+    if (!selectedHomeKind || selectedHomeKind === '${homeKind}') {
+        selectedHomeKind = ''; // 초기 기본값
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log("초기 selectedAddress:", selectedAddress);
+        console.log("초기 selectedHomeKind:", selectedHomeKind);
+
+        // 초기값이 있다면 해당 버튼에 선택 클래스 추가
+        if (selectedAddress) {
+            document.querySelectorAll('.box#box1 .scroll-button').forEach(button => {
+                if (button.textContent.trim() === selectedAddress) {
+                    button.classList.add('selected');
+                }
+            });
+        }
+
+        if (selectedHomeKind) {
+            document.querySelectorAll('.box#box2 .scroll-button').forEach(button => {
+                if (button.textContent.trim() === selectedHomeKind) {
+                    button.classList.add('selected');
+                }
+            });
+        }
+    });
+
+
+
+    function setAddress(address) {
+        console.log("setAddress 호출 전 selectedAddress:", selectedAddress);
+        selectedAddress = address ? address.trim() : '';
+        console.log("setAddress 호출 후 selectedAddress:", selectedAddress);
+        updateURL();
+    }
+
+    function setHomeKind(homeKind) {
+        console.log("setHomeKind 호출 전 selectedHomeKind:", selectedHomeKind);
+        selectedHomeKind = homeKind ? homeKind.trim() : '';
+        console.log("setHomeKind 호출 후 selectedHomeKind:", selectedHomeKind);
+        updateURL();
+    }
+    function updateURL() {
+        console.log("updateURL 호출 직전 selectedAddress:", selectedAddress);
+        console.log("updateURL 호출 직전 selectedHomeKind:", selectedHomeKind);
+
+        const encodedAddress = encodeURIComponent(selectedAddress || '');
+        const encodedHomeKind = encodeURIComponent(selectedHomeKind || '');
+
+        console.log("updateURL: 인코딩된 selectedAddress:", encodedAddress);
+        console.log("updateURL: 인코딩된 selectedHomeKind:", encodedHomeKind);
+
+        const url = `/home?address=${encodedAddress}&homeKind=${encodedHomeKind}`;
+        console.log("updateURL: 생성된 URL:", url);
+    }
+
+    <%
+        System.out.println("address 값: " + request.getAttribute("address"));
+        System.out.println("homeKind 값: " + request.getAttribute("homeKind"));
+    %>
+</script>
+
+
+
+
+
+
+
 
 
     <script>

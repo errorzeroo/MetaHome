@@ -5,13 +5,15 @@ import java.io.InputStreamReader;
 
 public class PythonRunner {
 
-    public String runPythonScript(String columns, String values) {
+    public String runPythonScript(String address, String homeKind, String columns, String values) {
         try {
             // Python 실행 명령어 설정
             String pythonScriptPath = "C:\\Lecture\\final\\similar2.py"; // Python 스크립트 절대 경로
             String[] command = {
                     "python", // Python 실행 명령
                     pythonScriptPath,
+                    address,
+                    homeKind,
                     columns, // 사용자 입력 컬럼
                     values   // 사용자 입력 값
             };
