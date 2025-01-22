@@ -4,16 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Metahome</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!--<link ref="stylesheet" type="text/css" href="C:/Lecture/MetaHome/spring-mybatis2/src/main/resources/static/css/style.css">
--->
-
-<!-- 카카오맵 -->
-<div id="map" class = "map"></div>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
-
+    <meta charset="UTF-8">
+    <title>Metahome</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 카카오맵 -->
+    <div id="map" class = "map"></div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
 </head>
 <style>
     body, html {
@@ -321,7 +317,7 @@
     }
 
     .chart-container-with-score {
-        display: none; /* Flexbox로 수평 배치 //flex*/
+        display: flex; /* Flexbox로 수평 배치 //flex*/
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
@@ -485,7 +481,7 @@
       bottom: 20px; /* 화면 아래쪽에서 띄움 */
       left: 400px; /* 화면 오른쪽에 고정 */
       width: 300px; /* 카드 너비 */
-      background-color: #fff; /* 흰색 배경 */
+      background-color: #f5f5f5; /* 흰색 배경 */
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
       border-radius: 10px; /* 둥근 모서리 */
       padding: 20px; /* 내부 여백 */
@@ -505,7 +501,7 @@
       right: 10px;
       background: none;
       border: none;
-      font-size: 18px;
+      font-size: 14px;
       color: #aaa;
       cursor: pointer;
     }
@@ -516,13 +512,17 @@
 
     /* 카드 내부 텍스트 스타일 */
     .info-card-title {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: bold;
       margin-bottom: 15px;
     }
 
     .info-card-label {
       font-weight: bold;
+      font-align: right;
+    }
+    .info-card-txtc{
+        text-align: center;
     }
 
     #prevSlide {
@@ -574,6 +574,104 @@
         border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+    .slider-button{
+        align-content:center; /* 방향이 세로 기준 중앙정렬 */
+    }
+    #prevSlide{
+        float: left;
+    }
+    #nextSlide{
+        float: right;
+    }
+    #infoCardDeposit, #infoCardRent, #infoCardWe{
+        right:0;
+    }
+    p{
+        font-size:12px;
+    }
+    /* indicator */
+    .indicators-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        position: absolute; /* 카드 내부에 고정 */
+        bottom: 20px;       /* 카드 하단에서 20px 위 */
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;        /* 다른 요소 위로 배치 */
+    }
+
+    .indicator {
+        width: 10px;
+        height: 10px;
+        background-color: #ddd;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .indicator.active {
+        background-color: #007bff;
+    }
+
+    .logo{
+        width: 50px;
+        height: 60px;
+    }
+    .slide-logo{
+        width:10px;
+        height:10px;
+    }
+    .slide-logo-title{
+     width:20px;
+     height:20px;
+    }
+    .card-container {
+        display: none;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        position: relative; /* 버튼을 카드 내부에 배치하기 위해 설정 */
+        border: 1px solid #ddd;
+        padding: 20px;
+        background-color: #fff;
+        width: 400px; /* 카드의 가로 크기 */
+        height: 300px; /* 카드의 세로 크기 */
+    }
+
+    .card-container.visible {
+        display: flex;
+    }
+
+    .slide-btn {
+        position: absolute; /* 부모 요소인 .card-container 내부에 고정 위치 */
+        top: 50%; /* 세로 중앙 정렬 */
+        transform: translateY(-50%); /* 정확한 중앙 정렬 */
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+        z-index: 10; /* 버튼이 다른 요소 위에 표시되도록 설정 */
+    }
+
+    .slide-btn:hover {
+        color: #000;
+    }
+    .slide-btn:hover {
+        color: #000;
+    }
+
+    #prevSlide {
+        left: 10px; /* 왼쪽 버튼 위치 */
+    }
+
+    #nextSlide {
+        right: 10px; /* 오른쪽 버튼 위치 */
+    }
+
+
 
 
 
@@ -583,11 +681,12 @@
 <body>
 
     <!-- 선위에 요소들 style에 .클래스 이름으로 스타일 정의해 놓음 -->
+    <img src="/images/Elephant.png" alt="아이콘" class="logo">
     <h3 class = "title">메타홈</h3>
     <button class = "white-button1">맞춤 지도</button>
     <button class = "white-button2">우리 동네 이사와 생활 서비스</button>
     <button class = "white-button3">로그인</button>
-    <button class = "white-button4">멤버쉽  가입</button>
+    <button class = "white-button4">멤버쉽 가입</button>
 
     <!-- 위쪽 선 -->
     <hr class="styled-line1">
@@ -726,29 +825,53 @@
     </div>
 
     <div id="infoCard" class="info-card hidden">
-          <button id="closeInfoCard" class="close-info-card">×</button>
-          <button id="prevSlide" class="slider-button">이전</button>
-          <h4 class="info-card-title"><span id="infoCardName"></span></h4>
-          <hr>
-          <p><span class="info-card-label">공급번호 |</span> <span id="infoCardNo"></span>
-          <span class="info-card-label">임대사업자 |</span> <span id="infoCardCompany"></span></p>
-          <p><span class="info-card-label">세대수  |</span> <span id="infoCardCount"></span>
-          <span class="info-card-label">주차대수 |</span> <span id="infoCardParking"></span></p>
-          <p><span class="info-card-label">주소   |</span> <span id="infoCardAddress"></span></p>
-          <hr>
-          <p><span class="info-card-label">임대 보증금 :</span> <span id="infoCardDeposit"></span></p>
-          <p><span class="info-card-label">월 임대료 :</span> <span id="infoCardRent"></span></p>
-          <hr>
-          <p><span class="info-card-label">공급면적</span>
-          <span class="info-card-label">전용 : </span> <span id="infoCardMy"></span>
-          <span class="info-card-label">공용 : </span><span id="infoCardWe"></span></p>
-          <hr>
-          <p><span class="info-card-label">우리집에서 얼마?</span>
-          </p>
-          <hr>
-          <p><span class="info-card-label">이미지</span>
-          </p>
-          <button id="nextSlide" class="slider-button">다음</button>
+        <button id="closeInfoCard" class="close-info-card">×</button>
+        <button id="prevSlide" class="slide-btn">❮</button>
+        <div class="card-content">
+            <h4 class="info-card-title">
+                <img src="/images/Elephant.png" alt="slide" class="slide-logo-title">
+                <span id="infoCardName"></span>
+            </h4>
+            <hr>
+            <p id="infoCardKind"></p>
+            <p>
+                <span>공급번호&nbsp;|</span>
+                <span id="infoCardNo"></span>
+                <span class="info-card-txtc">임대사업자&nbsp;|</span>
+                <span id="infoCardCompany"></span></p>
+            <p>
+                <span>세대수&emsp;&nbsp;|</span>
+                <span id="infoCardCount"></span>
+                <span class="info-card-txtc">주차대수&emsp;&nbsp;|</span>
+                <span id="infoCardParking" style="text-align:right;"></span></p>
+            <p>
+                <span>주소&emsp;&emsp;&nbsp;|</span>
+                <span id="infoCardAddress"></span></p>
+            <hr>
+            <p>
+                <img src="/images/Elephant.png" alt="slide" class="slide-logo">
+                <span>임대 보증금 :</span> <span class="info-card-label" id="infoCardDeposit"></span></p>
+            <p>
+                <img src="/images/Elephant.png" alt="slide" class="slide-logo">
+                월 임대료 :
+                <span class="info-card-label" id="infoCardRent"></span></p><hr>
+            <p>
+                <span>공급면적</span></p>
+            <p>
+                <img src="/images/Elephant.png" alt="slide" class="slide-logo">
+                <span>전용 : </span> <span class="info-card-label" id="infoCardMy"></span>
+                <img src="/images/icon/slideButton.png" alt="slide" class="slide-logo">
+                <span>공용 : </span><span class="info-card-label" id="infoCardWe"></span></p><hr>
+            <p>
+                <span>우리집에서 얼마?</span>
+            </p><hr>
+            <p>
+                <span>이미지</span></p>
+            <p>
+                <span id="infoCardImg"></span>
+            </p>
+        </div>
+        <button id="nextSlide" class="slide-btn">❯</button>
     </div>
 
         <!-- 차트 추가 -->
@@ -768,7 +891,6 @@
             </div>
         </div>
 
-        <!--<script src="/js/kakao.js"></script>-->
         <script>
             // JSP에서 JSON 데이터를 안전하게 가져오기
             const jsonData = ${jsonData}; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
@@ -804,14 +926,14 @@
 
             // 라벨별 이미지를 정의
             const labelImages = [
+                "/images/icon/Park_icon.png",
+                "/images/icon/Bus_icon.png",
+                "/images/icon/Sub_icon.png",
+                "/images/icon/Hosp_icon.png",
+                "/images/icon/elem_icon.png",
+                "/images/icon/middle_icon.png",
+                "/images/icon/high_icon.png",
                 "/images/Elephant.png",
-                "/images/Elephant.png",
-                "/images/Elephant.png",
-                "/images/Elephant.png",
-                "/images/Elephant.png",
-                "/images/Elephant.png",
-                "/images/Elephant.png",
-                "/images/Elephant.png"
             ];
 
             // 4. 라벨과 데이터 추출
@@ -861,7 +983,9 @@
                         scales: {
                             x: {
                                 beginAtZero: true,
-
+                                grid:{
+                                    display:false
+                                },
                                 ticks: {
                                     color: 'white', // 라벨 글자 색상 (하얀색)
                                     font: {
@@ -871,6 +995,9 @@
                             },
                             y: {
                                 beginAtZero: true,
+                                grid:{
+                                    display:false
+                                },
                             }
                         },
                         plugins: {
@@ -971,6 +1098,8 @@
             return;
         }
 
+        let currentMarker = null;
+
         data.forEach((item) => {
             const clone = template.content.cloneNode(true);
             clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
@@ -981,12 +1110,14 @@
             const listItem = clone.querySelector(".list-item");
 
             listItem.addEventListener("click", () => {
+
                 // HOME_ADDRESS 필드를 사용하여 데이터 필터링
                 const filteredData = DataText.filter(
                     (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
                 );
+
                 // 주소-좌표 변환 객체를 생성합니다
-                var geocoder = new kakao.maps.services.Geocoder();
+                const geocoder = new kakao.maps.services.Geocoder();
 
                 // 주소로 좌표를 검색합니다
                 geocoder.addressSearch(item.HOME_ADDRESS, function(result, status) {
@@ -996,28 +1127,28 @@
 
                         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                        // 결과값으로 받은 위치를 마커로 표시합니다
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: coords
-                        });
+                        // 기존 마커 제거
+                        if (currentMarker) {
+                            currentMarker.setMap(null);
+                        }
 
-                        // 인포윈도우로 장소에 대한 설명을 표시합니다
-                        var infowindow = new kakao.maps.InfoWindow({
-                            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                        // 결과값으로 받은 위치를 마커로 표시합니다
+                        currentMarker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords,
+                            isClicked: false
                         });
-                        infowindow.open(map, marker);
 
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                        map.setCenter(coords);
+                        //map.setCenter(coords);
                         // 지도 중심 이동: 화면 오른쪽 절반으로 이동
                         // 지도 중심 이동: 선택된 좌표가 화면의 200px 왼쪽에 오도록 이동
                         const mapWidth = mapContainer.offsetWidth;
                         const mapHeight = mapContainer.offsetHeight;
 
                         // 화면에서 좌표가 위치해야 할 X축 위치 (200px 왼쪽)
-                        const moveX = selectedCoordinates.getLng() - (150 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
-                        const moveY = selectedCoordinates.getLat();  // 세로는 그대로 중앙
+                        const moveX = coords.getLng() - (15 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
+                        const moveY = coords.getLat();  // 세로는 그대로 중앙
 
                         // 새로 이동할 지도 중심 좌표
                         const newCenter = new kakao.maps.LatLng(moveY, moveX);
@@ -1025,14 +1156,46 @@
                         // 지도 이동
                         map.panTo(newCenter);
                     }
+
+                    let isClicked = false;
+
+                    // 마커에 마우스 오버 이벤트 추가
+                    kakao.maps.event.removeListener(currentMarker, 'mouseover');
+                    kakao.maps.event.addListener(currentMarker, 'mouseover', function() {
+                        if (!currentMarker.isClicked) {
+                                showChart(); // 마우스를 올리면 차트를 표시
+                            }
+                    });
+
+                    // 마커에 마우스 아웃 이벤트 추가
+
+                    kakao.maps.event.addListener(currentMarker, 'mouseout',  function() {
+                       if (!currentMarker.isClicked) {
+                               hideChart(); // 마우스를 내리면 차트를 숨김
+                           }
+                    });
+
+                    kakao.maps.event.addListener(currentMarker, 'click', function() {
+                          const chartContainer = document.getElementById('chartContainer');
+                          // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
+                          if(!currentMarker.isClicked){
+                          chartContainer.style.display = 'block';  // 차트 컨테이너 고정 표시
+                          currentMarker.isClicked = true;} else {
+                          chartContainer.style.display = 'none';  // 차트 컨테이너 고정 표시
+                          currentMarker.isClicked = false;
+                          }
+                           // 클릭 상태로 설정
+
+
+                    });
                 });
 
-                // 슬라이드 데이터 준비
                 const slides = document.getElementById("infoCard");
                 const prevButton = document.getElementById("prevSlide");
                 const nextButton = document.getElementById("nextSlide");
+                const closeButton = document.getElementById("closeInfoCard");
 
-                let currentIndex = 0;
+                let currentIndex = 0; // 현재 슬라이드 인덱스
 
                 // 슬라이드 데이터 렌더링 함수
                 function renderSlide(index) {
@@ -1124,10 +1287,6 @@
         });
     </script>
 
-
-
-<!--<script src="/js/map.js"></script>
-    <script src="/js/slide.js"></script>-->
     <!-- 동적 슬라이드를 위한 자바 스크립트 -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
