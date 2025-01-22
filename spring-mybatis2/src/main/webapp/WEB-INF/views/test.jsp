@@ -753,7 +753,7 @@
     </div>
 
         <!-- 차트 추가 -->
-        <div class="chart-container-with-score">
+        <div class="chart-container-with-score" id = "chartContainer">
             <!-- 그래프 컨테이너 -->
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
@@ -938,7 +938,6 @@
 
 
     <script>
-
     // 기본 지도 그리기
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
@@ -948,6 +947,15 @@
 
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+    // 차트를 보이게 하는 함수
+    function showChart() {
+        document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
+    }
+
+    // 차트를 숨기는 함수
+    function hideChart() {
+        document.getElementById('chartContainer').style.display = 'none'; // 차트 컨테이너 숨김
+    }
 
     // 서버에서 전달된 JSON 데이터
     const slideData = JSON.parse('${filteredListJson}');
@@ -963,12 +971,17 @@
     let isLoading = false; // 데이터 로딩 상태
     const itemsPerPage = 10; // 한 번에 보여줄 아이템 수
 
+
+
     // 초기 데이터 렌더링 함수
     function populateSlideContent(data) {
         if (!data || data.length === 0) {
             slideContainer.innerHTML = "<p>데이터가 없습니다.</p>";
             return;
         }
+
+
+        let currentMarker = null;
 
         data.forEach((item) => {
             const clone = template.content.cloneNode(true);
@@ -980,12 +993,14 @@
             const listItem = clone.querySelector(".list-item");
 
             listItem.addEventListener("click", () => {
+
                 // HOME_ADDRESS 필드를 사용하여 데이터 필터링
                 const filteredData = DataText.filter(
                     (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
                 );
+
                 // 주소-좌표 변환 객체를 생성합니다
-                var geocoder = new kakao.maps.services.Geocoder();
+                const geocoder = new kakao.maps.services.Geocoder();
 
                 // 주소로 좌표를 검색합니다
                 geocoder.addressSearch(item.HOME_ADDRESS, function(result, status) {
@@ -995,28 +1010,28 @@
 
                         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                        // 결과값으로 받은 위치를 마커로 표시합니다
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: coords
-                        });
+                        // 기존 마커 제거
+                        if (currentMarker) {
+                            currentMarker.setMap(null);
+                        }
 
-                        // 인포윈도우로 장소에 대한 설명을 표시합니다
-                        var infowindow = new kakao.maps.InfoWindow({
-                            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+                        // 결과값으로 받은 위치를 마커로 표시합니다
+                        currentMarker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords,
+                            isClicked: false
                         });
-                        infowindow.open(map, marker);
 
                         // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                        map.setCenter(coords);
+                        //map.setCenter(coords);
                         // 지도 중심 이동: 화면 오른쪽 절반으로 이동
                         // 지도 중심 이동: 선택된 좌표가 화면의 200px 왼쪽에 오도록 이동
                         const mapWidth = mapContainer.offsetWidth;
                         const mapHeight = mapContainer.offsetHeight;
 
                         // 화면에서 좌표가 위치해야 할 X축 위치 (200px 왼쪽)
-                        const moveX = selectedCoordinates.getLng() - (150 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
-                        const moveY = selectedCoordinates.getLat();  // 세로는 그대로 중앙
+                        const moveX = coords.getLng() - (15 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
+                        const moveY = coords.getLat();  // 세로는 그대로 중앙
 
                         // 새로 이동할 지도 중심 좌표
                         const newCenter = new kakao.maps.LatLng(moveY, moveX);
@@ -1024,7 +1039,43 @@
                         // 지도 이동
                         map.panTo(newCenter);
                     }
+
+                    let isClicked = false;
+
+                    // 마커에 마우스 오버 이벤트 추가
+                    kakao.maps.event.removeListener(currentMarker, 'mouseover');
+                    kakao.maps.event.addListener(currentMarker, 'mouseover', function() {
+                        if (!currentMarker.isClicked) {
+                                showChart(); // 마우스를 올리면 차트를 표시
+                            }
+                    });
+
+                    // 마커에 마우스 아웃 이벤트 추가
+
+                    kakao.maps.event.addListener(currentMarker, 'mouseout', function() {
+                       if (!currentMarker.isClicked) {
+                               hideChart(); // 마우스를 내리면 차트를 숨김
+                           }
+                    });
+
+                    kakao.maps.event.addListener(currentMarker, 'click', function() {
+                          const chartContainer = document.getElementById('chartContainer');
+                          // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
+                          if(!currentMarker.isClicked){
+                          chartContainer.style.display = 'block';  // 차트 컨테이너 고정 표시
+                          currentMarker.isClicked = true;} else {
+                          chartContainer.style.display = 'none';  // 차트 컨테이너 고정 표시
+                          currentMarker.isClicked = false;
+                          }
+                           // 클릭 상태로 설정
+
+
+                    });
                 });
+
+
+
+
 
                 // 슬라이드 데이터 준비
                 const slides = document.getElementById("infoCard");
