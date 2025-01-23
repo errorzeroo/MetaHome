@@ -1147,6 +1147,19 @@
             </div>
         </div>
 
+        <div id="categoryBar" style="position: absolute; bottom: 10px; right: 10px; z-index: 10; background-color: white; padding: 10px; border-radius: 5px; box-shadow: 0px 0px 5px rgba(0,0,0,0.5);">
+                        <button onclick="toggleSubMarkers()">지하철</button>
+                        <button onclick="toggleBusMarkers()">버스</button>
+                        <button onclick="toggleParkMarkers()">공원</button>
+                        <button onclick="toggleElemMarkers()">초등학교</button>
+                        <button onclick="toggleMidMarkers()">중학교</button>
+                        <button onclick="toggleHighMarkers()">고등학교</button>
+                        <button onclick="toggleHospMarkers()">병원</button>
+        </div>
+
+
+
+
         <script>
             // JSP에서 JSON 데이터를 안전하게 가져오기
             const jsonData = ${jsonData}; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
@@ -1427,6 +1440,119 @@
 
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+    let subwayVisible = true;
+    let subwayMarkers = [];
+    let busVisible = true;
+    let busMarkers = [];
+    let parkVisible = true;
+    let parkMarkers = [];
+    let elemVisible = true;
+    let elemMarkers = [];
+    let midVisible = true;
+    let midMarkers = [];
+    let highVisible = true;
+    let highMarkers = [];
+    let hospVisible = true;
+    let hospMarkers = [];
+
+
+
+    // 버튼 클릭 시 마커 토글 함수
+    function toggleSubMarkers() {
+        if (subwayVisible) {
+            // 보이는 상태에서 클릭하면 마커 숨기기
+            subwayMarkers.forEach((marker) => marker.setMap(null));
+        } else {
+            // 보이지 않는 상태에서 클릭하면 마커 보이기
+            subwayMarkers.forEach((marker) => marker.setMap(map));
+        }
+
+        // 마커 상태 업데이트
+        subwayVisible = !subwayVisible;
+    }
+
+    function toggleBusMarkers() {
+        if (busVisible) {
+            // 보이는 상태에서 클릭하면 마커 숨기기
+            busMarkers.forEach((marker) => marker.setMap(null));
+        } else {
+            // 보이지 않는 상태에서 클릭하면 마커 보이기
+            busMarkers.forEach((marker) => marker.setMap(map));
+        }
+
+        // 마커 상태 업데이트
+        busVisible = !busVisible;
+   }
+
+   function toggleParkMarkers() {
+           if (parkVisible) {
+               // 보이는 상태에서 클릭하면 마커 숨기기
+               parkMarkers.forEach((marker) => marker.setMap(null));
+           } else {
+               // 보이지 않는 상태에서 클릭하면 마커 보이기
+               parkMarkers.forEach((marker) => marker.setMap(map));
+           }
+
+           // 마커 상태 업데이트
+           parkVisible = !parkVisible;
+  }
+
+   function toggleElemMarkers() {
+              if (elemVisible) {
+                  // 보이는 상태에서 클릭하면 마커 숨기기
+                  elemMarkers.forEach((marker) => marker.setMap(null));
+              } else {
+                  // 보이지 않는 상태에서 클릭하면 마커 보이기
+                  elemMarkers.forEach((marker) => marker.setMap(map));
+              }
+
+              // 마커 상태 업데이트
+              elemVisible = !elemVisible;
+   }
+
+    function toggleMidMarkers() {
+    if (midVisible) {
+         // 보이는 상태에서 클릭하면 마커 숨기기
+         midMarkers.forEach((marker) => marker.setMap(null));
+    } else {
+         // 보이지 않는 상태에서 클릭하면 마커 보이기
+         midMarkers.forEach((marker) => marker.setMap(map));
+    }
+
+     // 마커 상태 업데이트
+     midVisible = !midVisible;
+    }
+
+
+    function toggleHighMarkers() {
+         if (highVisible) {
+             // 보이는 상태에서 클릭하면 마커 숨기기
+             highMarkers.forEach((marker) => marker.setMap(null));
+         } else {
+             // 보이지 않는 상태에서 클릭하면 마커 보이기
+             highMarkers.forEach((marker) => marker.setMap(map));
+         }
+
+         // 마커 상태 업데이트
+         highVisible = !highVisible;
+    }
+
+    function toggleHospMarkers() {
+             if (hospVisible) {
+                 // 보이는 상태에서 클릭하면 마커 숨기기
+                 hospMarkers.forEach((marker) => marker.setMap(null));
+             } else {
+                 // 보이지 않는 상태에서 클릭하면 마커 보이기
+                 hospMarkers.forEach((marker) => marker.setMap(map));
+             }
+
+             // 마커 상태 업데이트
+             hospVisible = !hospVisible;
+        }
+
+
+
+
     // 차트를 보이는 함수
     function showChart() {
         document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
@@ -1440,8 +1566,16 @@
     // 서버에서 전달된 JSON 데이터
     const slideData = JSON.parse('${filteredListJson}');
     const DataText = JSON.parse('${homeListJson}');
-    console.log("Slide Data: ", slideData);
-    console.log("All Data: ", DataText);
+    const subwayCoords = JSON.parse('${subwayListJson}');
+    const busCoords = JSON.parse('${busListJson}');
+    const parkCoords = JSON.parse('${parkListJson}');
+    const elemCoords = JSON.parse('${elemListJson}');
+    const midCoords = JSON.parse('${midListJson}');
+    const highCoords = JSON.parse('${highListJson}');
+    const hospCoords = JSON.parse('${hospListJson}');
+
+    //console.log("Slide Data: ", slideData);
+    //console.log("All Data: ", DataText);
 
     // 템플릿과 컨테이너 참조
     const template = document.getElementById("slide-item-template");
@@ -1461,6 +1595,147 @@
         }
 
         let currentMarker = null;
+
+        // 지하철 좌표를 기반으로 마커 생성
+        subwayCoords.forEach((subway) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(subway.SUB_LAT, subway.SUB_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/Sub_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            subwayMarkers.push(marker); // 배열에 마커 저장
+        });
+
+        // 버스 좌표를 기반으로 마커 생성
+        busCoords.forEach((bus) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(bus.BUS_LAT, bus.BUS_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/Bus_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            busMarkers.push(marker); // 배열에 마커 저장
+        });
+
+        // 공원 좌표를 기반으로 마커 생성
+        parkCoords.forEach((park) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(park.PARK_LAT, park.PARK_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/Park_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            parkMarkers.push(marker); // 배열에 마커 저장
+        });
+
+
+        // 초등 좌표를 기반으로 마커 생성
+        elemCoords.forEach((elem) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(elem.LOW_LAT, elem.LOW_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/elem_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            elemMarkers.push(marker); // 배열에 마커 저장
+        });
+
+
+        // 중등 좌표를 기반으로 마커 생성
+        midCoords.forEach((mid) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(mid.MID_LAT, mid.MID_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/middle_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            midMarkers.push(marker); // 배열에 마커 저장
+        });
+
+
+
+        // 고등 좌표를 기반으로 마커 생성
+        highCoords.forEach((high) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(high.HI_LAT, high.HI_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/high_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            highMarkers.push(marker); // 배열에 마커 저장
+        });
+
+        // 병원 좌표를 기반으로 마커 생성
+               hospCoords.forEach((hosp) => {
+                    const marker = new kakao.maps.Marker({
+                        map: map,
+                        position: new kakao.maps.LatLng(hosp.HOS_LAT, hosp.HOS_LON),
+                        image: new kakao.maps.MarkerImage(
+                            '/images/icon/Hosp_icon.png',
+                            new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                        )
+                    });
+
+                    // 마커 클릭 이벤트
+                    //kakao.maps.event.addListener(marker, 'click', function () {
+                       // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+                    //});
+
+                    hospMarkers.push(marker); // 배열에 마커 저장
+                });
+
+
+
+
 
         data.forEach((item) => {
             const clone = template.content.cloneNode(true);
