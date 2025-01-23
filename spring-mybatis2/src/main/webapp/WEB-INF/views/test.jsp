@@ -954,7 +954,17 @@
     .addressSize {
         font-size: 13px; /* 텍스트 크기 */
     }
-
+    /* 지도에 인프라 마커들 css*/
+    #categoryBar{
+         position: absolute;
+         bottom: 10px;
+         right: 10px;
+         z-index: 10;
+         background-color: white;
+         padding: 10px;
+         border-radius: 5px;
+         box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    }
 
 
 
@@ -1350,7 +1360,7 @@
             </div>
         </div>
 
-        <div id="categoryBar" style="position: absolute; bottom: 10px; right: 10px; z-index: 10; background-color: white; padding: 10px; border-radius: 5px; box-shadow: 0px 0px 5px rgba(0,0,0,0.5);">
+        <div id="categoryBar">
                         <button onclick="toggleSubMarkers()">지하철</button>
                         <button onclick="toggleBusMarkers()">버스</button>
                         <button onclick="toggleParkMarkers()">공원</button>
