@@ -58,7 +58,7 @@ public class HomeController {
                 home.put("HOME_IMG", imgArray); // 배열로 다시 저장
             }
         }
-
+        log.info("homeList : {}", homeList);
         // 주소 기준으로 중복 제거 (filteredList 생성)
         Map<String, Map<String, Object>> filteredMap = new LinkedHashMap<>();
         for (Map<String, Object> home : homeList) {
