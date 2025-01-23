@@ -1326,15 +1326,19 @@
     let selectedAddress = '${address}';
     let selectedHomeKind = '${homeKind}';
 
-    // 서버에서 값이 전달되지 않을 경우 기본값으로 설정
+    /*// 서버에서 값이 전달되지 않을 경우 기본값으로 설정
     if (!selectedAddress || selectedAddress === '${address}') {
         selectedAddress = ''; // 초기 기본값
     }
     if (!selectedHomeKind || selectedHomeKind === '${homeKind}') {
         selectedHomeKind = ''; // 초기 기본값
-    }
+    }*/
 
     document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        selectedAddress = urlParams.get('address') || '';
+        selectedHomeKind = urlParams.get('homeKind') || '';
+
         console.log("초기 selectedAddress:", selectedAddress);
         console.log("초기 selectedHomeKind:", selectedHomeKind);
 
@@ -1355,40 +1359,54 @@
             });
         }
     });
-
-
+    // 값이 모두 설정되었는지 확인하는 함수
+    function isReadyToRefresh() {
+        return selectedAddress && selectedHomeKind; // 두 값이 모두 설정되었을 때 true 반환
+    }
 
     function setAddress(address) {
         console.log("setAddress 호출 전 selectedAddress:", selectedAddress);
         selectedAddress = address ? address.trim() : '';
         console.log("setAddress 호출 후 selectedAddress:", selectedAddress);
-        updateURL();
+
+        if (isReadyToRefresh()) {
+            updateURL();
+        }
+    }
+
+    function setAddress(address) {
+        console.log("setAddress 호출 전 selectedAddress:", selectedAddress);
+        selectedAddress = address ? address.trim() : '';
+        console.log("setAddress 호출 후 selectedAddress:", selectedAddress);
+        if (isReadyToRefresh()) {
+            updateURL();
+        }
     }
 
     function setHomeKind(homeKind) {
         console.log("setHomeKind 호출 전 selectedHomeKind:", selectedHomeKind);
         selectedHomeKind = homeKind ? homeKind.trim() : '';
         console.log("setHomeKind 호출 후 selectedHomeKind:", selectedHomeKind);
-        updateURL();
+        if (isReadyToRefresh()) {
+            updateURL();
+        }
     }
     function updateURL() {
         console.log("updateURL 호출 직전 selectedAddress:", selectedAddress);
         console.log("updateURL 호출 직전 selectedHomeKind:", selectedHomeKind);
 
+
         const encodedAddress = encodeURIComponent(selectedAddress || '');
-        const encodedHomeKind = encodeURIComponent(selectedHomeKind || '');
+        const encodedHomeKind = encodeURIComponent(selectedHomeKind || ''); //.replace(/%2F/g, '/'); // '/' 인코딩 방지;
 
         console.log("updateURL: 인코딩된 selectedAddress:", encodedAddress);
         console.log("updateURL: 인코딩된 selectedHomeKind:", encodedHomeKind);
 
-        const url = `/home?address=${encodedAddress}&homeKind=${encodedHomeKind}`;
+        const url = `/home?address=\${encodedAddress}&homeKind=\${encodedHomeKind}`;
         console.log("updateURL: 생성된 URL:", url);
+        // 페이지를 새 URL로 리디렉션 (새로 고침)
+        window.location.href = url;
     }
-
-    <%
-        System.out.println("address 값: " + request.getAttribute("address"));
-        System.out.println("homeKind 값: " + request.getAttribute("homeKind"));
-    %>
 </script>
 
 
