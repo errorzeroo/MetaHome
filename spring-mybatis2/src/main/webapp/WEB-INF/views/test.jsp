@@ -106,7 +106,7 @@
         display: flex; /* 텍스트와 아이콘을 나란히 배치 */
         font-family: AppleSDGothicNeo, sans-serif;
         align-items: center; /* 세로 중앙 정렬 */
-        justify-content: space-between; /* 텍스트와 아이콘 간격 유지 */
+        justify-content: center; /* 텍스트와 아이콘 간격 유지 */
         padding: 4px 8px; /* 버튼 여백 */
         font-size: 13px; /* 글자 크기 */
         color: black; /* 글자 색상 */
@@ -118,13 +118,13 @@
         box-sizing: border-box; /* 패딩 포함 크기 계산 */
         position: absolute; /* 절대 위치 */
         top: 18px; /* 위에서 10px 아래 */
-        left: 20px;
+        left: 10px;
     }
     .dropdown-button2 {
         display: flex; /* 텍스트와 아이콘을 나란히 배치 */
         font-family: AppleSDGothicNeo, sans-serif;
         align-items: center; /* 세로 중앙 정렬 */
-        justify-content: space-between; /* 텍스트와 아이콘 간격 유지 */
+        justify-content: center; /* 텍스트와 아이콘 간격 유지 */
         padding: 4px 8px; /* 버튼 여백 */
         font-size: 13px; /* 글자 크기 */
         color: black; /* 글자 색상 */
@@ -132,17 +132,17 @@
         border: 1px solid #ccc; /* 얇은 테두리 */
         border-radius: 20px; /* 둥근 모서리 */
         cursor: pointer; /* 클릭 가능한 포인터 표시 */
-        width: 90px; /* 버튼 너비 고정 */
+        width: 100px; /* 버튼 너비 고정 */
         box-sizing: border-box; /* 패딩 포함 크기 계산 */
         position: absolute; /* 절대 위치 */
         top: 18px; /* 위에서 10px 아래 */
-        left: 115px;
+        left: 105px;
     }
     .dropdown-button3 {
         display: flex; /* 텍스트와 아이콘을 나란히 배치 */
         font-family: AppleSDGothicNeo, sans-serif;
         align-items: center; /* 세로 중앙 정렬 */
-        justify-content: space-between; /* 텍스트와 아이콘 간격 유지 */
+        justify-content: center; /* 텍스트와 아이콘 간격 유지 */
         padding: 4px 8px; /* 버튼 여백 */
         font-size: 13px; /* 글자 크기 */
         color: black; /* 글자 색상 */
@@ -272,30 +272,31 @@
 
     #box1{
         margin-top: 10px;
-        padding: 10px;
+        padding: 5px;
         background-color: rgb(255, 255, 255);
         border: 1px solid black;
         position : absolute;
         top: 40px;
         left: 20px;
-        width: 70px; /* 박스 너비 */
+        width: 100px; /* 박스 너비 */
         height: 300px; /* 박스 높이 */
-        overflow-y:scroll
+        overflow-y: auto;            /* 세로 스크롤 활성화 */
         z-index: 1001; /* 패널보다 위로 */
-
+        border-radius: 5px; /* 모서리 둥글게 */
     }
 
     #box2{
         margin-top: 10px;
-        padding: 10px;
+        padding: 5px;
         background-color: rgb(255, 255, 255);
         border: 1px solid black;
         position : absolute;
         top: 40px;
-        left: 130px;
-        width: 70px; /* 박스 너비 */
-        height: 300px; /* 박스 높이 */
+        left: 120px;
+        width: 100px; /* 박스 너비 */
+        height: 210px; /* 박스 높이 */
         z-index: 1001; /* 패널보다 위로 */
+        border-radius: 5px; /* 모서리 둥글게 */
     }
 
     #box3 {
@@ -419,14 +420,17 @@
     .scroll-button{
         background-color: white; /* 기본 배경색 */
         border: 1px solid gray;
-        padding: 10px;
-        margin: 5px;
+        padding: 3px;
+        margin: 2px;
+        width: 100%; /* 부모 요서 전체 너비 차지 */
+        justify-content: center; /* 가로 가운데 정렬 */
         cursor: pointer;
         transition: background-color 0.3s ease;
+        border-radius: 5px; /* 모서리 둥글게 */
     }
 
     .scroll-button.selected{
-        background-color: red;
+        background-color: #FF6F3C;
         color: white;
     }
 
@@ -846,11 +850,11 @@
     <div class="sliding-container">
         <div class="sliding-panel" id="slidingPanel">
             <button id="slideToggleButton" class="slide-toggle-button">❮</button>
-            <button class="dropdown-button1" onclick="toggleBox('box1')">
+            <button class="dropdown-button1" id="dropdownButton" onclick="toggleBox('box1')">
               지역 선택
               <span class="dropdown-icon"></span> <!-- 화살표 -->
             </button>
-            <button class="dropdown-button2" onclick="toggleBox('box2')">
+            <button class="dropdown-button2" id="homeKindButton" onclick="toggleBox('box2')">
               주택 유형
               <span class="dropdown-icon" ></span> <!-- 화살표 -->
             </button>
@@ -866,8 +870,8 @@
             <div class="box" id="box1" >
                 <div class = "scrollable-box">
 
-                    <button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
-                                  <span class="icon icon-refresh">&#x21BB;</span> <!-- 새로 고침 아이콘 -->
+                    <!--<button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
+                                  <span class="icon icon-refresh">&#x21BB;</span>--> <!-- 새로 고침 아이콘 -->
                     </button>
                         <button class="scroll-button" onclick="setAddress('')">전체</button>
                         <button class="scroll-button" onclick="setAddress('강남구')">강남구</button>
@@ -903,8 +907,10 @@
             <div class="box" id="box2"><div class = "scrollable-box">
                 <button class="scroll-button" onclick="setHomeKind('')">전체</button>
                 <button class="scroll-button" onclick="setHomeKind('아파트')">아파트</button>
-                <button class="scroll-button" onclick="setHomeKind('연립/다세대')">연립/다세대</button>
-                <button class="scroll-button" onclick="setHomeKind('단독/다가구')">단독/다가구</button>
+                <button class="scroll-button" onclick="setHomeKind('연립주택')">연립주택</button>
+                <button class="scroll-button" onclick="setHomeKind('다세대주택')">다세대주택</button>
+                <button class="scroll-button" onclick="setHomeKind('단독주택')">단독주택</button>
+                <button class="scroll-button" onclick="setHomeKind('다가구주택')">다가구주택</button>
                 <button class="scroll-button" onclick="setHomeKind('오피스텔')">오피스텔</button>
             </div></div>
 
@@ -1326,95 +1332,127 @@
     let selectedAddress = '${address}';
     let selectedHomeKind = '${homeKind}';
 
-    /*// 서버에서 값이 전달되지 않을 경우 기본값으로 설정
+    // 서버에서 값이 전달되지 않을 경우 기본값으로 설정
     if (!selectedAddress || selectedAddress === '${address}') {
         selectedAddress = ''; // 초기 기본값
     }
     if (!selectedHomeKind || selectedHomeKind === '${homeKind}') {
         selectedHomeKind = ''; // 초기 기본값
-    }*/
+    }
 
+    // 페이지 로드 후 초기화
     document.addEventListener('DOMContentLoaded', () => {
+        // URL에서 값 가져오기
         const urlParams = new URLSearchParams(window.location.search);
-        selectedAddress = urlParams.get('address') || '';
-        selectedHomeKind = urlParams.get('homeKind') || '';
+        selectedAddress = urlParams.get('address') || selectedAddress;
+        selectedHomeKind = urlParams.get('homeKind') || selectedHomeKind;
 
         console.log("초기 selectedAddress:", selectedAddress);
         console.log("초기 selectedHomeKind:", selectedHomeKind);
 
-        // 초기값이 있다면 해당 버튼에 선택 클래스 추가
+        // 선택된 지역 버튼 활성화
         if (selectedAddress) {
             document.querySelectorAll('.box#box1 .scroll-button').forEach(button => {
                 if (button.textContent.trim() === selectedAddress) {
                     button.classList.add('selected');
+                } else {
+                    button.classList.remove('selected');
                 }
             });
+
+            // 선택된 주소를 드롭다운 버튼에 반영
+            const dropdownButton = document.getElementById('dropdownButton');
+            dropdownButton.innerHTML = `\${selectedAddress} <span class="dropdown-icon"></span>`;
         }
 
+        // 선택된 주택 유형 버튼 활성화
         if (selectedHomeKind) {
             document.querySelectorAll('.box#box2 .scroll-button').forEach(button => {
                 if (button.textContent.trim() === selectedHomeKind) {
                     button.classList.add('selected');
+                } else {
+                    button.classList.remove('selected');
                 }
             });
+
+            // 선택된 주택 유형을 드롭다운 버튼에 반영
+            const homeKindButton = document.getElementById('homeKindButton');
+            homeKindButton.innerHTML = `\${selectedHomeKind} <span class="dropdown-icon"></span>`;
         }
     });
+
     // 값이 모두 설정되었는지 확인하는 함수
     function isReadyToRefresh() {
-        return selectedAddress && selectedHomeKind; // 두 값이 모두 설정되었을 때 true 반환
+        return selectedAddress && selectedHomeKind;
     }
 
+    // 주소 업데이트
     function setAddress(address) {
         console.log("setAddress 호출 전 selectedAddress:", selectedAddress);
         selectedAddress = address ? address.trim() : '';
         console.log("setAddress 호출 후 selectedAddress:", selectedAddress);
+
+        // 선택된 버튼 업데이트
+        document.querySelectorAll('.box#box1 .scroll-button').forEach(button => {
+            if (button.textContent.trim() === selectedAddress) {
+                button.classList.add('selected');
+            } else {
+                button.classList.remove('selected');
+            }
+        });
+
+        // 드롭다운 버튼 텍스트 업데이트
+        const dropdownButton = document.getElementById('dropdownButton');
+        dropdownButton.innerHTML = `\${selectedAddress} <span class="dropdown-icon"></span>`;
 
         if (isReadyToRefresh()) {
             updateURL();
         }
     }
 
-    function setAddress(address) {
-        console.log("setAddress 호출 전 selectedAddress:", selectedAddress);
-        selectedAddress = address ? address.trim() : '';
-        console.log("setAddress 호출 후 selectedAddress:", selectedAddress);
-        if (isReadyToRefresh()) {
-            updateURL();
-        }
-    }
-
+    // 주택 유형 업데이트
     function setHomeKind(homeKind) {
         console.log("setHomeKind 호출 전 selectedHomeKind:", selectedHomeKind);
         selectedHomeKind = homeKind ? homeKind.trim() : '';
         console.log("setHomeKind 호출 후 selectedHomeKind:", selectedHomeKind);
+
+        // 선택된 버튼 업데이트
+        document.querySelectorAll('.box#box2 .scroll-button').forEach(button => {
+            if (button.textContent.trim() === selectedHomeKind) {
+                button.classList.add('selected');
+            } else {
+                button.classList.remove('selected');
+            }
+        });
+
+        // 드롭다운 버튼 텍스트 업데이트
+        const homeKindButton = document.getElementById('homeKindButton');
+        homeKindButton.innerHTML = `\${selectedHomeKind} <span class="dropdown-icon"></span>`;
+
         if (isReadyToRefresh()) {
             updateURL();
         }
     }
+
+    // URL 업데이트
     function updateURL() {
         console.log("updateURL 호출 직전 selectedAddress:", selectedAddress);
         console.log("updateURL 호출 직전 selectedHomeKind:", selectedHomeKind);
 
-
         const encodedAddress = encodeURIComponent(selectedAddress || '');
-        const encodedHomeKind = encodeURIComponent(selectedHomeKind || ''); //.replace(/%2F/g, '/'); // '/' 인코딩 방지;
+        const encodedHomeKind = encodeURIComponent(selectedHomeKind || '');
 
         console.log("updateURL: 인코딩된 selectedAddress:", encodedAddress);
         console.log("updateURL: 인코딩된 selectedHomeKind:", encodedHomeKind);
 
         const url = `/home?address=\${encodedAddress}&homeKind=\${encodedHomeKind}`;
         console.log("updateURL: 생성된 URL:", url);
+
         // 페이지를 새 URL로 리디렉션 (새로 고침)
         window.location.href = url;
     }
+
 </script>
-
-
-
-
-
-
-
 
 
     <script>
