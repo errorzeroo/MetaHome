@@ -824,7 +824,7 @@
       cursor: pointer;
     }
     .info-card-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: bold;
       margin: 0 0 8px;
       text-align: center;
@@ -1667,6 +1667,48 @@
             const listItem = clone.querySelector(".list-item");
 
             listItem.addEventListener("click", () => {
+
+
+             // 선택한 리스트의 주소를 이용해서 차트 그리기
+            const address = item.HOME_ADDRESS.trim();
+            const homeKind = item.HOME_KIND.trim();
+            const columns = "bus,subway"; // 원하는 컬럼 정의 (슬라이더 값 기준으로 수정 가능)
+            const values = "0.9,0.4"; // 슬라이더 값 등 필요한 값 정의
+
+            // Ajax 요청으로 데이터 전송
+            fetch(`/processSelection?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json(); // 서버에서 JSON 결과를 받음
+                })
+                .then(data => {
+                    console.log("서버로부터 받은 데이터:", data);
+                    // 받은 데이터를 화면에 렌더링
+                    populateSlideContent(data); // 받은 데이터를 기반으로 UI 업데이트
+                })
+                .catch(error => {
+                    console.error("데이터 처리 중 오류 발생:", error);
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 // HOME_ADDRESS 필드를 사용하여 데이터 필터링
                 const filteredData = DataText.filter(
                     (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
