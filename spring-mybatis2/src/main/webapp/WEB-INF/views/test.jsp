@@ -1652,7 +1652,7 @@
                 map: map,
                 position: new kakao.maps.LatLng(subway.SUB_LAT, subway.SUB_LON),
                 image: new kakao.maps.MarkerImage(
-                    '/images/icon/Sub_icon.png',
+                    '/images/icon/subway.png',
                     new kakao.maps.Size(30, 30) // 마커 이미지 크기
                 )
             });
@@ -1671,7 +1671,7 @@
                 map: map,
                 position: new kakao.maps.LatLng(bus.BUS_LAT, bus.BUS_LON),
                 image: new kakao.maps.MarkerImage(
-                    '/images/icon/Bus_icon.png',
+                    '/images/icon/bus.png',
                     new kakao.maps.Size(30, 30) // 마커 이미지 크기
                 )
             });
@@ -1690,7 +1690,7 @@
                 map: map,
                 position: new kakao.maps.LatLng(park.PARK_LAT, park.PARK_LON),
                 image: new kakao.maps.MarkerImage(
-                    '/images/icon/Park_icon.png',
+                    '/images/icon/park.png',
                     new kakao.maps.Size(30, 30) // 마커 이미지 크기
                 )
             });
@@ -1710,7 +1710,7 @@
                 map: map,
                 position: new kakao.maps.LatLng(elem.LOW_LAT, elem.LOW_LON),
                 image: new kakao.maps.MarkerImage(
-                    '/images/icon/elem_icon.png',
+                    '/images/icon/element.png',
                     new kakao.maps.Size(30, 30) // 마커 이미지 크기
                 )
             });
@@ -1730,7 +1730,7 @@
                 map: map,
                 position: new kakao.maps.LatLng(mid.MID_LAT, mid.MID_LON),
                 image: new kakao.maps.MarkerImage(
-                    '/images/icon/middle_icon.png',
+                    '/images/icon/middle.png',
                     new kakao.maps.Size(30, 30) // 마커 이미지 크기
                 )
             });
@@ -1751,7 +1751,7 @@
                 map: map,
                 position: new kakao.maps.LatLng(high.HI_LAT, high.HI_LON),
                 image: new kakao.maps.MarkerImage(
-                    '/images/icon/high_icon.png',
+                    '/images/icon/high.png',
                     new kakao.maps.Size(30, 30) // 마커 이미지 크기
                 )
             });
@@ -1770,7 +1770,7 @@
                         map: map,
                         position: new kakao.maps.LatLng(hosp.HOS_LAT, hosp.HOS_LON),
                         image: new kakao.maps.MarkerImage(
-                            '/images/icon/Hosp_icon.png',
+                            '/images/icon/hospitalcount.png',
                             new kakao.maps.Size(30, 30) // 마커 이미지 크기
                         )
                     });
