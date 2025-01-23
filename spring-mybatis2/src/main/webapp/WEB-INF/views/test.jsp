@@ -1283,35 +1283,35 @@
                     <div class="icon-grid">
                         <!-- 아이콘 리스트 -->
                         <div class="icon-grid-item">
-                            <img src="/images/icon/Bus_icon.png" alt="버스">
+                            <img src="/images/icon/bus.png" alt="버스">
                             <span class="span30" id="infoCardBus"></span>
                         </div>
                         <div class="icon-grid-item">
-                            <img src="/images/icon/Sub_icon.png" alt="지하철">
+                            <img src="/images/icon/subway.png" alt="지하철">
                             <span class="span30" id="infoCardSubway"></span>
                         </div>
                         <div class="icon-grid-item">
-                            <img src="/images/icon/elem_icon.png" alt="초등학교">
+                            <img src="/images/icon/element.png" alt="초등학교">
                             <span class="span30" id="infoCardLow"></span>
                         </div>
                         <div class="icon-grid-item">
-                            <img src="/images/icon/middle_icon.png" alt="중학교">
+                            <img src="/images/icon/middle.png" alt="중학교">
                             <span class="span30" id="infoCardMid"></span>
                         </div>
                         <div class="icon-grid-item">
-                            <img src="/images/icon/high_icon.png" alt="고등학교">
+                            <img src="/images/icon/high.png" alt="고등학교">
                             <span class="span30" id="infoCardHigh"></span>
                         </div>
                         <div class="icon-grid-item">
-                            <img src="/images/icon/Hosp_icon.png" alt="병원">
+                            <img src="/images/icon/hospitalcount.png" alt="병원">
                             <span class="span30" id="infoCardHos"></span>
                         </div>
                         <div class="icon-grid-item">
-                            <img src="/images/icon/Park_icon.png" alt="공원">
+                            <img src="/images/icon/park.png" alt="공원">
                             <span class="span30" id="infoCardPark"></span>
                         </div>
                          <div class="icon-grid-item">
-                            <img src="/images/icon/high_icon.png" alt="주차장">
+                            <img src="/images/icon/parking.png" alt="주차장">
                             <span class="span30" id="infoCardParking1"></span>
                         </div>
                     </div>
