@@ -803,6 +803,163 @@
 
 
 
+  /*세부 창 디자인*/
+    .info-card {
+        position: relative; /* 기준 위치에서 이동 */
+        left: 465px; /* 오른쪽으로 20px 이동 */
+        top: 20px;
+      width: 310px;
+      height: calc(100% - 110px);
+      overflow-y: auto; /* 세로 스크롤 활성화 */
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      font-family: 'Arial', sans-serif;
+      padding: 16px;
+      background-color: #fff;
+    }
+    .close-info-card {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .info-card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0 0 8px;
+      text-align: center;
+    }
+    .info-card hr {
+      border: none;
+      border-top: 1px solid #eee;
+      margin: 12px 0;
+    }
+    .info-card p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .info-card .info-card-label {
+      font-weight: bold;
+      color: #555;
+    }
+    .distance-icons {
+      display: flex;
+      justify-content: space-around;
+      margin: 8px 0;
+    }
+    .distance-icons div {
+      font-size: 12px;
+      text-align: center;
+    }
+    .image-placeholder {
+      width: 100%;
+      height: 100px;
+      background-color: #f0f0f0;
+      border: 1px dashed #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      color: #888;
+    }
+    .pd10 {
+      margin: 18px 0 !important;;
+    }
+    .pd20 {
+      margin-top: 30px !important; /* 위쪽 여백만 40px */
+      margin-bottom: 20 !important; /* 아래쪽 여백은 0으로 설정 */
+    }
+    .pd30 {
+      margin-top: 50px !important; /* 위쪽 여백만 40px */
+      margin-bottom: 20 !important; /* 아래쪽 여백은 0으로 설정 */
+    }
+    .span1 {
+      margin-right: 45px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
+    }
+    .span2 {
+      margin-right: 52px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
+    }
+    .span3 {
+      margin-right: 15px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
+      margin-left: 35px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
+    }
+    .span4 {
+      margin-left: 25px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
+    }
+    .slide-btn1 {
+        color: gray;
+      position: absolute;
+      top: 430px;
+      right: 80px;
+      font-size: 30px; /* 글자 크기를 줄여 얇아 보이게 설정 */
+      font-weight: normal; /* 굵기를 조정 */
+      border: none;
+      background: none;
+      cursor: pointer;
+      z-index: 1000;        /* 다른 요소 위로 배치 */
+    }
+    .slide-btn2 {
+    color: gray;
+      position: absolute;
+      top: 430px;
+      left: 50px;
+      font-size: 30px; /* 글자 크기를 줄여 얇아 보이게 설정 */
+      font-weight: normal; /* 굵기를 조정 */
+      border: none;
+      background: none;
+      cursor: pointer;
+      z-index: 1000;        /* 다른 요소 위로 배치 */
+    }
+    .area {
+        margin-top: 10px !important; /* 위쪽 여백만 40px */
+        background-color: #f5f5f5; /* 배경 색상 */
+        border-radius: 10px; /* 모서리를 둥글게 */
+        padding: 3px; /* 내부 값들과의 간격 */
+    }
+
+    .icon-grid {
+        display: grid; /* 그리드 레이아웃 사용 */
+        grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개의 칸 생성 */
+        gap: 10px; /* 아이템 간의 간격 */
+        margin-top: 10px;
+    }
+
+    .icon-grid-item {
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: center; /* 중앙 정렬 */
+        padding: 10px;
+        border-radius: 10px; /* 모서리를 둥글게 */
+        text-align: center; /* 텍스트 중앙 정렬 */
+    }
+
+    .icon-grid-item img {
+        width: 40px; /* 아이콘 크기 */
+        height: 40px;
+        margin-bottom: 10px; /* 아이콘과 텍스트 간격 */
+    }
+
+    .icon-grid-item span {
+        font-size: 14px; /* 텍스트 크기 */
+        color: dimgray;
+        font-weight: bold;
+    }
+    .addressSize {
+        font-size: 13px; /* 텍스트 크기 */
+    }
+
+
+
+
+
+
+
+
 
 </style>
 <body>
@@ -1086,55 +1243,93 @@
         </div>
     </div>
 
-    <div id="infoCard" class="info-card hidden">
-        <button id="closeInfoCard" class="close-info-card">×</button>
-        <button id="prevSlide" class="slide-btn">❮</button>
-        <div class="card-content">
-            <h4 class="info-card-title">
-                <img src="/images/Elephant.png" alt="slide" class="slide-logo-title">
-                <span id="infoCardName"></span>
-            </h4>
-            <hr>
-            <p id="infoCardKind"></p>
-            <p>
-                <span>공급번호&nbsp;|</span>
-                <span id="infoCardNo"></span>
-                <span class="info-card-txtc">임대사업자&nbsp;|</span>
-                <span id="infoCardCompany"></span></p>
-            <p>
-                <span>세대수&emsp;&nbsp;|</span>
-                <span id="infoCardCount"></span>
-                <span class="info-card-txtc">주차대수&emsp;&nbsp;|</span>
-                <span id="infoCardParking" style="text-align:right;"></span></p>
-            <p>
-                <span>주소&emsp;&emsp;&nbsp;|</span>
-                <span id="infoCardAddress"></span></p>
-            <hr>
-            <p>
-                <img src="/images/Elephant.png" alt="slide" class="slide-logo">
-                <span>임대 보증금 :</span> <span class="info-card-label" id="infoCardDeposit"></span></p>
-            <p>
-                <img src="/images/Elephant.png" alt="slide" class="slide-logo">
-                월 임대료 :
-                <span class="info-card-label" id="infoCardRent"></span></p><hr>
-            <p>
-                <span>공급면적</span></p>
-            <p>
-                <img src="/images/Elephant.png" alt="slide" class="slide-logo">
-                <span>전용 : </span> <span class="info-card-label" id="infoCardMy"></span>
-                <img src="/images/icon/slideButton.png" alt="slide" class="slide-logo">
-                <span>공용 : </span><span class="info-card-label" id="infoCardWe"></span></p><hr>
-            <p>
-                <span>우리집에서 얼마?</span>
-            </p><hr>
-            <p>
-                <span>이미지</span></p>
-            <p>
-                <span id="infoCardImg"></span>
-            </p>
+        <div id="infoCard" class="info-card hidden">
+            <button id="closeInfoCard" class="close-info-card">×</button>
+            <button id="prevSlide" class="slide-btn1">‹</button>
+            <div class="card-content">
+                <h4 class="info-card-title">
+                    <img src="/images/icon/slideButton.png" alt="slide" class="slide-logo-title">
+                    <span id="infoCardName"></span>
+                </h4>
+                <hr>
+                <div class="pd" id="infoCardKind"></div>
+                <div class="area">
+                    <p class="pd10">
+                        <span style="color: gray;">공급번호&nbsp;|</span>
+                        <span id="infoCardNo" class="span1"></span>
+                        <span class="info-card-txtc" style="color: gray;">임대사업자&nbsp;|</span>
+                        <span id="infoCardCompany"></span></p>
+                    <p class="pd10">
+                        <span style="color: gray;">세대수&emsp;&nbsp;|</span>
+                        <span id="infoCardCount" class="span2"></span>
+                        <span class="info-card-txtc" style="color: gray;">주차대수&emsp;&nbsp;|</span>
+                        <span id="infoCardParking" style="text-align:right;"></span></p>
+                    <p class="pd10">
+                        <span style="color: gray;">주소&emsp;&emsp;&nbsp;|</span>
+                        <span id="infoCardAddress" class="addressSize"></span></p>
+                    <hr>
+                    <p class="pd10">
+                        <img src="/images/icon/slideButton.png" alt="slide" class="slide-logo">
+                        <span>임대 보증금 :</span> <span class="info-card-label" id="infoCardDeposit" style="position: absolute; right: 30px;"></span></p>
+                    <p class="pd20">
+                        <img src="/images/icon/slideButton.png" alt="slide" class="slide-logo">
+                        <span>월 임대료 :</span>
+                        <span class="info-card-label" id="infoCardRent" style="position: absolute; right: 30px;"></span></p><hr>
+                    <p class="pd10">
+                        <span>공급면적</span></p>
+                    <p class="pd20">
+                        <img src="/images/icon/slideButton.png" alt="slide" class="slide-logo">
+                        <span style="color: dimgray;">전용 : </span> <span class="span3" id="infoCardMy"></span>
+                        <img src="/images/icon/slideButton.png" alt="slide" class="slide-logo">
+                        <span style="color: dimgray;">공용 : </span><span class="span4" id="infoCardWe"></span></p>
+                    <p>
+                </div>
+                    <p class="pd30">
+                        <span>우리집에서 얼마?</span>
+                    </p>
+                    <div class="icon-grid">
+                        <!-- 아이콘 리스트 -->
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/Bus_icon.png" alt="버스">
+                            <span class="span30" id="infoCardBus"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/Sub_icon.png" alt="지하철">
+                            <span class="span30" id="infoCardSubway"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/elem_icon.png" alt="초등학교">
+                            <span class="span30" id="infoCardLow"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/middle_icon.png" alt="중학교">
+                            <span class="span30" id="infoCardMid"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/high_icon.png" alt="고등학교">
+                            <span class="span30" id="infoCardHigh"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/Hosp_icon.png" alt="병원">
+                            <span class="span30" id="infoCardHos"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/Park_icon.png" alt="공원">
+                            <span class="span30" id="infoCardPark"></span>
+                        </div>
+                         <div class="icon-grid-item">
+                            <img src="/images/icon/high_icon.png" alt="주차장">
+                            <span class="span30" id="infoCardParking1"></span>
+                        </div>
+                    </div>
+
+
+                </p><hr>
+                    <span id="infoCardImg"></span>
+                </p>
+            </div>
+            <button id="nextSlide" class="slide-btn2">›</button>
         </div>
-        <button id="nextSlide" class="slide-btn">❯</button>
-    </div>
 
         <!-- 차트 추가 -->
         <div class="chart-container-with-score" id = "chartContainer">
@@ -1152,6 +1347,19 @@
                 </div>
             </div>
         </div>
+
+        <div id="categoryBar" style="position: absolute; bottom: 10px; right: 10px; z-index: 10; background-color: white; padding: 10px; border-radius: 5px; box-shadow: 0px 0px 5px rgba(0,0,0,0.5);">
+                        <button onclick="toggleSubMarkers()">지하철</button>
+                        <button onclick="toggleBusMarkers()">버스</button>
+                        <button onclick="toggleParkMarkers()">공원</button>
+                        <button onclick="toggleElemMarkers()">초등학교</button>
+                        <button onclick="toggleMidMarkers()">중학교</button>
+                        <button onclick="toggleHighMarkers()">고등학교</button>
+                        <button onclick="toggleHospMarkers()">병원</button>
+        </div>
+
+
+
 
         <script>
             // JSP에서 JSON 데이터를 안전하게 가져오기
@@ -1465,6 +1673,119 @@
 
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+    let subwayVisible = true;
+    let subwayMarkers = [];
+    let busVisible = true;
+    let busMarkers = [];
+    let parkVisible = true;
+    let parkMarkers = [];
+    let elemVisible = true;
+    let elemMarkers = [];
+    let midVisible = true;
+    let midMarkers = [];
+    let highVisible = true;
+    let highMarkers = [];
+    let hospVisible = true;
+    let hospMarkers = [];
+
+
+
+    // 버튼 클릭 시 마커 토글 함수
+    function toggleSubMarkers() {
+        if (subwayVisible) {
+            // 보이는 상태에서 클릭하면 마커 숨기기
+            subwayMarkers.forEach((marker) => marker.setMap(null));
+        } else {
+            // 보이지 않는 상태에서 클릭하면 마커 보이기
+            subwayMarkers.forEach((marker) => marker.setMap(map));
+        }
+
+        // 마커 상태 업데이트
+        subwayVisible = !subwayVisible;
+    }
+
+    function toggleBusMarkers() {
+        if (busVisible) {
+            // 보이는 상태에서 클릭하면 마커 숨기기
+            busMarkers.forEach((marker) => marker.setMap(null));
+        } else {
+            // 보이지 않는 상태에서 클릭하면 마커 보이기
+            busMarkers.forEach((marker) => marker.setMap(map));
+        }
+
+        // 마커 상태 업데이트
+        busVisible = !busVisible;
+   }
+
+   function toggleParkMarkers() {
+           if (parkVisible) {
+               // 보이는 상태에서 클릭하면 마커 숨기기
+               parkMarkers.forEach((marker) => marker.setMap(null));
+           } else {
+               // 보이지 않는 상태에서 클릭하면 마커 보이기
+               parkMarkers.forEach((marker) => marker.setMap(map));
+           }
+
+           // 마커 상태 업데이트
+           parkVisible = !parkVisible;
+  }
+
+   function toggleElemMarkers() {
+              if (elemVisible) {
+                  // 보이는 상태에서 클릭하면 마커 숨기기
+                  elemMarkers.forEach((marker) => marker.setMap(null));
+              } else {
+                  // 보이지 않는 상태에서 클릭하면 마커 보이기
+                  elemMarkers.forEach((marker) => marker.setMap(map));
+              }
+
+              // 마커 상태 업데이트
+              elemVisible = !elemVisible;
+   }
+
+    function toggleMidMarkers() {
+    if (midVisible) {
+         // 보이는 상태에서 클릭하면 마커 숨기기
+         midMarkers.forEach((marker) => marker.setMap(null));
+    } else {
+         // 보이지 않는 상태에서 클릭하면 마커 보이기
+         midMarkers.forEach((marker) => marker.setMap(map));
+    }
+
+     // 마커 상태 업데이트
+     midVisible = !midVisible;
+    }
+
+
+    function toggleHighMarkers() {
+         if (highVisible) {
+             // 보이는 상태에서 클릭하면 마커 숨기기
+             highMarkers.forEach((marker) => marker.setMap(null));
+         } else {
+             // 보이지 않는 상태에서 클릭하면 마커 보이기
+             highMarkers.forEach((marker) => marker.setMap(map));
+         }
+
+         // 마커 상태 업데이트
+         highVisible = !highVisible;
+    }
+
+    function toggleHospMarkers() {
+             if (hospVisible) {
+                 // 보이는 상태에서 클릭하면 마커 숨기기
+                 hospMarkers.forEach((marker) => marker.setMap(null));
+             } else {
+                 // 보이지 않는 상태에서 클릭하면 마커 보이기
+                 hospMarkers.forEach((marker) => marker.setMap(map));
+             }
+
+             // 마커 상태 업데이트
+             hospVisible = !hospVisible;
+        }
+
+
+
+
     // 차트를 보이는 함수
     function showChart() {
         document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
@@ -1478,8 +1799,16 @@
     // 서버에서 전달된 JSON 데이터
     const slideData = JSON.parse('${filteredListJson}');
     const DataText = JSON.parse('${homeListJson}');
-    console.log("Slide Data: ", slideData);
-    console.log("All Data: ", DataText);
+    const subwayCoords = JSON.parse('${subwayListJson}');
+    const busCoords = JSON.parse('${busListJson}');
+    const parkCoords = JSON.parse('${parkListJson}');
+    const elemCoords = JSON.parse('${elemListJson}');
+    const midCoords = JSON.parse('${midListJson}');
+    const highCoords = JSON.parse('${highListJson}');
+    const hospCoords = JSON.parse('${hospListJson}');
+
+    //console.log("Slide Data: ", slideData);
+    //console.log("All Data: ", DataText);
 
     // 템플릿과 컨테이너 참조
     const template = document.getElementById("slide-item-template");
@@ -1499,6 +1828,147 @@
         }
 
         let currentMarker = null;
+
+        // 지하철 좌표를 기반으로 마커 생성
+        subwayCoords.forEach((subway) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(subway.SUB_LAT, subway.SUB_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/Sub_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            subwayMarkers.push(marker); // 배열에 마커 저장
+        });
+
+        // 버스 좌표를 기반으로 마커 생성
+        busCoords.forEach((bus) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(bus.BUS_LAT, bus.BUS_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/Bus_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            busMarkers.push(marker); // 배열에 마커 저장
+        });
+
+        // 공원 좌표를 기반으로 마커 생성
+        parkCoords.forEach((park) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(park.PARK_LAT, park.PARK_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/Park_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            parkMarkers.push(marker); // 배열에 마커 저장
+        });
+
+
+        // 초등 좌표를 기반으로 마커 생성
+        elemCoords.forEach((elem) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(elem.LOW_LAT, elem.LOW_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/elem_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            elemMarkers.push(marker); // 배열에 마커 저장
+        });
+
+
+        // 중등 좌표를 기반으로 마커 생성
+        midCoords.forEach((mid) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(mid.MID_LAT, mid.MID_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/middle_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            midMarkers.push(marker); // 배열에 마커 저장
+        });
+
+
+
+        // 고등 좌표를 기반으로 마커 생성
+        highCoords.forEach((high) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(high.HI_LAT, high.HI_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/high_icon.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            highMarkers.push(marker); // 배열에 마커 저장
+        });
+
+        // 병원 좌표를 기반으로 마커 생성
+               hospCoords.forEach((hosp) => {
+                    const marker = new kakao.maps.Marker({
+                        map: map,
+                        position: new kakao.maps.LatLng(hosp.HOS_LAT, hosp.HOS_LON),
+                        image: new kakao.maps.MarkerImage(
+                            '/images/icon/Hosp_icon.png',
+                            new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                        )
+                    });
+
+                    // 마커 클릭 이벤트
+                    //kakao.maps.event.addListener(marker, 'click', function () {
+                       // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+                    //});
+
+                    hospMarkers.push(marker); // 배열에 마커 저장
+                });
+
+
+
+
 
         data.forEach((item) => {
             const clone = template.content.cloneNode(true);
@@ -1604,16 +2074,26 @@
                 function renderSlide(index) {
                     const slideData = filteredData[index];
 
-                    document.getElementById("infoCardName").textContent = slideData.HOME_NAME || "정보 없음";
-                    document.getElementById("infoCardNo").textContent = slideData.HOME_NO || "정보 없음";
-                    document.getElementById("infoCardCompany").textContent = slideData.HOME_CO || "정보 없음";
-                    document.getElementById("infoCardCount").textContent = slideData.HOME_COUNT || "정보 없음";
-                    document.getElementById("infoCardParking").textContent = slideData.HOME_PARKING || "정보 없음";
+                    document.getElementById("infoCardName").textContent = slideData.HOME_NAME || "N/A";
+                    document.getElementById("infoCardKind").textContent = slideData.HOME_KIND || "N/A";
+                    document.getElementById("infoCardNo").textContent = slideData.HOME_NO || "N/A";
+                    document.getElementById("infoCardCompany").textContent = slideData.HOME_CO || "N/A";
+                    document.getElementById("infoCardCount").textContent = slideData.HOME_COUNT || "N/A";
+                    document.getElementById("infoCardParking").textContent = slideData.HOME_PARKING || "N/A";
                     document.getElementById("infoCardAddress").textContent = slideData.HOME_ADDRESS || "정보 없음";
                     document.getElementById("infoCardDeposit").textContent = slideData.HOME_DEP || "정보 없음";
                     document.getElementById("infoCardRent").textContent = slideData.HOME_MOTH_PAI || "정보 없음";
                     document.getElementById("infoCardMy").textContent = slideData.HOME_MYAREA || "정보 없음";
                     document.getElementById("infoCardWe").textContent = slideData.HOME_WEAREA || "정보 없음";
+                    document.getElementById("infoCardBus").textContent = slideData.BUS_DIST ? `\${slideData.BUS_DIST}m` : "정보 없음";
+                    document.getElementById("infoCardSubway").textContent = slideData.SUB_DIST ? `\${slideData.SUB_DIST}m` : "정보 없음";
+                    document.getElementById("infoCardLow").textContent = slideData.LOW_DIST ? `\${slideData.LOW_DIST}m` : "정보 없음";
+                    document.getElementById("infoCardMid").textContent = slideData.MID_DIST ? `\${slideData.MID_DIST}m` : "정보 없음";
+                    document.getElementById("infoCardHigh").textContent = slideData.HI_DIST ? `\${slideData.HI_DIST}m` : "정보 없음";
+                    document.getElementById("infoCardHos").textContent = slideData.HOS_DIST ? `\${slideData.HOS_DIST}m` : "정보 없음";
+                    document.getElementById("infoCardPark").textContent = slideData.PARK_DIST ? `\${slideData.PARK_DIST}m` : "정보 없음";
+                   document.getElementById("infoCardParking1").textContent = slideData.PARKING_DIST ? `\${slideData.PARKING_DIST}m` : "정보 없음";
+
 
                     console.log("Showing Slide:", index, slideData);
                 }

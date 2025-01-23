@@ -10,5 +10,10 @@ public interface HomeService {
     List<Map<String, Object>> getHomeKind(String homeKind);
     List<Map<String, Object>> getMyHome(String address, String homeKind);
     List<Map<String, Object>> getSubwayList();
-
+    List<Map<String, Object>> getBusList();
+    List<Map<String, Object>> getHospList();
+    List<Map<String, Object>> getParkList();
+    List<Map<String, Object>> getElemList();
+    List<Map<String, Object>> getMidList();
+    List<Map<String, Object>> getHighList();
 }

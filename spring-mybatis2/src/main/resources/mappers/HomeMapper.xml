@@ -56,7 +56,31 @@
     </select>
 
     <select id="getSubwayList" resultType="map">
-        select * from subway
+        select * from SUBWAY
+    </select>
+
+    <select id="getBusList" resultType="map">
+        select * from BUS
+    </select>
+
+    <select id="getHospList" resultType="map">
+        select HOS_NAME, HOS_LAT, HOS_LON from HOSPITAL
+    </select>
+
+    <select id="getParkList" resultType="map">
+        select * from PARK
+    </select>
+
+    <select id="getElemList" resultType="map">
+        select * from LOWSCHOOLE
+    </select>
+
+    <select id="getMidList" resultType="map">
+        select * from MIDDLESCHOOLE
+    </select>
+
+    <select id="getHighList" resultType="map">
+        select * from HIGHSCHOOLE
     </select>
 
 </mapper>

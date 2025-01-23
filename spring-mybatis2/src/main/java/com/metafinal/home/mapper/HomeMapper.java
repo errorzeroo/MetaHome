@@ -9,9 +9,15 @@ import java.util.Map;
 
 @Mapper
 public interface HomeMapper {
-    List<Map<String, Object>> getAllHomes(); // ÀüÃ¼ µ¥ÀÌÅÍ ¹ÝÈ¯
-    List<Map<String, Object>> getHomeArea(@Param("address") String address); // Á¶°Ç¿¡ ¸Â´Â µ¥ÀÌÅÍ ¹ÝÈ¯
+    List<Map<String, Object>> getAllHomes(); // ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+    List<Map<String, Object>> getHomeArea(@Param("address") String address); // ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     List<Map<String, Object>> getHomeKind(@Param("homeKind") String homeKind);
     List<Map<String, Object>> getMyHome(@Param("address") String address, @Param("homeKind") String homeKind);
     List<Map<String, Object>> getSubwayList();
+    List<Map<String, Object>> getBusList();
+    List<Map<String, Object>> getHospList();
+    List<Map<String, Object>> getParkList();
+    List<Map<String, Object>> getElemList();
+    List<Map<String, Object>> getMidList();
+    List<Map<String, Object>> getHighList();
 }

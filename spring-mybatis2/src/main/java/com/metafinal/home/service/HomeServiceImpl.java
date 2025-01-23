@@ -17,7 +17,7 @@ public class HomeServiceImpl implements HomeService{
 
     @Override
     public List<Map<String, Object>> getHomeArea(String address) {
-        return homeMapper.getHomeArea(address); // Á¶°Ç¿¡ ¸Â´Â µ¥ÀÌÅÍ ¹ÝÈ¯
+        return homeMapper.getHomeArea(address); // ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     }
 
     @Override
@@ -38,6 +38,24 @@ public class HomeServiceImpl implements HomeService{
     @Override
     public List<Map<String, Object>> getSubwayList() {
         return homeMapper.getSubwayList();
+    }
+    public List<Map<String, Object>> getBusList() {
+        return homeMapper.getBusList();
+    }
+    public List<Map<String, Object>> getHospList() {
+        return homeMapper.getHospList();
+    }
+    public List<Map<String, Object>> getParkList() {
+        return homeMapper.getParkList();
+    }
+    public List<Map<String, Object>> getElemList() {
+        return homeMapper.getElemList();
+    }
+    public List<Map<String, Object>> getMidList() {
+        return homeMapper.getMidList();
+    }
+    public List<Map<String, Object>> getHighList() {
+        return homeMapper.getHighList();
     }
 
 

@@ -45,9 +45,16 @@ public class HomeController {
         }
 
         List<Map<String, Object>> subwayList = homeService.getSubwayList();
+        List<Map<String, Object>> busList = homeService.getBusList();
+        List<Map<String, Object>> hospList = homeService.getHospList();
+        List<Map<String, Object>> parkList = homeService.getParkList();
+        List<Map<String, Object>> elemList = homeService.getElemList();
+        List<Map<String, Object>> midList = homeService.getMidList();
+        List<Map<String, Object>> highList = homeService.getHighList();
 
 
-        log.info("address : {}", address,homeKind);
+
+        //log.info("address : {}", address,homeKind);
 
         // HOME_IMG 값을 배열로 변환 (homeList 처리)
         for (Map<String, Object> home : homeList) {
@@ -58,7 +65,7 @@ public class HomeController {
                 home.put("HOME_IMG", imgArray); // 배열로 다시 저장
             }
         }
-
+        log.info("homeList : {}", homeList);
         // 주소 기준으로 중복 제거 (filteredList 생성)
         Map<String, Map<String, Object>> filteredMap = new LinkedHashMap<>();
         for (Map<String, Object> home : homeList) {
@@ -74,11 +81,29 @@ public class HomeController {
         String homeListJson = "";
         String filteredListJson = "";
         String subwayListJson = "";
+        String busListJson = "";
+        String hospListJson = "";
+        String parkListJson = "";
+        String elemListJson = "";
+        String midListJson = "";
+        String highListJson = "";
 
         try {
             homeListJson = objectMapper.writeValueAsString(homeList); // homeList를 JSON 문자열로 변환
             filteredListJson = objectMapper.writeValueAsString(filteredList); // filteredList를 JSON 문자열로 변환
-            subwayListJson = objectMapper.writeValueAsString(subwayList); // filteredList를 JSON 문자열로 변환
+            subwayListJson = objectMapper.writeValueAsString(subwayList);
+            busListJson = objectMapper.writeValueAsString(busList);
+            hospListJson = objectMapper.writeValueAsString(hospList);
+            //TEST
+            //log.info("@@@@@\n{}", hospListJson);
+            //
+
+
+            parkListJson = objectMapper.writeValueAsString(parkList);
+            elemListJson = objectMapper.writeValueAsString(elemList);
+            midListJson = objectMapper.writeValueAsString(midList);
+            highListJson = objectMapper.writeValueAsString(highList);
+            // filteredList를 JSON 문자열로 변환
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,6 +114,13 @@ public class HomeController {
         m.addAttribute("homeListJson", homeListJson);
         m.addAttribute("filteredListJson", filteredListJson);
         m.addAttribute("subwayListJson", subwayListJson);
+        m.addAttribute("busListJson", busListJson);
+        m.addAttribute("hospListJson", hospListJson);
+        m.addAttribute("parkListJson", parkListJson);
+        m.addAttribute("elemListJson", elemListJson);
+        m.addAttribute("midListJson", midListJson);
+        m.addAttribute("highListJson", highListJson);
+
 
         log.info("subwayListJson : {}", subwayListJson);
         // 로그 출력
