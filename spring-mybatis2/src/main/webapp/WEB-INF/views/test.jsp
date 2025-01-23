@@ -142,13 +142,15 @@
         display: flex; /* 텍스트와 아이콘을 나란히 배치 */
         font-family: AppleSDGothicNeo, sans-serif;
         align-items: center; /* 세로 중앙 정렬 */
-        justify-content: center; /* 텍스트와 아이콘 간격 유지 */
+        justify-content: space-between; /* 텍스트와 아이콘 간격 유지 center */
         padding: 4px 8px; /* 버튼 여백 */
         font-size: 13px; /* 글자 크기 */
         color: black; /* 글자 색상 */
         background-color: white; /* 배경색 */
         border: 1px solid #ccc; /* 얇은 테두리 */
         border-radius: 20px; /* 둥근 모서리 */
+        position: relative;
+        z-index: 10; /* 클릭 우선 순위 */
         cursor: pointer; /* 클릭 가능한 포인터 표시 */
         width: 160px; /* 버튼 너비 고정 */
         box-sizing: border-box; /* 패딩 포함 크기 계산 */
@@ -1015,7 +1017,7 @@
               주택 유형
               <span class="dropdown-icon" ></span> <!-- 화살표 -->
             </button>
-            <button class="dropdown-button3">
+            <button class="dropdown-button3" id="infrastructureButton">
               생활 인프라 매칭하기
               <span class="dropdown-icon"></span> <!-- 화살표 -->
               <button class="searchButton">검색</button>
@@ -2191,18 +2193,26 @@
             });
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            // 생활 인프라 버튼 클릭 이벤트 연결
+            const infrastructureButton = document.getElementById('infrastructureButton');
+            infrastructureButton.addEventListener('click', () => {
+                toggleBox('box3'); // 박스3을 토글
+                console.log('생활 인프라 매칭 버튼 클릭됨');
+            });
+        });
+
+        // 박스 토글 함수
         function toggleBox(boxId) {
-            const targetBox = document.getElementById(boxId);
-            const activeBox = document.querySelector('.box.active'); // 현재 활성화된 박스를 찾기
+            const box = document.getElementById(boxId);
+            const isVisible = box.classList.contains('active');
 
-            // 현재 활성화된 박스가 있을 경우 비활성화
-            if (activeBox && activeBox !== targetBox) {
-                activeBox.classList.remove('active');
-            }
+            // 모든 박스를 숨김
+            document.querySelectorAll('.box').forEach(b => b.classList.remove('active'));
 
-            // 클릭된 박스를 활성화 또는 비활성화
-            if (targetBox) {
-                targetBox.classList.toggle('active');
+            // 클릭된 박스만 보이도록 설정
+            if (!isVisible) {
+                box.classList.add('active');
             }
         }
 
