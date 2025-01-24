@@ -445,7 +445,7 @@
         z-index: 1;
     }
  .chart-container-with-score {
-        display: none; /* Flexbox로 수평 배치 //flex*/
+        display: flex; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
@@ -456,16 +456,12 @@
         border-radius: 12px; /* 모서리 둥글게 */
         padding: 20px; /* 내부 여백 */
         height: 300px;
-        z-index: 10; /* 맵보다 높은 계층 */
+        z-index: 10300; /* 맵보다 높은 계층 */
     }
     .chart-container {
         flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
-        height: 300px; /* 차트 컨테이너 높이 */
+        height: 280px; /* 차트 컨테이너 높이 */
         position: relative;
-    }
-    .chart-container canvas {
-        width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
-        height: 300px !important;
     }
     .chart-title {
         font-size: 18px; /* 글자 크기 */
@@ -476,19 +472,20 @@
         padding-left: 10px; /* 왼쪽 패딩 */
     }
     .score-container {
-        flex: 1; /* 점수 컨테이너가 차트보다 좁게 설정 */
+        flex-basis: 30%; /* 점수 컨테이너의 기본 크기 */
+        max-width: 150px; /* 최대 너비 설정 */
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-align: center;
     }
     .score-content {
         text-align: center;
     }
     .score-image {
-        width: 90px; /* 이미지 크기 */
-        height: 110px;
+        width: 75px; /* 이미지 크기 */
+        height: 75px;
+        margin-bottom: 10px; /* 텍스트와 간격 */
     }
     .score-text {
         font-size: 40px;
@@ -500,6 +497,7 @@
         font-weight: bold;
         color: black; /* 숫자 색상 */
     }
+
 
 
 
@@ -1075,24 +1073,6 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="지하철 아이콘" class="infrastructure-icon">
-                        <p class="infrastructure-name">지하철</p>
-                    </div>
-                    <div class="slider-container">
-                        <div class="slider-labels">
-                            <span>없어도 괜찮아요</span>
-                            <span>있으면 좋아요</span>
-                            <span>꼭 있어야 해요</span>
-                        </div>
-                        <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="subwaySlider">
-                            <span class="slider-value" id="subwaySliderValue">1.00</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="infrastructure-item">
-                    <div class="icon-container">
                         <img src="/images/Elephant.png" alt="버스 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">버스</p>
                     </div>
@@ -1105,6 +1085,24 @@
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="busSlider">
                             <span class="slider-value" id="busSliderValue">1.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
+                        <img src="/images/Elephant.png" alt="지하철 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">지하철</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="subwaySlider">
+                            <span class="slider-value" id="subwaySliderValue">1.00</span>
                         </div>
                     </div>
                 </div>
@@ -1798,12 +1796,43 @@
 
             listItem.addEventListener("click", () => {
 
+            // 슬라이더 값을 동적으로 가져오는 함수
+            function getSliderValues() {
+                const sliders = [
+                    { id: "subwaySlider", name: "subway" },
+                    { id: "busSlider", name: "bus" },
+                    { id: "elementarySlider", name: "element" },
+                    { id: "middleSlider", name: "middle" },
+                    { id: "highSlider", name: "high" },
+                    { id: "hospitalSlider", name: "hospitalcount" },
+                    { id: "parkingSlider", name: "parking" },
+                    { id: "parkSlider", name: "park" }
+                ];
+
+                // 슬라이더 값 가져오기 및 필터링 (0.00 값 제거)
+                const values = sliders
+                    .map(slider => ({
+                        column: slider.name,
+                        value: parseFloat(document.getElementById(slider.id).value)
+                    }))
+                    .filter(slider => slider.value !== 0.00); // 값이 0.00인 항목 제거
+
+                return values;
+            }
+
+            const sliderData = getSliderValues();
+
 
              // 선택한 리스트의 주소를 이용해서 차트 그리기
             const address = item.HOME_ADDRESS.trim();
             const homeKind = item.HOME_KIND.trim();
-            const columns = "subway,park"; // 원하는 컬럼 정의 (슬라이더 값 기준으로 수정 가능)
-            const values = "0.9,0.4"; // 슬라이더 값 등 필요한 값 정의
+            // 컬럼 이름과 값 배열로 변환
+            const columns = sliderData.map(s => s.column).join(',');
+            const values = sliderData.map(s => s.value).join(',');
+
+            console.log("Columns:", columns);
+            console.log("Values:", values);
+             console.log("address5:", address);
 
             // Ajax 요청으로 데이터 전송
             fetch(`/home/chart?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
