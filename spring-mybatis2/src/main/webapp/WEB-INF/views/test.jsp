@@ -506,10 +506,20 @@
         color: black; /* 숫자 색상 */
     }
 
+    .list-check-button{
+        position: relative;
+        margin-bottom: 13px;
+        left: 220px;
+    }
 
+    #checkButton{
+    border: none;
+    background-color: #ffffff;
+    }
 
 
     .list-item {
+
         padding: 0; /* 내부 여백 제거 */
         border: none; /* 테두리 제거 */
         background-color: #f9f9f9; /* 배경 투명 */
@@ -887,9 +897,11 @@
       margin-right: 15px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
       margin-left: 35px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
     }
+
     .span4 {
       margin-left: 25px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
     }
+
     .slide-btn1 {
         color: gray;
       position: absolute;
@@ -902,6 +914,7 @@
       cursor: pointer;
       z-index: 1000;        /* 다른 요소 위로 배치 */
     }
+
     .slide-btn2 {
     color: gray;
       position: absolute;
@@ -989,9 +1002,9 @@
     <img src="/images/Elephant.png" alt="아이콘" class="logo">
     <h3 class = "title">메타홈</h3>
     <button class = "white-button1">맞춤 지도</button>
-    <button class = "white-button2">우리 동네 이사와 생활 서비스</button>
-    <button class = "white-button3">로그인</button>
-    <button class = "white-button4">멤버쉽 가입</button>
+    <button class = "white-button2" onclick="showAlert()">우리 동네 이사와 생활 서비스</button>
+    <button class = "white-button3" onclick="showAlert()">로그인</button>
+    <button class = "white-button4" onclick="showAlert()">멤버쉽 가입</button>
 
     <!-- 위쪽 선 -->
     <hr class="styled-line1">
@@ -1256,7 +1269,9 @@
 
 
 
-            <div id="slideContentContainer" class="slide-content-container"></div>
+            <div id="slideContentContainer" class="slide-content-container">
+            <div class="list-check-button"> <button id="checkButton"><img id="checkImage" src="/images/icon/slideButton.png" class="slide-logo-title">모집 중인 매물만 확인! </button></div>
+            </div>
             <div id="detailContainer"></div>
 
 
@@ -1382,6 +1397,26 @@
 
 
 <script>
+
+    function showAlert() {
+          alert("이 기능은 준비 중입니다. 지켜봐 주시면 감사하겠습니다!");
+        }
+
+// JavaScript 코드
+    const button = document.getElementById('checkButton');
+    const image = document.getElementById('checkImage');
+
+    // 클릭 이벤트 리스너 추가
+    button.addEventListener('click', () => {
+      // 이미지 소스를 변경
+      if (image.src.includes('/images/icon/slideButton.png')) {
+        image.src = '/images/icon/park.png'; // 새로운 이미지로 변경
+      } else {
+        image.src = '/images/icon/slideButton.png'; // 다시 원래 이미지로 변경
+      }
+    });
+
+
     // 초기값 설정
     let selectedAddress = '${address}';
     let selectedHomeKind = '${homeKind}';
@@ -1538,7 +1573,7 @@
 
 
     // 버튼 클릭 시 마커 토글 함수
-    function toggleSubMarkers(button) {
+     function toggleSubMarkers(button) {
         if (subwayVisible) {
             // 보이는 상태에서 클릭하면 마커 숨기기
             subwayMarkers.forEach((marker) => marker.setMap(null));
