@@ -1051,7 +1051,7 @@
                     <!--<button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
                                   <span class="icon icon-refresh">&#x21BB;</span>--> <!-- 새로 고침 아이콘 -->
                     </button>
-                        <button class="scroll-button" onclick="setAddress('')">전체</button>
+                        <button class="scroll-button" onclick="setAddress('전체')">전체</button>
                         <button class="scroll-button" onclick="setAddress('강남구')">강남구</button>
                         <button class="scroll-button" onclick="setAddress('강동구')">강동구</button>
                         <button class="scroll-button" onclick="setAddress('강북구')">강북구</button>
@@ -1083,7 +1083,7 @@
 
             <!-- 주택유형버튼들 -->
             <div class="box" id="box2"><div class = "scrollable-box">
-                <button class="scroll-button" onclick="setHomeKind('')">전체</button>
+                <button class="scroll-button" onclick="setHomeKind('전체')">전체</button>
                 <button class="scroll-button" onclick="setHomeKind('아파트')">아파트</button>
                 <button class="scroll-button" onclick="setHomeKind('연립주택')">연립주택</button>
                 <button class="scroll-button" onclick="setHomeKind('다세대주택')">다세대주택</button>
@@ -1410,10 +1410,13 @@
                     button.classList.remove('selected');
                 }
             });
-
-            // 선택된 주소를 드롭다운 버튼에 반영
+            // 드롭다운 텍스트 업데이트
             const dropdownButton = document.getElementById('dropdownButton');
             dropdownButton.innerHTML = `\${selectedAddress} <span class="dropdown-icon"></span>`;
+        } else {
+            // '전체'일 때 드롭다운에 '전체' 표시
+            const dropdownButton = document.getElementById('dropdownButton');
+            dropdownButton.innerHTML = `전체 <span class="dropdown-icon"></span>`;
         }
 
         // 선택된 주택 유형 버튼 활성화
@@ -1425,10 +1428,14 @@
                     button.classList.remove('selected');
                 }
             });
-
-            // 선택된 주택 유형을 드롭다운 버튼에 반영
+            // 드롭다운 텍스트 업데이트
             const homeKindButton = document.getElementById('homeKindButton');
             homeKindButton.innerHTML = `\${selectedHomeKind} <span class="dropdown-icon"></span>`;
+
+        } else {
+            // '전체'일 때 드롭다운에 '전체' 표시
+            const homeKindButton = document.getElementById('homeKindButton');
+            homeKindButton.innerHTML = `전체 <span class="dropdown-icon"></span>`;
         }
     });
 
@@ -1439,11 +1446,15 @@
 
     // 주소 업데이트
     function setAddress(address) {
-        selectedAddress = address ? address.trim() : '';
+        if (address === '전체') {
+            selectedAddress = ''; // "전체"를 선택하면 서버로 빈 값 전달
+        } else {
+            selectedAddress = address.trim(); // 다른 값 처리
+        }
 
         // 선택된 버튼 업데이트
         document.querySelectorAll('.box#box1 .scroll-button').forEach(button => {
-            if (button.textContent.trim() === selectedAddress) {
+            if (button.textContent.trim() === address) {
                 button.classList.add('selected');
             } else {
                 button.classList.remove('selected');
@@ -1451,21 +1462,24 @@
         });
 
         // 드롭다운 버튼 텍스트 업데이트
-        const dropdownButton = document.getElementById('dropdownButton');
-        dropdownButton.innerHTML = `\${selectedAddress} <span class="dropdown-icon"></span>`;
-
-        if (isReadyToRefresh()) {
-            updateURL();
+        if (!selectedAddress) {
+            const dropdownButton = document.getElementById('dropdownButton');
+            dropdownButton.innerHTML = `전체 <span class="dropdown-icon"></span>`;
         }
+        updateURL();
     }
 
     // 주택 유형 업데이트
     function setHomeKind(homeKind) {
-        selectedHomeKind = homeKind ? homeKind.trim() : '';
+        if (homeKind === '전체') {
+            selectedHomeKind = ''; // "전체"를 선택하면 서버로 빈 값 전달
+        } else {
+            selectedHomeKind = homeKind.trim(); // 다른 값 처리
+        }
 
         // 선택된 버튼 업데이트
         document.querySelectorAll('.box#box2 .scroll-button').forEach(button => {
-            if (button.textContent.trim() === selectedHomeKind) {
+            if (button.textContent.trim() === homeKind) {
                 button.classList.add('selected');
             } else {
                 button.classList.remove('selected');
@@ -1473,12 +1487,11 @@
         });
 
         // 드롭다운 버튼 텍스트 업데이트
-        const homeKindButton = document.getElementById('homeKindButton');
-        homeKindButton.innerHTML = `\${selectedHomeKind} <span class="dropdown-icon"></span>`;
-
-        if (isReadyToRefresh()) {
-            updateURL();
+        if (!selectedHomeKind) {
+            const homeKindButton = document.getElementById('homeKindButton');
+            homeKindButton.innerHTML = `전체 <span class="dropdown-icon"></span>`;
         }
+        updateURL();
     }
 
     // URL 업데이트
