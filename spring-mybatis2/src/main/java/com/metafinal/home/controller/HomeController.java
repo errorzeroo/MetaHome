@@ -178,5 +178,31 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/one")
+    @ResponseBody // JSON 데이터를 직접 반환
+    public String findaddress(
+            @RequestParam String address, // 사용자 입력 주소
+            @RequestParam String homeKind, // 사용자 입력 주택유형
+            @RequestParam String columns, // 사용자 입력 컬럼
+            @RequestParam String values   // 사용자 입력 값
+    ) {
+        PythonRunner pythonRunner = new PythonRunner();
+        String result = pythonRunner.runPythonScript(address, homeKind, columns, values);
+
+        if (result == null) {
+            return "{\"error\": \"Python 실행 중 오류가 발생했습니다.\"}";
+        }
+
+        // JSON 데이터를 Java 객체로 변환 후 다시 JSON 문자열로 처리
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<Map<String, Object>> addressList = objectMapper.readValue(result, new TypeReference<List<Map<String, Object>>>() {});
+            return objectMapper.writeValueAsString(addressList); // JSON 데이터를 반환
+        } catch (JsonProcessingException e) {
+            log.error("JSON 변환 오류", e);
+            return "{\"error\": \"JSON 데이터를 처리하는 중 오류가 발생했습니다.\"}";
+        }
+    }
+
 
 }
