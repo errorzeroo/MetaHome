@@ -347,6 +347,11 @@
         width: 50px;
         height: 50px;
     }
+    /*  명칭 스타일 */
+    .infrastructure-text{
+        width: 60px;
+        height: 20px;
+    }
 
     /* 명칭 스타일 */
     .infrastructure-name {
@@ -956,6 +961,18 @@
          border-radius: 5px;
          box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
     }
+    .map-buttons{
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .map-buttons.active{
+        background-color: #FF6F3C;
+        color: white;
+    }
 
 
 
@@ -1085,7 +1102,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="지하철 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/subway.png" alt="지하철 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">지하철</p>
                     </div>
                     <div class="slider-container">
@@ -1103,7 +1120,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="버스 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/bus.png" alt="버스 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">버스</p>
                     </div>
                     <div class="slider-container">
@@ -1121,7 +1138,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="초등학교 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/element.png" alt="초등학교 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">초등학교</p>
                     </div>
                     <div class="slider-container">
@@ -1139,7 +1156,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="중학교 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/middle.png" alt="중학교 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">중학교</p>
                     </div>
                     <div class="slider-container">
@@ -1157,7 +1174,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="고등학교 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/high.png" alt="고등학교 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">고등학교</p>
                     </div>
                     <div class="slider-container">
@@ -1175,7 +1192,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="병원 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/hospitalcount.png" alt="병원 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">병원</p>
                     </div>
                     <div class="slider-container">
@@ -1193,7 +1210,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="주차장 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/parking.png" alt="주차장 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">주차장</p>
                     </div>
                     <div class="slider-container">
@@ -1211,7 +1228,8 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="공원 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/park.png" alt="공원 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/Park_text.png" alt="park_txt" class="infrastructure-text">
                         <p class="infrastructure-name">공원</p>
                     </div>
                     <div class="slider-container">
@@ -1352,13 +1370,13 @@
         </div>
 
         <div id="categoryBar">
-                        <button onclick="toggleSubMarkers()">지하철</button>
-                        <button onclick="toggleBusMarkers()">버스</button>
-                        <button onclick="toggleParkMarkers()">공원</button>
-                        <button onclick="toggleElemMarkers()">초등학교</button>
-                        <button onclick="toggleMidMarkers()">중학교</button>
-                        <button onclick="toggleHighMarkers()">고등학교</button>
-                        <button onclick="toggleHospMarkers()">병원</button>
+            <button class="map-buttons" onclick="toggleSubMarkers(this)">지하철</button>
+            <button class="map-buttons" onclick="toggleBusMarkers(this)">버스</button>
+            <button class="map-buttons" onclick="toggleParkMarkers(this)">공원</button>
+            <button class="map-buttons" onclick="toggleElemMarkers(this)">초등학교</button>
+            <button class="map-buttons" onclick="toggleMidMarkers(this)">중학교</button>
+            <button class="map-buttons" onclick="toggleHighMarkers(this)">고등학교</button>
+            <button class="map-buttons" onclick="toggleHospMarkers(this)">병원</button>
         </div>
 
 
@@ -1381,9 +1399,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         selectedAddress = urlParams.get('address') || selectedAddress;
         selectedHomeKind = urlParams.get('homeKind') || selectedHomeKind;
-
-        console.log("초기 selectedAddress:", selectedAddress);
-        console.log("초기 selectedHomeKind:", selectedHomeKind);
 
         // 선택된 지역 버튼 활성화
         if (selectedAddress) {
@@ -1423,9 +1438,7 @@
 
     // 주소 업데이트
     function setAddress(address) {
-        console.log("setAddress 호출 전 selectedAddress:", selectedAddress);
         selectedAddress = address ? address.trim() : '';
-        console.log("setAddress 호출 후 selectedAddress:", selectedAddress);
 
         // 선택된 버튼 업데이트
         document.querySelectorAll('.box#box1 .scroll-button').forEach(button => {
@@ -1447,9 +1460,7 @@
 
     // 주택 유형 업데이트
     function setHomeKind(homeKind) {
-        console.log("setHomeKind 호출 전 selectedHomeKind:", selectedHomeKind);
         selectedHomeKind = homeKind ? homeKind.trim() : '';
-        console.log("setHomeKind 호출 후 selectedHomeKind:", selectedHomeKind);
 
         // 선택된 버튼 업데이트
         document.querySelectorAll('.box#box2 .scroll-button').forEach(button => {
@@ -1471,14 +1482,9 @@
 
     // URL 업데이트
     function updateURL() {
-        console.log("updateURL 호출 직전 selectedAddress:", selectedAddress);
-        console.log("updateURL 호출 직전 selectedHomeKind:", selectedHomeKind);
 
         const encodedAddress = encodeURIComponent(selectedAddress || '');
         const encodedHomeKind = encodeURIComponent(selectedHomeKind || '');
-
-        console.log("updateURL: 인코딩된 selectedAddress:", encodedAddress);
-        console.log("updateURL: 인코딩된 selectedHomeKind:", encodedHomeKind);
 
         const url = `/home?address=\${encodedAddress}&homeKind=\${encodedHomeKind}`;
         console.log("updateURL: 생성된 URL:", url);
@@ -1500,25 +1506,25 @@
 
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-    let subwayVisible = true;
+    let subwayVisible = false; // 마커 초기 상태: 안 보이는 상태 true
     let subwayMarkers = [];
-    let busVisible = true;
+    let busVisible = false;
     let busMarkers = [];
-    let parkVisible = true;
+    let parkVisible = false;
     let parkMarkers = [];
-    let elemVisible = true;
+    let elemVisible = false;
     let elemMarkers = [];
-    let midVisible = true;
+    let midVisible = false;
     let midMarkers = [];
-    let highVisible = true;
+    let highVisible = false;
     let highMarkers = [];
-    let hospVisible = true;
+    let hospVisible = false;
     let hospMarkers = [];
 
 
 
     // 버튼 클릭 시 마커 토글 함수
-    function toggleSubMarkers() {
+    function toggleSubMarkers(button) {
         if (subwayVisible) {
             // 보이는 상태에서 클릭하면 마커 숨기기
             subwayMarkers.forEach((marker) => marker.setMap(null));
@@ -1529,9 +1535,12 @@
 
         // 마커 상태 업데이트
         subwayVisible = !subwayVisible;
+
+        // 클릭된 버튼의 'active' 클래스 토글
+        button.classList.toggle('active');
     }
 
-    function toggleBusMarkers() {
+    function toggleBusMarkers(button) {
         if (busVisible) {
             // 보이는 상태에서 클릭하면 마커 숨기기
             busMarkers.forEach((marker) => marker.setMap(null));
@@ -1542,49 +1551,61 @@
 
         // 마커 상태 업데이트
         busVisible = !busVisible;
+
+        // 클릭된 버튼의 'active' 클래스 토글
+        button.classList.toggle('active');
    }
 
-   function toggleParkMarkers() {
-           if (parkVisible) {
-               // 보이는 상태에서 클릭하면 마커 숨기기
-               parkMarkers.forEach((marker) => marker.setMap(null));
-           } else {
-               // 보이지 않는 상태에서 클릭하면 마커 보이기
-               parkMarkers.forEach((marker) => marker.setMap(map));
-           }
+   function toggleParkMarkers(button) {
+        if (parkVisible) {
+           // 보이는 상태에서 클릭하면 마커 숨기기
+           parkMarkers.forEach((marker) => marker.setMap(null));
+        } else {
+           // 보이지 않는 상태에서 클릭하면 마커 보이기
+           parkMarkers.forEach((marker) => marker.setMap(map));
+        }
 
-           // 마커 상태 업데이트
-           parkVisible = !parkVisible;
+        // 마커 상태 업데이트
+        parkVisible = !parkVisible;
+
+        // 클릭된 버튼의 'active' 클래스 토글
+        button.classList.toggle('active');
   }
 
-   function toggleElemMarkers() {
-              if (elemVisible) {
-                  // 보이는 상태에서 클릭하면 마커 숨기기
-                  elemMarkers.forEach((marker) => marker.setMap(null));
-              } else {
-                  // 보이지 않는 상태에서 클릭하면 마커 보이기
-                  elemMarkers.forEach((marker) => marker.setMap(map));
-              }
+   function toggleElemMarkers(button) {
+        if (elemVisible) {
+          // 보이는 상태에서 클릭하면 마커 숨기기
+          elemMarkers.forEach((marker) => marker.setMap(null));
+        } else {
+          // 보이지 않는 상태에서 클릭하면 마커 보이기
+          elemMarkers.forEach((marker) => marker.setMap(map));
+        }
 
-              // 마커 상태 업데이트
-              elemVisible = !elemVisible;
+        // 마커 상태 업데이트
+        elemVisible = !elemVisible;
+
+        // 클릭된 버튼의 'active' 클래스 토글
+        button.classList.toggle('active');
    }
 
-    function toggleMidMarkers() {
-    if (midVisible) {
-         // 보이는 상태에서 클릭하면 마커 숨기기
-         midMarkers.forEach((marker) => marker.setMap(null));
-    } else {
-         // 보이지 않는 상태에서 클릭하면 마커 보이기
-         midMarkers.forEach((marker) => marker.setMap(map));
+    function toggleMidMarkers(button) {
+        if (midVisible) {
+             // 보이는 상태에서 클릭하면 마커 숨기기
+             midMarkers.forEach((marker) => marker.setMap(null));
+        } else {
+             // 보이지 않는 상태에서 클릭하면 마커 보이기
+             midMarkers.forEach((marker) => marker.setMap(map));
+        }
+
+         // 마커 상태 업데이트
+         midVisible = !midVisible;
+
+         // 클릭된 버튼의 'active' 클래스 토글
+         button.classList.toggle('active');
     }
 
-     // 마커 상태 업데이트
-     midVisible = !midVisible;
-    }
 
-
-    function toggleHighMarkers() {
+    function toggleHighMarkers(button) {
          if (highVisible) {
              // 보이는 상태에서 클릭하면 마커 숨기기
              highMarkers.forEach((marker) => marker.setMap(null));
@@ -1595,20 +1616,26 @@
 
          // 마커 상태 업데이트
          highVisible = !highVisible;
+
+         // 클릭된 버튼의 'active' 클래스 토글
+         button.classList.toggle('active');
     }
 
-    function toggleHospMarkers() {
-             if (hospVisible) {
-                 // 보이는 상태에서 클릭하면 마커 숨기기
-                 hospMarkers.forEach((marker) => marker.setMap(null));
-             } else {
-                 // 보이지 않는 상태에서 클릭하면 마커 보이기
-                 hospMarkers.forEach((marker) => marker.setMap(map));
-             }
+    function toggleHospMarkers(button) {
+         if (hospVisible) {
+             // 보이는 상태에서 클릭하면 마커 숨기기
+             hospMarkers.forEach((marker) => marker.setMap(null));
+         } else {
+             // 보이지 않는 상태에서 클릭하면 마커 보이기
+             hospMarkers.forEach((marker) => marker.setMap(map));
+         }
 
-             // 마커 상태 업데이트
-             hospVisible = !hospVisible;
-        }
+         // 마커 상태 업데이트
+         hospVisible = !hospVisible;
+
+         // 클릭된 버튼의 'active' 클래스 토글
+         button.classList.toggle('active');
+    }
 
 
 
@@ -1672,6 +1699,9 @@
                // alert(`${subway.SUB_NAME} 지하철역입니다.`);
             //});
 
+            // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+            marker.setMap(null);
+
             subwayMarkers.push(marker); // 배열에 마커 저장
         });
 
@@ -1691,6 +1721,9 @@
                // alert(`${subway.SUB_NAME} 지하철역입니다.`);
             //});
 
+            // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+            marker.setMap(null);
+
             busMarkers.push(marker); // 배열에 마커 저장
         });
 
@@ -1709,6 +1742,9 @@
             //kakao.maps.event.addListener(marker, 'click', function () {
                // alert(`${subway.SUB_NAME} 지하철역입니다.`);
             //});
+
+            // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+            marker.setMap(null);
 
             parkMarkers.push(marker); // 배열에 마커 저장
         });
@@ -1730,6 +1766,9 @@
                // alert(`${subway.SUB_NAME} 지하철역입니다.`);
             //});
 
+            // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+            marker.setMap(null);
+
             elemMarkers.push(marker); // 배열에 마커 저장
         });
 
@@ -1749,6 +1788,9 @@
             //kakao.maps.event.addListener(marker, 'click', function () {
                // alert(`${subway.SUB_NAME} 지하철역입니다.`);
             //});
+
+            // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+            marker.setMap(null);
 
             midMarkers.push(marker); // 배열에 마커 저장
         });
@@ -1771,6 +1813,9 @@
                // alert(`${subway.SUB_NAME} 지하철역입니다.`);
             //});
 
+            // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+            marker.setMap(null);
+
             highMarkers.push(marker); // 배열에 마커 저장
         });
 
@@ -1789,6 +1834,9 @@
                     //kakao.maps.event.addListener(marker, 'click', function () {
                        // alert(`${subway.SUB_NAME} 지하철역입니다.`);
                     //});
+
+                    // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+                    marker.setMap(null);
 
                     hospMarkers.push(marker); // 배열에 마커 저장
                 });
