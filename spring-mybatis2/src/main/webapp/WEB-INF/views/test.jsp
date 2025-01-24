@@ -2340,23 +2340,38 @@
         });
 
         document.getElementById('submitButton').addEventListener('click', function () {
-            // 슬라이더 값 가져오기
-            const slider1Value = document.getElementById('slider1').value;
-            const slider2Value = document.getElementById('slider2').value;
-            const slider3Value = document.getElementById('slider3').value;
-            const slider4Value = document.getElementById('slider4').value;
-            const slider5Value = document.getElementById('slider5').value;
-            const slider6Value = document.getElementById('slider6').value;
-            const slider7Value = document.getElementById('slider7').value;
 
-            // 값 확인 (콘솔에 출력)
-            console.log("Slider 1 Value: " + slider1Value);
-            console.log("Slider 2 Value: " + slider2Value);
-            console.log("Slider 3 Value: " + slider3Value);
-            console.log("Slider 4 Value: " + slider4Value);
-            console.log("Slider 5 Value: " + slider5Value);
-            console.log("Slider 6 Value: " + slider6Value);
-            console.log("Slider 7 Value: " + slider7Value);
+            // 슬라이더 값을 동적으로 가져오는 함수
+            function getSliderValues() {
+                const sliders = [
+                    { id: "subwaySlider", name: "subway" },
+                    { id: "busSlider", name: "bus" },
+                    { id: "elementarySlider", name: "element" },
+                    { id: "middleSlider", name: "middle" },
+                    { id: "highSlider", name: "high" },
+                    { id: "hospitalSlider", name: "hospitalcount" },
+                    { id: "parkingSlider", name: "parking" },
+                    { id: "parkSlider", name: "park" }
+                ];
+
+                // 슬라이더 값 가져오기 및 필터링 (0.00 값 제거)
+                const values = sliders
+                    .map(slider => ({
+                        column: slider.name,
+                        value: parseFloat(document.getElementById(slider.id).value)
+                    }))
+                    .filter(slider => slider.value !== 0.00); // 값이 0.00인 항목 제거
+
+                return values;
+            }
+
+            const sliderData = getSliderValues();
+            const columns = sliderData.map(s => s.column).join(',');
+            const values = sliderData.map(s => s.value).join(',');
+
+            console.log("Columns:", columns);
+            console.log("Values:", values);
+
         });
 
         // 새로고침
