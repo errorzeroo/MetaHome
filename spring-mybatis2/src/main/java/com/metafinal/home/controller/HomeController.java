@@ -54,9 +54,6 @@ public class HomeController {
         List<Map<String, Object>> highList = homeService.getHighList();
 
 
-
-        //log.info("address : {}", address,homeKind);
-
         // HOME_IMG 값을 배열로 변환 (homeList 처리)
         for (Map<String, Object> home : homeList) {
             String homeImg = (String) home.get("HOME_IMG");
@@ -66,7 +63,7 @@ public class HomeController {
                 home.put("HOME_IMG", imgArray); // 배열로 다시 저장
             }
         }
-        log.info("homeList : {}", homeList);
+
         // 주소 기준으로 중복 제거 (filteredList 생성)
         Map<String, Map<String, Object>> filteredMap = new LinkedHashMap<>();
         for (Map<String, Object> home : homeList) {
@@ -95,10 +92,6 @@ public class HomeController {
             subwayListJson = objectMapper.writeValueAsString(subwayList);
             busListJson = objectMapper.writeValueAsString(busList);
             hospListJson = objectMapper.writeValueAsString(hospList);
-            //TEST
-            //log.info("@@@@@\n{}", hospListJson);
-            //
-
 
             parkListJson = objectMapper.writeValueAsString(parkList);
             elemListJson = objectMapper.writeValueAsString(elemList);
@@ -122,14 +115,6 @@ public class HomeController {
         m.addAttribute("midListJson", midListJson);
         m.addAttribute("highListJson", highListJson);
 
-
-        log.info("subwayListJson : {}", subwayListJson);
-        // 로그 출력
-        //log.info("homeList.size() : {}", homeList.size());
-        //log.info("filteredList.size() : {}", filteredList.size());
-        //log.info("homeListJson : {}", homeListJson);
-        //log.info("filteredListJson : {}", filteredListJson);
-
         return "test";
     }
 
@@ -150,7 +135,6 @@ public class HomeController {
             return "error";
         }
 
-        //log.info("python result: {}", result);
 
         // JSON 데이터를 Java 객체로 변환
         ObjectMapper objectMapper = new ObjectMapper();
