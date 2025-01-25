@@ -1103,7 +1103,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="버스 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/bus.png" alt="버스 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">버스</p>
                     </div>
                     <div class="slider-container">
@@ -1121,7 +1121,7 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
-                        <img src="/images/Elephant.png" alt="지하철 아이콘" class="infrastructure-icon">
+                        <img src="/images/icon/subway.png" alt="지하철 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">지하철</p>
                     </div>
                     <div class="slider-container">
@@ -2353,7 +2353,6 @@
         });
 
         document.getElementById('submitButton').addEventListener('click', function () {
-
             // 슬라이더 값을 동적으로 가져오는 함수
             function getSliderValues() {
                 const sliders = [
@@ -2378,14 +2377,69 @@
                 return values;
             }
 
+            function getAddressAndHomeKind() {
+                // address와 homeKind 값을 가져오기
+                const address = document.querySelector('#dropdownButton').textContent.trim();
+                const homeKind = document.querySelector('#homeKindButton').textContent.trim();
+
+                // "전체"가 선택된 경우 빈 문자열 반환
+                return {
+                    address: address === '전체' ? '' : address,
+                    homeKind: homeKind === '전체' ? '' : homeKind,
+                };
+            }
+
             const sliderData = getSliderValues();
+            const { address, homeKind } = getAddressAndHomeKind();
             const columns = sliderData.map(s => s.column).join(',');
             const values = sliderData.map(s => s.value).join(',');
 
+            console.log("Address:", address);
+            console.log("HomeKind:", homeKind);
             console.log("Columns:", columns);
             console.log("Values:", values);
 
-        });
+            // Ajax 요청으로 데이터 전송
+            fetch(`/home/chart?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // 서버에서 JSON 결과를 받음
+            })
+            .then(jdata => {
+            console.log("서버로부터 받은 데이터:", jdata);
+                // 받은 데이터를 서버에 다시 전송
+                fetch('/home/recom', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(jdata), // jdata를 JSON 형식으로 변환하여 전송
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                })
+                .then(processedData => {
+                    console.log("서버에서 처리된 데이터:", processedData);
+
+
+                })
+                .catch(error => {
+                    console.error("서버 데이터 처리 중 오류 발생:", error);
+                });
+
+
+
+            })
+            .catch(error => {
+                console.error("데이터 처리 중 오류 발생:", error);
+            });
+
+
+             });
 
         // 새로고침
         function resetSelection1() {

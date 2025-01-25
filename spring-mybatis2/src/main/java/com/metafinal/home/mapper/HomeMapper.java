@@ -20,4 +20,5 @@ public interface HomeMapper {
     List<Map<String, Object>> getElemList();
     List<Map<String, Object>> getMidList();
     List<Map<String, Object>> getHighList();
+    List<Map<String, Object>> findByAddress(String address);
 }

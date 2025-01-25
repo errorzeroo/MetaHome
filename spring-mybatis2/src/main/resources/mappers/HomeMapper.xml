@@ -5,82 +5,59 @@
 <mapper namespace="com.metafinal.home.mapper.HomeMapper">
     <!-- 전체 데이터 조회 -->
     <select id="getAllHomes" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON, h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
-        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
-        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
-        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
-        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
-        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
-        FROM HOME h
-        LEFT JOIN AI_LEARN al
-        ON h.HOME_ADDRESS = al.ADDRESS
+        SELECT * FROM HOME_AI_MV
     </select>
 
     <!-- 조건부 데이터 조회 지역만 선택했을 경우 -->
     <select id="getHomeArea" parameterType="string" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
-        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
-        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
-        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
-        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
-        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
-        FROM HOME h
-        LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
-        WHERE AL.ADDRESS LIKE '%' || #{address} || '%' <!-- 뒤에  추가 -->
+        SELECT * FROM HOME_AI_VIEW
+        WHERE ADDRESS LIKE '%' || #{address} || '%'
     </select>
 
     <!-- 조건부 데이터 조회 주택유형만 선택했을 경우 -->
     <select id="getHomeKind" parameterType="string" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
-        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
-        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
-        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
-        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
-        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
-        FROM HOME h
-        LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
-        WHERE h.HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
+        SELECT * FROM HOME_AI_VIEW
+        WHERE HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
     </select>
 
     <!-- 조건부 데이터 조회 주택유형,지역 선택했을 경우 -->
     <select id="getMyHome" parameterType="string" resultType="map">
-        SELECT h.HOME_ADDRESS,h.HOME_LAT, h.HOME_LON,h.HOME_NAME ,h.HOME_KIND ,h.HOME_COUNT ,h.HOME_CO ,h.HOME_PARKING ,h.HOME_IMG ,
-        h.HOME_NO ,h.HOME_MYAREA ,h.HOME_WEAREA ,h.HOME_DEP ,h.HOME_MOTH_PAI ,h.HOME_CHANGE_DEP ,h.HOME_RECR ,
-        AL.ADDRESS ,al.PARK_NAME ,al.PARK_DIST ,AL.HOS_NAME ,al.HOS_DIST ,al.SUB_NAME ,al.SUB_DIST ,
-        al.BUS_NAME ,al.BUS_DIST ,al.PARKING_NAME ,al.PARKING_DIST ,
-        al.LOW_NAME ,al.LOW_DIST ,al.MID_NAME ,al.MID_DIST ,AL.HI_NAME ,al.HI_DIST ,
-        al.CF_NAME ,al.CF_DIST ,al.CONVE_NAME ,al.CONVE_DIST ,al.ART_NAME ,al.ART_DIST
-        FROM HOME h
-        LEFT JOIN AI_LEARN al ON h.HOME_ADDRESS = al.ADDRESS
-        WHERE AL.ADDRESS LIKE '%' || #{address} || '%' AND h.HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
+        SELECT * FROM HOME_AI_VIEW
+        WHERE ADDRESS LIKE '%' || #{address} || '%' AND HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
     </select>
 
     <select id="getSubwayList" resultType="map">
-        select * from SUBWAY
+        SELECT SUB_LAT, SUB_LON FROM SUBWAY
     </select>
 
     <select id="getBusList" resultType="map">
-        select * from BUS
+        SELECT BUS_LAT, BUS_LON FROM BUS
     </select>
 
     <select id="getHospList" resultType="map">
-        select HOS_NAME, HOS_LAT, HOS_LON from HOSPITAL
+        select HOS_LAT, HOS_LON from HOSPITAL
     </select>
 
     <select id="getParkList" resultType="map">
-        select * from PARK
+        SELECT PARK_LAT, PARK_LON FROM PARK
     </select>
 
     <select id="getElemList" resultType="map">
-        select * from LOWSCHOOLE
+        SELECT LOW_LAT, LOW_LON FROM LOWSCHOOLE
     </select>
 
     <select id="getMidList" resultType="map">
-        select * from MIDDLESCHOOLE
+        SELECT MID_LAT, MID_LON FROM MIDDLESCHOOLE
     </select>
 
     <select id="getHighList" resultType="map">
-        select * from HIGHSCHOOLE
+        SELECT HI_LAT, HI_LON FROM HIGHSCHOOLE
+    </select>
+
+    <!-- 조건부 데이터 조회 지역만 선택했을 경우 -->
+    <select id="findByAddress" parameterType="string" resultType="map">
+        SELECT * FROM HOME_AI_VIEW
+        WHERE ADDRESS = #{address}
     </select>
 
 </mapper>

@@ -58,5 +58,10 @@ public class HomeServiceImpl implements HomeService{
         return homeMapper.getHighList();
     }
 
+    @Override
+    public List<Map<String, Object>> findByAddress(String address) {
+        return homeMapper.findByAddress(address);
+    }
+
 
 }

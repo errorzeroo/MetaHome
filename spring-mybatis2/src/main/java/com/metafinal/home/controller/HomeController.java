@@ -10,15 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -155,8 +149,8 @@ public class HomeController {
     @GetMapping("/chart")
     @ResponseBody // JSON 데이터를 직접 반환
     public String findSimilarAddresses2(
-            @RequestParam String address, // 사용자 입력 주소
-            @RequestParam String homeKind, // 사용자 입력 주택유형
+            @RequestParam(required = false, defaultValue = "") String address, // 사용자 입력 주소
+            @RequestParam(required = false, defaultValue = "") String homeKind, // 사용자 입력 주택유형
             @RequestParam String columns, // 사용자 입력 컬럼
             @RequestParam String values   // 사용자 입력 값
     ) {
@@ -178,30 +172,61 @@ public class HomeController {
         }
     }
 
-    @GetMapping("/one")
-    @ResponseBody // JSON 데이터를 직접 반환
-    public String findaddress(
-            @RequestParam String address, // 사용자 입력 주소
-            @RequestParam String homeKind, // 사용자 입력 주택유형
-            @RequestParam String columns, // 사용자 입력 컬럼
-            @RequestParam String values   // 사용자 입력 값
-    ) {
-        PythonRunner pythonRunner = new PythonRunner();
-        String result = pythonRunner.runPythonScript(address, homeKind, columns, values);
+    @PostMapping("/recom")
+    public String processRecommendations(@RequestBody List<Map<String, Object>> requestData,Model m) {
+        // 컨트롤러 로직
+        List<Map<String ,Object>> homeList = new ArrayList<>();
 
-        if (result == null) {
-            return "{\"error\": \"Python 실행 중 오류가 발생했습니다.\"}";
+        // JSON 데이터에서 각 address 값을 순회
+        for (Map<String, Object> item : requestData) {
+            String address = (String) item.get("address");
+
+            // address로 DB에서 데이터 조회
+            List<Map<String ,Object>> homes = homeService.findByAddress(address);
+
+            // 조회된 데이터를 homeList에 추가
+            homeList.addAll(homes);
+        }
+        log.info("Home data for address {}: {}", homeList.size());
+
+
+        // HOME_IMG 값을 배열로 변환 (homeList 처리)
+        for (Map<String, Object> home : homeList) {
+            String homeImg = (String) home.get("HOME_IMG");
+            if (homeImg != null) {
+                // 탭(\t)으로 구분된 URL을 배열로 변환
+                String[] imgArray = homeImg.split("\t");
+                home.put("HOME_IMG", imgArray); // 배열로 다시 저장
+            }
         }
 
-        // JSON 데이터를 Java 객체로 변환 후 다시 JSON 문자열로 처리
+        // 주소 기준으로 중복 제거 (filteredList 생성)
+        Map<String, Map<String, Object>> filteredMap = new LinkedHashMap<>();
+        for (Map<String, Object> home : homeList) {
+            String homeAddress = (String) home.get("HOME_ADDRESS");
+            if (!filteredMap.containsKey(homeAddress)) {
+                filteredMap.put(homeAddress, home); // 첫 번째 데이터만 유지
+            }
+        }
+        List<Map<String, Object>> filteredList = new ArrayList<>(filteredMap.values());
+
+        // JSON으로 변환
         ObjectMapper objectMapper = new ObjectMapper();
+        String homeListJson = "";
+        String filteredListJson = "";
+
         try {
-            List<Map<String, Object>> addressList = objectMapper.readValue(result, new TypeReference<List<Map<String, Object>>>() {});
-            return objectMapper.writeValueAsString(addressList); // JSON 데이터를 반환
-        } catch (JsonProcessingException e) {
-            log.error("JSON 변환 오류", e);
-            return "{\"error\": \"JSON 데이터를 처리하는 중 오류가 발생했습니다.\"}";
+            homeListJson = objectMapper.writeValueAsString(homeList); // homeList를 JSON 문자열로 변환
+            filteredListJson = objectMapper.writeValueAsString(filteredList); // filteredList를 JSON 문자열로 변환
+            // filteredList를 JSON 문자열로 변환
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        m.addAttribute("homeListJson", homeListJson);
+        m.addAttribute("filteredListJson", filteredListJson);
+
+        return "test"; // JSON 형식으로 반환
     }
 
 
