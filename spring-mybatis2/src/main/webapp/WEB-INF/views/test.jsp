@@ -1270,7 +1270,7 @@
 
 
             <div id="slideContentContainer" class="slide-content-container">
-            <div class="list-check-button"> <button id="checkButton"><img id="checkImage" src="/images/icon/slideButton.png" class="slide-logo-title">모집 중인 매물만 확인! </button></div>
+            <div class="list-check-button"> <button id="checkButton"><img id="checkImage" src="/images/icon/slideButton.png" class="slide-logo-title" onclick="setRecruit">모집 중인 매물만 확인! </button></div>
             </div>
             <div id="detailContainer"></div>
 
@@ -1398,6 +1398,11 @@
 
 <script>
 
+    // 초기값 설정
+    let selectedAddress = '${address}';
+    let selectedHomeKind = '${homeKind}';
+    let recruit = 'N'; // 기본값은 'N'
+
     function showAlert() {
           alert("이 기능은 준비 중입니다. 지켜봐 주시면 감사하겠습니다!");
         }
@@ -1408,18 +1413,23 @@
 
     // 클릭 이벤트 리스너 추가
     button.addEventListener('click', () => {
+
+     // recruit 값을 토글
+     recruit = recruit === 'N' ? 'Y' : 'N';
+
       // 이미지 소스를 변경
       if (image.src.includes('/images/icon/slideButton.png')) {
         image.src = '/images/icon/park.png'; // 새로운 이미지로 변경
       } else {
         image.src = '/images/icon/slideButton.png'; // 다시 원래 이미지로 변경
       }
+
+      // URL 업데이트 호출
+      updateURL();
     });
 
 
-    // 초기값 설정
-    let selectedAddress = '${address}';
-    let selectedHomeKind = '${homeKind}';
+
 
     // 서버에서 값이 전달되지 않을 경우 기본값으로 설정
     if (!selectedAddress || selectedAddress === '${address}') {
@@ -1529,13 +1539,15 @@
         updateURL();
     }
 
+
     // URL 업데이트
     function updateURL() {
 
         const encodedAddress = encodeURIComponent(selectedAddress || '');
         const encodedHomeKind = encodeURIComponent(selectedHomeKind || '');
+        const encodedRecruit = encodeURIComponent(recruit || '');
 
-        const url = `/home?address=\${encodedAddress}&homeKind=\${encodedHomeKind}`;
+        const url = `/home?address=\${encodedAddress}&homeKind=\${encodedHomeKind}&recruit=\${encodedRecruit}`;
         console.log("updateURL: 생성된 URL:", url);
 
         // 페이지를 새 URL로 리디렉션 (새로 고침)

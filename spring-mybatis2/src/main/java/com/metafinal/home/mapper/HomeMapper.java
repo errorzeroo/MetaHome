@@ -21,4 +21,8 @@ public interface HomeMapper {
     List<Map<String, Object>> getMidList();
     List<Map<String, Object>> getHighList();
     List<Map<String, Object>> findByAddress(String address);
+    List<Map<String, Object>> getAllHomesRecr(String recruit);
+    List<Map<String, Object>> getHomeAreaRecr(String address, String recruit);
+    List<Map<String, Object>> getHomeKindRecr(String homeKind, String recruit);
+    List<Map<String, Object>> getMyHomeRecr(String address, String homeKind, String recruit);
 }

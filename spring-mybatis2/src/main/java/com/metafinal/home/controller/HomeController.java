@@ -25,16 +25,25 @@ public class HomeController {
 
     @GetMapping()
     public String getList(Model m, @RequestParam(required = false, defaultValue = "") String address,
-                          @RequestParam(required = false, defaultValue = "") String homeKind) {
+                          @RequestParam(required = false, defaultValue = "") String homeKind,
+                          @RequestParam(required = false, defaultValue = "N") String recruit) {
         List<Map<String, Object>> homeList;
 
         // 조건에 따라 homeList 가져오기
-        if ((address == null || address.isEmpty()) && (homeKind == null || homeKind.isEmpty())) {
+        if ((address == null || address.isEmpty()) && (homeKind == null || homeKind.isEmpty()) && recruit.equals("Y")) {
+            homeList = homeService.getAllHomesRecr(recruit);
+        }else if((address == null || address.isEmpty()) && (homeKind == null || homeKind.isEmpty())) {
             homeList = homeService.getAllHomes();
-        } else if (homeKind == null || homeKind.isEmpty()) {
+        } else if ((homeKind == null || homeKind.isEmpty()) && recruit.equals("Y")) {
+            homeList = homeService.getHomeAreaRecr(address, recruit);
+        } else if(homeKind == null || homeKind.isEmpty()) {
             homeList = homeService.getHomeArea(address);
-        } else if (address == null || address.isEmpty()) {
+        }else if((address == null || address.isEmpty()) && recruit.equals("Y")) {
+            homeList = homeService.getHomeKindRecr(homeKind, recruit);
+        }else if (address == null || address.isEmpty()) {
             homeList = homeService.getHomeKind(homeKind);
+        } else if(recruit.equals("Y")){
+            homeList = homeService.getMyHomeRecr(address, homeKind, recruit);
         } else {
             homeList = homeService.getMyHome(address, homeKind);
         }

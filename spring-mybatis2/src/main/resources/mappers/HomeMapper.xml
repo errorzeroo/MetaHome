@@ -8,10 +8,20 @@
         SELECT * FROM HOME_AI_MV
     </select>
 
+    <select id="getAllHomesRecr" resultType="map">
+        SELECT * FROM HOME_AI_VIEW
+        WHERE HOME_RECR = #{recruit}<!-- 뒤에  추가 -->
+    </select>
+
     <!-- 조건부 데이터 조회 지역만 선택했을 경우 -->
     <select id="getHomeArea" parameterType="string" resultType="map">
         SELECT * FROM HOME_AI_VIEW
         WHERE ADDRESS LIKE '%' || #{address} || '%'
+    </select>
+
+    <select id="getHomeAreaRecr" parameterType="string" resultType="map">
+        SELECT * FROM HOME_AI_VIEW
+        WHERE ADDRESS LIKE '%' || #{address} || '%' AND HOME_RECR = #{recruit}
     </select>
 
     <!-- 조건부 데이터 조회 주택유형만 선택했을 경우 -->
@@ -20,10 +30,20 @@
         WHERE HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
     </select>
 
+    <select id="getHomeKindRecr" parameterType="string" resultType="map">
+        SELECT * FROM HOME_AI_VIEW
+        WHERE HOME_KIND = #{homeKind} AND HOME_RECR = #{recruit}<!-- 뒤에  추가 -->
+    </select>
+
     <!-- 조건부 데이터 조회 주택유형,지역 선택했을 경우 -->
     <select id="getMyHome" parameterType="string" resultType="map">
         SELECT * FROM HOME_AI_VIEW
         WHERE ADDRESS LIKE '%' || #{address} || '%' AND HOME_KIND = #{homeKind}<!-- 뒤에  추가 -->
+    </select>
+
+    <select id="getMyHomeRecr" parameterType="string" resultType="map">
+        SELECT * FROM HOME_AI_VIEW
+        WHERE ADDRESS LIKE '%' || #{address} || '%' AND HOME_KIND = #{homeKind} AND HOME_RECR = #{recruit}<!-- 뒤에  추가 -->
     </select>
 
     <select id="getSubwayList" resultType="map">

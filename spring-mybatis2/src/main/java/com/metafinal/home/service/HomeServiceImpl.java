@@ -63,5 +63,25 @@ public class HomeServiceImpl implements HomeService{
         return homeMapper.findByAddress(address);
     }
 
+    @Override
+    public List<Map<String, Object>> getAllHomesRecr(String recruit) {
+        return homeMapper.getAllHomesRecr(recruit);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHomeAreaRecr(String address, String recruit) {
+        return homeMapper.getHomeAreaRecr(address, recruit);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHomeKindRecr(String homeKind, String recruit) {
+        return homeMapper.getHomeKindRecr(homeKind, recruit);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMyHomeRecr(String address, String homeKind, String recruit) {
+        return homeMapper.getMyHomeRecr(address, homeKind, recruit);
+    }
+
 
 }
