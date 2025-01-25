@@ -182,22 +182,22 @@ public class HomeController {
     }
 
     @PostMapping("/recom")
-    public String processRecommendations(@RequestBody List<Map<String, Object>> requestData,Model m) {
+    @ResponseBody
+    public Map<String, Object> processRecommendations(@RequestBody List<Map<String, Object>> requestData) {
         // 컨트롤러 로직
-        List<Map<String ,Object>> homeList = new ArrayList<>();
+        List<Map<String, Object>> homeList = new ArrayList<>();
 
         // JSON 데이터에서 각 address 값을 순회
         for (Map<String, Object> item : requestData) {
             String address = (String) item.get("address");
 
             // address로 DB에서 데이터 조회
-            List<Map<String ,Object>> homes = homeService.findByAddress(address);
+            List<Map<String, Object>> homes = homeService.findByAddress(address);
 
             // 조회된 데이터를 homeList에 추가
             homeList.addAll(homes);
         }
         log.info("Home data for address {}: {}", homeList.size());
-
 
         // HOME_IMG 값을 배열로 변환 (homeList 처리)
         for (Map<String, Object> home : homeList) {
@@ -219,24 +219,14 @@ public class HomeController {
         }
         List<Map<String, Object>> filteredList = new ArrayList<>(filteredMap.values());
 
-        // JSON으로 변환
-        ObjectMapper objectMapper = new ObjectMapper();
-        String homeListJson = "";
-        String filteredListJson = "";
+        // 결과를 JSON 형태로 반환
+        Map<String, Object> response = new HashMap<>();
+        response.put("homeList", homeList);         // 전체 데이터
+        response.put("filteredList", filteredList); // 중복 제거 데이터
 
-        try {
-            homeListJson = objectMapper.writeValueAsString(homeList); // homeList를 JSON 문자열로 변환
-            filteredListJson = objectMapper.writeValueAsString(filteredList); // filteredList를 JSON 문자열로 변환
-            // filteredList를 JSON 문자열로 변환
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        m.addAttribute("homeListJson", homeListJson);
-        m.addAttribute("filteredListJson", filteredListJson);
-
-        return "test"; // JSON 형식으로 반환
+        return response;
     }
+
 
 
 }

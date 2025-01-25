@@ -1259,12 +1259,12 @@
                     </div>
                 </div>
 
-
+               <!-- 하단 고정 버튼 -->
+               <button class="fixed-bottom-button" id="submitButton">나에게 맞는 집 찾기!</button>
 
            </div>
 
-           <!-- 하단 고정 버튼 -->
-           <button class="fixed-bottom-button" id="submitButton">나에게 맞는 집 찾기!</button>
+
 
 
 
@@ -1738,7 +1738,7 @@
     // 초기 데이터 렌더링 함수
     function populateSlideContent(data) {
         if (!data || data.length === 0) {
-            slideContainer.innerHTML = "<p>데이터가 없습니다.</p>";
+            slideContainer.innerHTML = "<p class='no-data-message'>데이터가 없습니다.</p>";
             return;
         }
 
@@ -2468,10 +2468,11 @@
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
+                    return response.json(); // JSON 형식으로 응답 처리
                 })
                 .then(processedData => {
                     console.log("서버에서 처리된 데이터:", processedData);
-
+                    updateList(processedData.filteredList); // 새로운 데이터로 리스트 업데이트
 
                 })
                 .catch(error => {
@@ -2483,10 +2484,49 @@
             })
             .catch(error => {
                 console.error("데이터 처리 중 오류 발생:", error);
+
             });
 
 
              });
+
+         function stopInfiniteScroll() {
+             const slideContainer = document.getElementById("slideContentContainer");
+             slideContainer.removeEventListener("scroll", handleScroll); // 스크롤 이벤트 제거
+             console.log("Infinite scroll stopped!");
+         }
+
+        function updateList(filteredList) {
+            const slideContainer = document.getElementById("slideContentContainer"); // 리스트 컨테이너
+            const template = document.getElementById("slide-item-template"); // 리스트 템플릿
+
+            // 기존 리스트 초기화
+            slideContainer.innerHTML = "";
+
+            // 새로운 데이터를 기반으로 리스트 생성
+            filteredList.forEach((item) => {
+                const clone = template.content.cloneNode(true);
+                clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+                clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+                clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+                clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+                clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+
+                // 클릭 이벤트 추가 (선택된 데이터를 처리하거나 다른 작업 수행 가능)
+                const listItem = clone.querySelector(".list-item");
+                listItem.addEventListener("click", () => {
+                    console.log(`Selected Item: ${item.HOME_NAME}`);
+                    // 추가 작업 수행
+                });
+
+                slideContainer.appendChild(clone); // 리스트에 추가
+            });
+
+            // 무한 스크롤 중지
+            stopInfiniteScroll();
+
+            console.log("List updated with new data!");
+        }
 
         // 새로고침
         function resetSelection1() {
