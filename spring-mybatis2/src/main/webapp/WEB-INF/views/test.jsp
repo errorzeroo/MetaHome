@@ -456,21 +456,20 @@
         left: 850px; /* 원하는 위치 지정 */
         width: 450px; /* 여기에 if문으로 차트 크기 조절 */
         height: 300px;
+        flex-direction: row; /* 수평 정렬 */
         background-color: #fff; /* 배경 색상 */
         border: 1px solid lightgray; /* 경계선 */
         border-radius: 12px; /* 모서리 둥글게 */
         padding: 20px; /* 내부 여백 */
-        height: 300px;
         z-index: 10; /* 맵보다 높은 계층 */
     }
     .chart-container {
-        flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
+        flex: 3; /* 그래프가 더 넓게 차지 */
         height: 300px; /* 차트 컨테이너 높이 */
-        position: relative;
     }
     .chart-container canvas {
-        width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
-        height: 300px !important;
+        width: 100% !important; /* 캔버스를 컨테이너에 맞춤 */
+        height: 100% !important; /* 캔버스 높이 맞춤 */
     }
     .chart-title {
         font-size: 18px; /* 글자 크기 */
@@ -481,11 +480,11 @@
         padding-left: 10px; /* 왼쪽 패딩 */
     }
     .score-container {
-        flex: 1; /* 점수 컨테이너가 차트보다 좁게 설정 */
+        flex: 1; /* 그래프가 더 넓게 차지 */
+        align-items: center; /* 수직 정렬 중앙 */
+        justify-content: center; /* 수평 정렬 중앙 */
+        height: 300px; /* 차트 컨테이너 높이 */
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         text-align: center;
     }
     .score-content {
@@ -509,6 +508,7 @@
     .list-check-button{
         position: relative;
         margin-bottom: 13px;
+        top: 70px;
         left: 220px;
     }
 
@@ -1266,11 +1266,13 @@
 
 
 
+            <div class="list-check-button"> <button id="checkButton">
+            <img id="checkImage" src="/images/icon/slideButton.png" class="slide-logo-title" onclick="setRecruit">
+            모집 중인 매물만 확인! </button></div>
 
 
 
             <div id="slideContentContainer" class="slide-content-container">
-            <div class="list-check-button"> <button id="checkButton"><img id="checkImage" src="/images/icon/slideButton.png" class="slide-logo-title" onclick="setRecruit">모집 중인 매물만 확인! </button></div>
             </div>
             <div id="detailContainer"></div>
 
@@ -1369,12 +1371,10 @@
         </div>
 
         <!-- 차트 추가 -->
-        <div class="chart-container-with-score" id = "chartContainer">
-            <!-- 그래프 컨테이너 -->
+        <div class="chart-container-with-score" id="chartContainer">
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
             </div>
-            <!-- 오른쪽 이미지와 점수 -->
             <div class="score-container">
                 <div class="score-content">
                     <img src="/images/Elephant.png" alt="점수 아이콘" class="score-image">
@@ -1401,7 +1401,8 @@
     // 초기값 설정
     let selectedAddress = '${address}';
     let selectedHomeKind = '${homeKind}';
-    let recruit = 'N'; // 기본값은 'N'
+    const urlParams = new URLSearchParams(window.location.search);
+    recruit = urlParams.get('recruit') || 'N'; // URL에서 recruit 값을 가져옴
 
     function showAlert() {
           alert("이 기능은 준비 중입니다. 지켜봐 주시면 감사하겠습니다!");
@@ -1546,6 +1547,9 @@
         const encodedAddress = encodeURIComponent(selectedAddress || '');
         const encodedHomeKind = encodeURIComponent(selectedHomeKind || '');
         const encodedRecruit = encodeURIComponent(recruit || '');
+        const timestamp = Date.now(); // 캐싱 방지
+        console.log("encodedRecruit: 생성된 encodedRecruit:", encodedRecruit);
+
 
         const url = `/home?address=\${encodedAddress}&homeKind=\${encodedHomeKind}&recruit=\${encodedRecruit}`;
         console.log("updateURL: 생성된 URL:", url);
@@ -2424,22 +2428,18 @@
                 return values;
             }
 
-            function getAddressAndHomeKind() {
-                // address와 homeKind 값을 가져오기
-                const address = document.querySelector('#dropdownButton').textContent.trim();
-                const homeKind = document.querySelector('#homeKindButton').textContent.trim();
-
-                // "전체"가 선택된 경우 빈 문자열 반환
-                return {
-                    address: address === '전체' ? '' : address,
-                    homeKind: homeKind === '전체' ? '' : homeKind,
-                };
+            function getParamsFromUrl() {
+                const params = new URLSearchParams(window.location.search); // URL의 쿼리 파라미터 파싱
+                const address = params.get('address') || 'No'; // address 값이 없으면 빈 문자열
+                const homeKind = params.get('homeKind') || 'No'; // homeKind 값이 없으면 빈 문자열
+                return { address, homeKind };
             }
 
             const sliderData = getSliderValues();
-            const { address, homeKind } = getAddressAndHomeKind();
+            const { address, homeKind } = getParamsFromUrl();
             const columns = sliderData.map(s => s.column).join(',');
             const values = sliderData.map(s => s.value).join(',');
+            const timestamp = Date.now(); // 캐싱 방지
 
             console.log("Address:", address);
             console.log("HomeKind:", homeKind);
@@ -2447,7 +2447,7 @@
             console.log("Values:", values);
 
             // Ajax 요청으로 데이터 전송
-            fetch(`/home/chart?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
+            fetch(`/home/five?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -2502,6 +2502,7 @@
 
             // 기존 리스트 초기화
             slideContainer.innerHTML = "";
+            let currentMarker = null;
 
             // 새로운 데이터를 기반으로 리스트 생성
             filteredList.forEach((item) => {
@@ -2517,7 +2518,357 @@
                 listItem.addEventListener("click", () => {
                     console.log(`Selected Item: ${item.HOME_NAME}`);
                     // 추가 작업 수행
-                });
+                    // 슬라이더 값을 동적으로 가져오는 함수
+                    function getSliderValues() {
+                        const sliders = [
+                            { id: "subwaySlider", name: "subway" },
+                            { id: "busSlider", name: "bus" },
+                            { id: "elementarySlider", name: "element" },
+                            { id: "middleSlider", name: "middle" },
+                            { id: "highSlider", name: "high" },
+                            { id: "hospitalSlider", name: "hospitalcount" },
+                            { id: "parkingSlider", name: "parking" },
+                            { id: "parkSlider", name: "park" }
+                        ];
+
+                        // 슬라이더 값 가져오기 및 필터링 (0.00 값 제거)
+                        const values = sliders
+                            .map(slider => ({
+                                column: slider.name,
+                                value: parseFloat(document.getElementById(slider.id).value)
+                            }))
+                            .filter(slider => slider.value !== 0.00); // 값이 0.00인 항목 제거
+
+                        return values;
+                    }
+
+                    const sliderData = getSliderValues();
+                    // 선택한 리스트의 주소를 이용해서 차트 그리기
+                    const address = item.HOME_ADDRESS.trim();
+                    const homeKind = item.HOME_KIND.trim();
+                    // 컬럼 이름과 값 배열로 변환
+                    const columns = sliderData.map(s => s.column).join(',');
+                    const values = sliderData.map(s => s.value).join(',');
+
+                    console.log("Columns:", columns);
+                    console.log("Values:", values);
+                     console.log("address5:", address);
+
+                    // Ajax 요청으로 데이터 전송
+                    fetch(`/home/chart?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json(); // 서버에서 JSON 결과를 받음
+                        })
+                        .then(jdata => {
+                            console.log("서버로부터 받은 데이터:", jdata);
+                            // 받은 데이터를 화면에 렌더링
+                            const jsonData = jdata; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
+                            console.log("JSON Data:", jsonData);
+                            const parsedData = jsonData;
+
+                            // 1. 키 배열 가져오기
+                            const keys = Object.keys(parsedData[0]);
+                            console.log("All Keys:", keys); // 모든 키 확인
+
+                            // similar 값을 가져와 100을 곱한 점수를 계산
+                            const score = Math.floor(parsedData[0].similar * 100); // 첫 번째 데이터의 similar 값 사용
+                            console.log("Score:", score); // 콘솔로 점수 확인
+
+                            // 점수를 HTML에 표시
+                            document.querySelector(".score-number").textContent = score;
+
+                            // 2. 첫 번째와 두 번째 키를 제외
+                            const relevantKeys = keys.slice(3); // 첫 번째(0)와 두 번째(1) 키 제외
+                            console.log("Relevant Keys:", relevantKeys); // 예: ["park", "bus", "subway", ...]
+
+                            // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
+                            const keyMapping = {
+                                park: "공원",
+                                bus: "버스",
+                                subway: "지하철",
+                                hospitalcount: "병원",
+                                element: "초등학교",
+                                middle: "중학교",
+                                high: "고등학교",
+                                parking: "주차장"
+                            };
+
+                             // 라벨별 이미지를 매핑
+                                const labelImagesMapping = {
+                                    park: "/images/icon/park.png",
+                                    bus: "/images/icon/bus.png",
+                                    subway: "/images/icon/subway.png",
+                                    hospitalcount: "/images/icon/hospitalcount.png",
+                                    element: "/images/icon/element.png",
+                                    middle: "/images/icon/middle.png",
+                                    high: "/images/icon/high.png",
+                                    parking: "/images/icon/parking.png"
+                                };
+
+                                // 4. 라벨과 데이터 추출
+                                const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
+                                const data = relevantKeys.map((key) => parsedData[0][key] * 100); // 퍼센트 변환
+                                const labelImages = relevantKeys.map((key) => labelImagesMapping[key]); // 사용된 컬럼에 해당하는 이미지 경로 추출
+                                console.log("Labels (한국어):", labels);
+                                console.log("Data:", data);
+                                console.log("Label Images:", labelImages);
+
+                            // 5. backgroundColor 동적 생성
+                            const backgroundColors = relevantKeys.map((_, index) => {
+                                const colors = [
+                                    'rgba(111, 140, 93, 1)',
+                                    'rgba(255, 107, 107, 1)',
+                                    'rgba(255, 111, 60, 1)',
+                                    'rgba(134, 205, 255, 1)',
+                                    'rgba(255, 255, 86, 1)',
+                                    'rgba(155, 136, 255, 1)',
+                                    'rgba(175, 136, 101, 1)',
+                                    'rgba(255, 107, 107, 1)',
+                                ];
+                                return colors[index % colors.length]; // 순환하여 색상 선택
+                            });
+                            console.log("Background Colors:", backgroundColors);
+
+                            // 4. Chart.js로 차트 생성
+                            try {
+                                const ctx = document.getElementById('myChart').getContext('2d');
+
+                               // 기존 차트를 제거하기 전에 Chart 객체인지 확인
+                               if (window.myChart instanceof Chart) {
+                                   window.myChart.destroy();
+                               }
+
+                                // 새 차트 생성
+                                window.myChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels, // X축 라벨
+                                        datasets: [{
+                                            label: "생활 인프라 매칭 점수",
+                                            data: data, // Y축 데이터
+                                            backgroundColor: backgroundColors,
+                                            borderWidth: 1,
+                                            maxBarThickness: 15, // 막대 최대 두께
+                                            borderSkipped: false,
+                                            borderRadius: [
+                                                { topLeft: 10, topRight: 10 },
+                                            ]
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        scales: {
+                                            x: {
+                                                beginAtZero: true,
+                                                grid: { display: false },
+                                                ticks: {
+                                                    color: 'white', // 라벨 글자 색상
+                                                    font: { size: 14 } // 글자 크기
+                                                }
+                                            },
+                                            y: {
+                                                beginAtZero: true,
+                                                grid: { display: false },
+                                            }
+                                        },
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: '생활 인프라 매칭 점수',
+                                                font: { size: 18, weight: 'bold' },
+                                                padding: { top: 10, bottom: 20 },
+                                                align: 'start',
+                                                color: '#333'
+                                            },
+                                            legend: {
+                                                display: false,
+                                            },
+                                            tooltip: {
+                                                enabled: true
+                                            }
+                                        }
+                                    },
+                                    plugins: [
+                                        {
+                                            id: 'custom-label-images',
+                                            afterDraw(chart) {
+                                                const ctx = chart.ctx;
+                                                const xAxis = chart.scales.x;
+                                                const yAxis = chart.scales.y;
+
+                                                xAxis.ticks.forEach((tick, index) => {
+                                                    const x = xAxis.getPixelForTick(index);
+                                                    const imageY = yAxis.bottom + 10;
+                                                    const textY = imageY + 45;
+
+                                                    // 이미지를 라벨에 맞게 가져오기
+                                                    const image = new Image();
+                                                    image.src = labelImages[index];
+
+                                                    // 이미지를 그리기
+                                                    image.onload = () => {
+                                                        ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 위치와 크기 조정
+                                                    };
+
+                                                    // 텍스트를 이미지 아래에 추가
+                                                    ctx.font = '10px Arial';
+                                                    ctx.textAlign = 'center';
+                                                    ctx.fillStyle = 'black';
+                                                    ctx.fillText(labels[index], x, textY);
+                                                });
+                                            }
+                                        }
+                                    ]
+                                });
+                            } catch (error) {
+                                console.error("Chart.js 렌더링 중 오류 발생:", error);
+                            }
+
+                        })
+                        .catch(error => {
+                            console.error("데이터 처리 중 오류 발생:", error);
+                        });
+
+                        // HOME_ADDRESS 필드를 사용하여 데이터 필터링
+                         const filteredData = DataText.filter(
+                             (home) => home.HOME_ADDRESS.trim().toLowerCase() === item.HOME_ADDRESS.trim().toLowerCase()
+                         );
+                         // 주소-좌표 변환 객체를 생성합니다
+                         const geocoder = new kakao.maps.services.Geocoder();
+
+                         // 주소로 좌표를 검색합니다
+                         geocoder.addressSearch(item.HOME_ADDRESS, function(result, status) {
+
+                             // 정상적으로 검색이 완료됐으면
+                              if (status === kakao.maps.services.Status.OK) {
+
+                                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                                 // 기존 마커 제거
+                                 if (currentMarker) {
+                                     currentMarker.setMap(null);
+                                 }
+
+                                 // 결과값으로 받은 위치를 마커로 표시합니다
+                                 currentMarker = new kakao.maps.Marker({
+                                     map: map,
+                                     position: coords,
+                                     isClicked: false
+                                 });
+
+                                 // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                                 //map.setCenter(coords);
+                                 // 지도 중심 이동: 화면 오른쪽 절반으로 이동
+                                 // 지도 중심 이동: 선택된 좌표가 화면의 200px 왼쪽에 오도록 이동
+                                 const mapWidth = mapContainer.offsetWidth;
+                                 const mapHeight = mapContainer.offsetHeight;
+
+                                 // 화면에서 좌표가 위치해야 할 X축 위치 (200px 왼쪽)
+                                 const moveX = coords.getLng() - (15 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
+                                 const moveY = coords.getLat();  // 세로는 그대로 중앙
+
+                                 // 새로 이동할 지도 중심 좌표
+                                 const newCenter = new kakao.maps.LatLng(moveY, moveX);
+
+                                 // 지도 이동
+                                 map.panTo(newCenter);
+                             }
+
+                             let isClicked = false;
+
+                             // 마커에 마우스 오버 이벤트 추가
+                             kakao.maps.event.removeListener(currentMarker, 'mouseover');
+                             kakao.maps.event.addListener(currentMarker, 'mouseover', function() {
+                                 if (!currentMarker.isClicked) {
+                                         showChart(); // 마우스를 올리면 차트를 표시
+                                     }
+                             });
+
+                             // 마커에 마우스 아웃 이벤트 추가
+
+                             kakao.maps.event.addListener(currentMarker, 'mouseout',  function() {
+                                if (!currentMarker.isClicked) {
+                                        hideChart(); // 마우스를 내리면 차트를 숨김
+                                    }
+                             });
+
+                             kakao.maps.event.addListener(currentMarker, 'click', function() {
+                                   const chartContainer = document.getElementById('chartContainer');
+                                   // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
+                                   if(!currentMarker.isClicked){
+                                   chartContainer.style.display = 'block';  // 차트 컨테이너 고정 표시
+                                   currentMarker.isClicked = true;} else {
+                                   chartContainer.style.display = 'none';  // 차트 컨테이너 고정 표시
+                                   currentMarker.isClicked = false;
+                                   }
+                                    // 클릭 상태로 설정
+
+
+                             });
+                         });
+
+
+
+
+
+                         // 슬라이드 데이터 준비
+                         const slides = document.getElementById("infoCard");
+                         const prevButton = document.getElementById("prevSlide");
+                         const nextButton = document.getElementById("nextSlide");
+                         const closeButton = document.getElementById("closeInfoCard");
+
+                         let currentIndex = 0; // 현재 슬라이드 인덱스
+
+                         // 슬라이드 데이터 렌더링 함수
+                         function renderSlide(index) {
+                             const slideData = filteredData[index];
+
+                             document.getElementById("infoCardName").textContent = slideData.HOME_NAME || "N/A";
+                             document.getElementById("infoCardKind").textContent = slideData.HOME_KIND || "N/A";
+                             document.getElementById("infoCardNo").textContent = slideData.HOME_NO || "N/A";
+                             document.getElementById("infoCardCompany").textContent = slideData.HOME_CO || "N/A";
+                             document.getElementById("infoCardCount").textContent = slideData.HOME_COUNT || "N/A";
+                             document.getElementById("infoCardParking").textContent = slideData.HOME_PARKING || "N/A";
+                             document.getElementById("infoCardAddress").textContent = slideData.HOME_ADDRESS || "정보 없음";
+                             document.getElementById("infoCardDeposit").textContent = slideData.HOME_DEP || "정보 없음";
+                             document.getElementById("infoCardRent").textContent = slideData.HOME_MOTH_PAI || "정보 없음";
+                             document.getElementById("infoCardMy").textContent = slideData.HOME_MYAREA || "정보 없음";
+                             document.getElementById("infoCardWe").textContent = slideData.HOME_WEAREA || "정보 없음";
+                             document.getElementById("infoCardBus").textContent = slideData.BUS_DIST ? `\${slideData.BUS_DIST}m` : "정보 없음";
+                             document.getElementById("infoCardSubway").textContent = slideData.SUB_DIST ? `\${slideData.SUB_DIST}m` : "정보 없음";
+                             document.getElementById("infoCardLow").textContent = slideData.LOW_DIST ? `\${slideData.LOW_DIST}m` : "정보 없음";
+                             document.getElementById("infoCardMid").textContent = slideData.MID_DIST ? `\${slideData.MID_DIST}m` : "정보 없음";
+                             document.getElementById("infoCardHigh").textContent = slideData.HI_DIST ? `\${slideData.HI_DIST}m` : "정보 없음";
+                             document.getElementById("infoCardHos").textContent = slideData.HOS_DIST ? `\${slideData.HOS_DIST}m` : "정보 없음";
+                             document.getElementById("infoCardPark").textContent = slideData.PARK_DIST ? `\${slideData.PARK_DIST}m` : "정보 없음";
+                            document.getElementById("infoCardParking1").textContent = slideData.PARKING_DIST ? `\${slideData.PARKING_DIST}m` : "정보 없음";
+
+
+                             console.log("Showing Slide:", index, slideData);
+                         }
+
+                         // 이전 버튼 클릭 이벤트
+                         prevButton.addEventListener("click", () => {
+                             currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
+                             renderSlide(currentIndex);
+                         });
+
+                         // 다음 버튼 클릭 이벤트
+                         nextButton.addEventListener("click", () => {
+                             currentIndex = (currentIndex + 1) % filteredData.length;
+                             renderSlide(currentIndex);
+                         });
+
+                         // 첫 슬라이드 렌더링
+                         renderSlide(currentIndex);
+
+                         // 슬라이드 표시
+                         slides.classList.add("visible");
+                     });
 
                 slideContainer.appendChild(clone); // 리스트에 추가
             });

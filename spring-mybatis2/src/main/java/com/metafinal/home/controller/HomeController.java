@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.metafinal.home.PythonRunner;
+import com.metafinal.home.PythonRunner2;
 import com.metafinal.home.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -160,11 +161,41 @@ public class HomeController {
     public String findSimilarAddresses2(
             @RequestParam(required = false, defaultValue = "") String address, // 사용자 입력 주소
             @RequestParam(required = false, defaultValue = "") String homeKind, // 사용자 입력 주택유형
-            @RequestParam String columns, // 사용자 입력 컬럼
-            @RequestParam String values   // 사용자 입력 값
+            @RequestParam(required = false, defaultValue = "bus,subway,park,parking,hospitalcount,middle,element,high") String columns, // 사용자 입력 컬럼
+            @RequestParam(required = false, defaultValue = "0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00") String values
     ) {
         PythonRunner pythonRunner = new PythonRunner();
         String result = pythonRunner.runPythonScript(address, homeKind, columns, values);
+
+        if (result == null) {
+            return "{\"error\": \"Python 실행 중 오류가 발생했습니다.\"}";
+        }
+
+        // JSON 데이터를 Java 객체로 변환 후 다시 JSON 문자열로 처리
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<Map<String, Object>> addressList = objectMapper.readValue(result, new TypeReference<List<Map<String, Object>>>() {});
+            return objectMapper.writeValueAsString(addressList); // JSON 데이터를 반환
+        } catch (JsonProcessingException e) {
+            log.error("JSON 변환 오류", e);
+            return "{\"error\": \"JSON 데이터를 처리하는 중 오류가 발생했습니다.\"}";
+        }
+    }
+
+    @GetMapping("/five")
+    @ResponseBody // JSON 데이터를 직접 반환
+    public String fiveSimilarAddresses2(
+            @RequestParam(required = false, defaultValue = "No") String address, // 사용자 입력 주소
+            @RequestParam(required = false, defaultValue = "No") String homeKind, // 사용자 입력 주택유형
+            @RequestParam(required = false, defaultValue = "bus,subway,park,parking,hospitalcount,middle,element,high") String columns, // 사용자 입력 컬럼
+            @RequestParam(required = false, defaultValue = "0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00") String values   // 사용자 입력 값
+    ) {
+        log.info("address/five: {}", address);
+        log.info("homeKind/five: {}", homeKind);
+        log.info("columns/five: {}", columns);
+        log.info("values/five: {}", values);
+        PythonRunner2 pythonRunner2 = new PythonRunner2();
+        String result = pythonRunner2.runPythonScript(address, homeKind, columns, values);
 
         if (result == null) {
             return "{\"error\": \"Python 실행 중 오류가 발생했습니다.\"}";
