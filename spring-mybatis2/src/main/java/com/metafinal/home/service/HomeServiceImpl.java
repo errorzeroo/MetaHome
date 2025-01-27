@@ -83,5 +83,20 @@ public class HomeServiceImpl implements HomeService{
         return homeMapper.getMyHomeRecr(address, homeKind, recruit);
     }
 
+    @Override
+    public List<Map<String, Object>> findSeoul() {
+        return homeMapper.findSeoul();
+    }
+
+    @Override
+    public List<Map<String, Object>> findkind() {
+        return homeMapper.findkind();
+    }
+
+    @Override
+    public List<Map<String, Object>> findY() {
+        return homeMapper.findY();
+    }
+
 
 }

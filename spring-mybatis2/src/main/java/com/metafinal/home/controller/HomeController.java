@@ -9,11 +9,9 @@ import com.metafinal.home.PythonRunner2;
 import com.metafinal.home.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -42,20 +40,43 @@ public class HomeController {
     public String getList(Model m, @RequestParam(required = false, defaultValue = "") String address,
                           @RequestParam(required = false, defaultValue = "") String homeKind,
                           @RequestParam(required = false, defaultValue = "N") String recruit) {
-        // 허용 값 정의
-        List<String> validAddresses = Arrays.asList("", "강남구", "강동구", "강북구", "강서구", "관악구",
-                "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구",
-                "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구",
-                "은평구", "종로구", "중구", "중랑구");
-        List<String> validHomeKinds = Arrays.asList("", "아파트", "연립 주택", "다세대주택", "단독주택", "다가구주택", "오피스텔");
 
+        List<Map<String, Object>> validAddresses = homeService.findSeoul();
+        List<Map<String, Object>> valhomekind = homeService.findkind();
+        List<Map<String, Object>> valY = homeService.findY();
+        // validAddresses에서 "GU" 값만 추출
+        List<String> validAddressesOnly = new ArrayList<>();
+        for (Map<String, Object> map : validAddresses) {
+            if (map != null && map.containsKey("GU")) {
+                validAddressesOnly.add((String) map.get("GU")); // "GU" 값 추가
+            }
+        }
+
+        List<String> valhomekindOnly = new ArrayList<>();
+        for (Map<String, Object> map : valhomekind) {
+            if (map != null && map.containsKey("H_KIND")) {
+                valhomekindOnly.add((String) map.get("H_KIND")); // "GU" 값 추가
+            }
+        }
+
+        List<String> valYOnly = new ArrayList<>();
+        for (Map<String, Object> map : valY) {
+            if (map != null && map.containsKey("YN")) {
+                valYOnly.add((String) map.get("YN")); // "GU" 값 추가
+            }
+        }
+
+// 로그로 확인
+        log.info("Extracted validAddressesOnly: {}", validAddressesOnly);
+
+                log.info("valhomekindOnly: {}", valhomekindOnly );
         // 검증 로직
-        if (!address.isEmpty() && !validAddresses.contains(address)) {
+        if (!address.isEmpty() && !validAddressesOnly.contains(address)) {
             m.addAttribute("errorMessage", "Invalid address: " + address);
             return "error.jsp";
         }
 
-        if (!homeKind.isEmpty() && !validHomeKinds.contains(homeKind)) {
+        if (!homeKind.isEmpty() && !valhomekindOnly.contains(homeKind)) {
             m.addAttribute("errorMessage", "Invalid homeKind: " + homeKind);
             return "error.jsp";
         }

@@ -2219,12 +2219,12 @@
                     });
 
                     kakao.maps.event.addListener(currentMarker, 'click', function() {
-                          const chartContainer = document.getElementById('chartContainer');
+                          const chartContainer1 = document.getElementById('chartContainer');
                           // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                           if(!currentMarker.isClicked){
-                          chartContainer.style.display = 'block';  // 차트 컨테이너 고정 표시
+                          chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = true;} else {
-                          chartContainer.style.display = 'none';  // 차트 컨테이너 고정 표시
+                          chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = false;
                           }
                            // 클릭 상태로 설정
@@ -2797,12 +2797,12 @@
                              });
 
                              kakao.maps.event.addListener(currentMarker, 'click', function() {
-                                   const chartContainer = document.getElementById('chartContainer');
+                                   const chartContainer1 = document.getElementById('chartContainer');
                                    // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                                    if(!currentMarker.isClicked){
-                                   chartContainer.style.display = 'block';  // 차트 컨테이너 고정 표시
+                                   chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
                                    currentMarker.isClicked = true;} else {
-                                   chartContainer.style.display = 'none';  // 차트 컨테이너 고정 표시
+                                   chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                                    currentMarker.isClicked = false;
                                    }
                                     // 클릭 상태로 설정

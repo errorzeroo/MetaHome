@@ -80,4 +80,16 @@
         WHERE ADDRESS = #{address}
     </select>
 
+    <!-- 조건부 데이터 조회 지역만 선택했을 경우 -->
+    <select id="findSeoul" parameterType="string" resultType="map">
+        SELECT * FROM seoul
+    </select>
+
+    <select id="findkind" parameterType="string" resultType="map">
+        SELECT * FROM kind
+    </select>
+
+    <select id="findY" parameterType="string" resultType="map">
+        SELECT * FROM yon
+    </select>
 </mapper>
