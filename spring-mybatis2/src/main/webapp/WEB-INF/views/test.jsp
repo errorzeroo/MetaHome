@@ -2182,22 +2182,33 @@
                             isClicked: false
                         });
 
-                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                        //map.setCenter(coords);
-                        // 지도 중심 이동: 화면 오른쪽 절반으로 이동
-                        // 지도 중심 이동: 선택된 좌표가 화면의 200px 왼쪽에 오도록 이동
-                        const mapWidth = mapContainer.offsetWidth;
-                        const mapHeight = mapContainer.offsetHeight;
+                         // 지도 컨테이너의 크기
+                         const mapWidth = mapContainer.offsetWidth;
+                         const mapHeight = mapContainer.offsetHeight;
 
-                        // 화면에서 좌표가 위치해야 할 X축 위치 (200px 왼쪽)
-                        const moveX = coords.getLng() - (15 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
-                        const moveY = coords.getLat();  // 세로는 그대로 중앙
+                         // 현재 지도 범위
+                         const bounds = map.getBounds();
+                         const sw = bounds.getSouthWest(); // 남서쪽 좌표
+                         const ne = bounds.getNorthEast(); // 북동쪽 좌표
 
-                        // 새로 이동할 지도 중심 좌표
-                        const newCenter = new kakao.maps.LatLng(moveY, moveX);
+                         // 지도 범위에서 1px이 차지하는 경도값
+                         const lngPerPx = (ne.getLng() - sw.getLng()) / mapWidth;
 
-                        // 지도 이동
-                        map.panTo(newCenter);
+                         // 200px에 해당하는 경도값
+                         const offsetLng = -400 * lngPerPx;
+
+                         // 이동할 새 X 좌표 계산 (오른쪽으로 200px 이동)
+                         const moveX = coords.getLng() + offsetLng;
+
+                         // Y 좌표는 그대로 중앙
+                         const moveY = coords.getLat();
+
+                         // 새 중심 좌표 생성
+                         const newCenter = new kakao.maps.LatLng(moveY, moveX);
+
+                         // 지도 이동
+                         map.panTo(newCenter);
+
                     }
 
                     let isClicked = false;

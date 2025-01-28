@@ -43,7 +43,6 @@ public class HomeController {
 
         List<Map<String, Object>> validAddresses = homeService.findSeoul();
         List<Map<String, Object>> valhomekind = homeService.findkind();
-        List<Map<String, Object>> valY = homeService.findY();
         // validAddresses에서 "GU" 값만 추출
         List<String> validAddressesOnly = new ArrayList<>();
         for (Map<String, Object> map : validAddresses) {
@@ -59,17 +58,7 @@ public class HomeController {
             }
         }
 
-        List<String> valYOnly = new ArrayList<>();
-        for (Map<String, Object> map : valY) {
-            if (map != null && map.containsKey("YN")) {
-                valYOnly.add((String) map.get("YN")); // "GU" 값 추가
-            }
-        }
 
-// 로그로 확인
-        log.info("Extracted validAddressesOnly: {}", validAddressesOnly);
-
-                log.info("valhomekindOnly: {}", valhomekindOnly );
         // 검증 로직
         if (!address.isEmpty() && !validAddressesOnly.contains(address)) {
             m.addAttribute("errorMessage", "Invalid address: " + address);

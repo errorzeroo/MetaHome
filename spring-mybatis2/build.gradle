@@ -48,6 +48,9 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
 	implementation 'org.springframework.security:spring-security-crypto:6.3.3'  //비밀번호 암호화 라이브러리
+
+	//scheduler
+	implementation 'org.springframework.boot:spring-boot-starter'
 }
 
 tasks.named('test') {
