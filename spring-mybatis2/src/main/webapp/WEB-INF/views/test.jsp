@@ -10,7 +10,11 @@
     <!-- 카카오맵 -->
     <div id="map" class = "map"></div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a6791b39948cf3012eba2b2a1c1264f5&libraries=services,clusterer,drawing"></script>
+    <link rel="stylesheet" href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css">
+     <link rel="stylesheet" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+
 </head>
+
 <style>
     body, html {
         margin: 0;
@@ -24,10 +28,10 @@
 
     .title {
         position: absolute; /* 절대 위치 */
-        top: 13px; /* 위에서 10px 아래 */
-        left: 80px;
-        font-size: 25px;
-        font-family: AppleSDGothicNeo, sans-serif;
+        top: 11px; /* 위에서 10px 아래 */
+        left: 68px;
+        font-size: 30px;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;;
         margin: 0; /* 제목 여백 제거 */
         padding: 0; /* 제목 여백 제거 */
     }
@@ -41,24 +45,26 @@
         left: 0; /* 왼쪽 정렬 */
         width: 100%; /* 전체 너비 */
     }
+
     .styled-line2 {
-        border: 1px solid lightgray;
-        margin: 0;
-        padding: 0;
-        position: absolute;
-        top: 60px; /* 위쪽에서 200px 아래로 이동 */
-        left: 0; /* 왼쪽 정렬 */
-        width: 430px; /* 전체 너비 */
-    }
+        border: 1px solid lightgray; /* 아주 얇은 그림자 효과로 선을 만들기 */
+           margin: 0;
+           padding: 0;
+           position: absolute;
+           top: 60px;
+           left: 0;
+           width: 440px;
+}
+
     .white-button1 {
         border: 2px solid white;
         background-color: transparent;
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 980px;
+        left: 1080px;
         font-size: 16px;
-        font-family: AppleSDGothicNeo, sans-serif;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
         transition: background-color 0.3s ease, color 0.3s ease;
     }
     .white-button2 {
@@ -67,9 +73,10 @@
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 1065px;
+        left: 1200px;
         font-size: 16px;
-        font-family: AppleSDGothicNeo, sans-serif;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
         transition: background-color 0.3s ease, color 0.3s ease;
         display: flex;
     }
@@ -79,11 +86,14 @@
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 1330px;
-        font-size: 16px;
-        font-family: AppleSDGothicNeo, sans-serif;
+        left: 1515px;
+        font-size: 14px;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+
         transition: background-color 0.3s ease, color 0.3s ease;
         display: flex;
+        padding: 5px 13px; /* 버튼 내부 여백 추가 */
+        border-radius: 4px; /* 모서리 둥글게 */
     }
     .white-button4 {
         display: flex;
@@ -92,10 +102,12 @@
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 1400px;
-        font-size: 16px;
-        font-family: AppleSDGothicNeo, sans-serif;
+        left: 1590px;
+        font-size: 14px;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
         transition: background-color 0.3s ease, color 0.3s ease;
+        padding: 5px 13px; /* 버튼 내부 여백 추가 */
+            border-radius: 4px; /* 모서리 둥글게 */
     }
     .button:hove {
         background-color: #f0f0f0; /* 호버 시 연한 회색으로 변경 */
@@ -104,29 +116,12 @@
     /* 버튼 스타일 */
     .dropdown-button1 {
         display: flex; /* 텍스트와 아이콘을 나란히 배치 */
-        font-family: AppleSDGothicNeo, sans-serif;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
         align-items: center; /* 세로 중앙 정렬 */
         justify-content: center; /* 텍스트와 아이콘 간격 유지 */
-        padding: 4px 8px; /* 버튼 여백 */
-        font-size: 13px; /* 글자 크기 */
-        color: black; /* 글자 색상 */
-        background-color: white; /* 배경색 */
-        border: 1px solid #ccc; /* 얇은 테두리 */
-        border-radius: 20px; /* 둥근 모서리 */
-        cursor: pointer; /* 클릭 가능한 포인터 표시 */
-        width: 90px; /* 버튼 너비 고정 */
-        box-sizing: border-box; /* 패딩 포함 크기 계산 */
-        position: absolute; /* 절대 위치 */
-        top: 18px; /* 위에서 10px 아래 */
-        left: 10px;
-    }
-    .dropdown-button2 {
-        display: flex; /* 텍스트와 아이콘을 나란히 배치 */
-        font-family: AppleSDGothicNeo, sans-serif;
-        align-items: center; /* 세로 중앙 정렬 */
-        justify-content: center; /* 텍스트와 아이콘 간격 유지 */
-        padding: 4px 8px; /* 버튼 여백 */
-        font-size: 13px; /* 글자 크기 */
+        padding: 7px 8px; /* 버튼 여백 */
+        font-size: 14px; /* 글자 크기 */
         color: black; /* 글자 색상 */
         background-color: white; /* 배경색 */
         border: 1px solid #ccc; /* 얇은 테두리 */
@@ -135,16 +130,36 @@
         width: 100px; /* 버튼 너비 고정 */
         box-sizing: border-box; /* 패딩 포함 크기 계산 */
         position: absolute; /* 절대 위치 */
-        top: 18px; /* 위에서 10px 아래 */
-        left: 105px;
+        top: 12px; /* 위에서 10px 아래 */
+        left: 20px;
+    }
+    .dropdown-button2 {
+        display: flex; /* 텍스트와 아이콘을 나란히 배치 */
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
+        align-items: center; /* 세로 중앙 정렬 */
+        justify-content: center; /* 텍스트와 아이콘 간격 유지 */
+        padding: 7px 8px; /* 버튼 여백 */
+        font-size: 14px; /* 글자 크기 */
+        color: black; /* 글자 색상 */
+        background-color: white; /* 배경색 */
+        border: 1px solid #ccc; /* 얇은 테두리 */
+        border-radius: 20px; /* 둥근 모서리 */
+        cursor: pointer; /* 클릭 가능한 포인터 표시 */
+        width: 110px; /* 버튼 너비 고정 */
+        box-sizing: border-box; /* 패딩 포함 크기 계산 */
+        position: absolute; /* 절대 위치 */
+        top: 12px; /* 위에서 10px 아래 */
+        left: 130px;
     }
     .dropdown-button3 {
         display: flex; /* 텍스트와 아이콘을 나란히 배치 */
-        font-family: AppleSDGothicNeo, sans-serif;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
         align-items: center; /* 세로 중앙 정렬 */
         justify-content: space-between; /* 텍스트와 아이콘 간격 유지 center */
-        padding: 4px 8px; /* 버튼 여백 */
-        font-size: 13px; /* 글자 크기 */
+        padding: 7px 8px; /* 버튼 여백 */
+        font-size: 14px; /* 글자 크기 */
         color: black; /* 글자 색상 */
         background-color: white; /* 배경색 */
         border: 1px solid #ccc; /* 얇은 테두리 */
@@ -152,16 +167,34 @@
         position: relative;
         z-index: 10; /* 클릭 우선 순위 */
         cursor: pointer; /* 클릭 가능한 포인터 표시 */
-        width: 160px; /* 버튼 너비 고정 */
+        width: 170px; /* 버튼 너비 고정 */
+        height: 35px;
         box-sizing: border-box; /* 패딩 포함 크기 계산 */
         position: absolute; /* 절대 위치 */
-        top: 18px; /* 위에서 10px 아래 */
-        left: 210px;
+        top: 12px; /* 위에서 10px 아래 */
+        left: 250px;
     }
+
+
+.dropdown-button3 span {
+    position: absolute; /* 텍스트 위치를 절대적으로 설정 */
+    top: 6px;
+    left: 15px; /* 텍스트를 왼쪽으로 조금 이동 */
+
+}
+
+  .matching_icon{
+        position: absolute;
+        left: 140px;
+        top:8px;
+         width:15px;
+         height:16px;
+        }
 
     /* 아래 화살표 스타일 */
     .dropdown-icon {
-        margin-left: 5px; /* 텍스트와 아이콘 간격 */
+        margin-left: 13px; /* 텍스트와 아이콘 간격 */
+        margin-bottom: 4px;
         font-size: 10px; /* 화살표 크기 */
         border: solid #333; /* 화살표 색상 */
         border-width: 0 1px 1px 0; /* 삼각형 모양 테두리 */
@@ -217,10 +250,11 @@
         top: 0;
         left: 0; /* 왼쪽에서 시작 */
         height: 100%;
-        width: 430px; /* 패널 너비 */
+        width: 441px; /* 패널 너비 */
         display: flex;
         align-items: center;
         z-index: 1000;
+
     }
 
     .sliding-panel {
@@ -228,7 +262,7 @@
         top: 66px; /* 위쪽 공간을 10px로 줄임 */
         left: 0px; /* 처음에는 화면 밖에 위치 */
         height: 100%;
-        width: 430px;
+        width: 441px;
         background-color: white;
         border-right: 1px solid lightgray; /* 왼쪽에서 나오기 때문에 오른쪽 테두리 */
         transition: left 0.3s ease; /* 슬라이드 애니메이션 */
@@ -245,7 +279,7 @@
 
     .slide-toggle-button {
         position: absolute;
-        top: 50%;
+        top: 47%;
         right: -30px; /* 버튼이 패널에 붙어 위치 */
         transform: translateY(-50%);
         background-color: white;
@@ -255,6 +289,9 @@
         font-size: 16px;
         padding: 10px;
         transition: transform 0.3s ease;
+        width: 30px;
+        height: 70px;
+        border-radius: 0 12px 12px 0;
     }
 
     .searchButton{
@@ -304,32 +341,51 @@
     #box3 {
         margin-top: 10px;
         padding: 10px;
+
         background-color: white; /* 배경색 흰색 */
         position: absolute;
         top: 52px;
         border: none; /* 테두리 제거 */
-        width: 409px; /* 박스 너비 */
-        height: calc(100% - 150px); /* 하단 버튼 공간 확보 */
+        width: 420px; /* 박스 너비 */
+        height: calc(100% - 140px); /* 하단 버튼 공간 확보 */
         overflow-y: scroll; /* 세로 스크롤 활성화 */
         z-index: 1001; /* 패널보다 위로 */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
         border-radius: 10px; /* 모서리 둥글게 */
     }
+    #box3::-webkit-scrollbar {
+        width: 6px;
+        background: transparent;
+    }
 
+    #box3::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+    }
+
+    #box3::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    #box3:-webkit-scrollbar-track {
+        background: transparent;
+    }
     /* 섹션 제목 스타일 */
     .section-title {
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 400px;
         text-align: center;
-        font-size: 14px;
+        font-size: 15px;
         margin: 10px 10;
-        font-weight: bold;
-        color: #333;
+
+        color: #808080;
     }
 
     /* 항목 컨테이너 */
     .infrastructure-item {
         display: flex;
         align-items: center;
-        margin: 20px;
+        margin: 5px;
         border-bottom: 1px solid #eee;
         padding-bottom: 15px;
     }
@@ -339,7 +395,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-right: 15px;
+        margin-left: 3px;
+        margin-top: 25px;
+        width: 80px;
     }
 
     /* 아이콘 스타일 */
@@ -355,6 +413,7 @@
 
     /* 명칭 스타일 */
     .infrastructure-name {
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
         font-size: 14px;
         font-weight: bold;
         margin-top: 5px;
@@ -364,45 +423,98 @@
 
     /* 슬라이더 컨테이너 */
     .slider-container {
+
+        width: 400px;
+        overflow-x: hidden;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
+        flex-wrap: nowrap;
+        gap:0;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
+        font-size: 13px;
+        color: #666;
+        display: flex;
+
+
+
     }
 
     /* 슬라이더 */
     .slider-wrapper {
+        position: relative;
         display: flex;
         align-items: center;
         gap: 10px; /* 슬라이더와 값 간격 */
+        width: 285px;
+        height: 50px;
+        left: 30px;
+
     }
 
     .slider {
-        width: 100%;
-        margin: 10px 0;
+
+       margin: 10px;
+     width: 285px;
+     height: 4px;
+    -webkit-appearance: none; /* 기본 슬라이더 스타일 제거 */
+    appearance: none;
+    background: #ccc; /* 슬라이더 바 기본 색 */
+     border-radius: 5px;
+             }
+
+
+    /* 슬라이더 버튼에 이미지 배경 적용 */
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 23px; /* 버튼 크기 */
+        height: 23px; /* 버튼 크기 */
+        background-image: url('/images/icon/slideButton.png'); /* 버튼 이미지 */
+        background-size: cover;
+        cursor: pointer;
     }
 
+
+
+
     /* 슬라이더 값 */
-    .slider-value {
+    /*.slider-value {
         font-size: 14px;
         font-weight: bold;
         color: #333;
         white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-    }
+
+    }*/
 
     /* 라벨 스타일 */
     .slider-labels {
+
         display: flex;
         justify-content: space-between;
-        font-size: 12px;
+
         color: #666;
-        width: 100%;
+        width: 420px;
         margin-bottom: 5px;
+        white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+        overflow: hidden; /* 넘치는 내용이 잘리도록 설정 */
+
+    }
+    .slider-labels span:first-child {
+            margin-left: 10px; /* 마지막 span에는 마진 제거 */
+        }
+    .slider-labels span {
+        margin-right: 38px; /* 각 span 요소에 좌우 20px의 마진 추가 */
+    }
+    .slider-labels span:last-child {
+        margin-right: 0; /* 마지막 span에는 마진 제거 */
     }
 
     .fixed-bottom-button {
         position: fixed;
         bottom: 10px;
-        left: 130px;
+        left: 145px;
         width: 150px; /* 박스 안에 맞춤 */
         height: 35px; /* 버튼 높이 */
         background-color: #ff6b3c; /* 버튼 색상 */
@@ -509,29 +621,43 @@
 
 
     .list-check-button{
+
         position: relative;
-        margin-bottom: 13px;
+        height: 35px;
         top: 70px;
-        left: 220px;
+        left: 265px;
+
+        width: 170px;
     }
 
     #checkButton{
+    font-family: 'Spoqa Han Sans Neo', sans-serif;
+    font-weight: 400;
     border: none;
     background-color: #ffffff;
     }
+    .checkB{
+     width:17px;
+     height:17px;
+     position: relative; /* 부모 요소의 영향을 받지 않도록 설정 */
+     top: 3px;
 
+    }
 
     .list-item {
-
+        position: relative;
+        width: 443px;
         padding: 0; /* 내부 여백 제거 */
+        margin: 0;
+        left: 0px;
         border: none; /* 테두리 제거 */
-        background-color: #f9f9f9; /* 배경 투명 */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 박스 섀도우 제거 */
+         /* 배경 투명 */
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); /* 박스 섀도우 제거 */
         height: 190px;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        border-bottom: 1px solid black; /* 회색 선 추가 */
+        border-bottom: 1px solid lightgray; /* 회색 선 추가 */
         cursor: pointer; /* 마우스 오버 시 손 모양 */
     }
     .list-item:last-child {
@@ -546,72 +672,126 @@
         position: relative; /* 기준 위치에서 이동 */
         left: 20px; /* 오른쪽으로 20px 이동 */
         top: 20px;
+
     }
 
     .vertical-line {
-        width: 100%; /* 선의 너비 */
+        width: 90%; /* 선의 너비 */
         height: 1px; /* 선의 두께 */
         background-color: #ccc; /* 회색 선 */
         position: relative; /* 기준 위치에서 이동 */
-        left: 20px; /* 오른쪽으로 20px 이동 */
+        left: 17px; /* 오른쪽으로 20px 이동 */
         top: 30px;
     }
 
 
     .list-subtitle {
-        font-size: 14px;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 400;
+        font-size: 15px;
         color: #666;
         position: relative; /* 기준 위치에서 이동 */
-        left: 10px; /* 오른쪽으로 20px 이동 */
-        top: 35px;
+        left: 28px; /* 오른쪽으로 20px 이동 */
+        top: 32px;
+        width:190px;
     }
 
     .vertical-line2 {
-        width: 1.5px; /* 선의 너비 */
-        height: 100%; /* 선의 두께 */
+        width: 2.5px; /* 선의 너비 */
+        height: 55px; /* 선의 두께 */
         background-color: #ccc; /* 회색 선 */
-        position: relative; /* 기준 위치에서 이동 */
-        left: 195px; /* 오른쪽으로 20px 이동 */
-        top: 30px;
+        position: absolute; /* 기준 위치에서 이동 */
+        left: 201px; /* 오른쪽으로 20px 이동 */
+        top: 108px;
     }
 
     .co {
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
         font-size: 14px;
         color: #555;
         position: relative; /* 기준 위치에서 이동 */
-        left: 10px; /* 오른쪽으로 20px 이동 */
-        top: -20px;
+        left: 28px; /* 오른쪽으로 20px 이동 */
+        top: 7.5px;
     }
     .dep {
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
         font-size: 14px;
+        display: flex;
         color: #555;
         position: relative; /* 기준 위치에서 이동 */
         left: 210px; /* 오른쪽으로 20px 이동 */
-        top: -15px;
+        top: 28px;
+        width:199px;
     }
-    .month {
-        font-size: 14px;
-        color: #555;
-        position: relative; /* 기준 위치에서 이동 */
-        left: 210px; /* 오른쪽으로 20px 이동 */
-        top: 10px;
+    .detail-label-deposit {
+        flex: 1; /* 좌측에 배치될 레이블 */
+    }
+    .detail-value deposit
+    {
+        position: absolute;
+        right:0px;
+        text-align: right; /* 텍스트 오른쪽 정렬 */
+        margin-left: 10px; /* 오른쪽 정렬하면서 왼쪽에 간격을 두기 */
     }
 
-    .detail-label {
-        font-weight: bold;
-        color: #777;
+    .month {
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        color: #555;
+        display: flex;
+        position: relative; /* 기준 위치에서 이동 */
+        left: 210px; /* 오른쪽으로 20px 이동 */
+        top: 37px;
+        width:199px;
     }
+
+    .detail-label-month {
+        flex: 1; /* 좌측에 배치될 레이블 */
+    }
+    .detail-value monthly-rent
+    {
+        position: absolute;
+        right:0px;
+        text-align: right; /* 텍스트 오른쪽 정렬 */
+        margin-left: 10px; /* 오른쪽 정렬하면서 왼쪽에 간격을 두기 */
+    }
+
 
     .detail-value {
-        font-weight: bold;
-        color: #222;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-weight: 500;
+        color: #000000;
     }
 
     .slide-content-container {
         overflow-y: auto; /* 수직 스크롤 허용 */
-        max-height: 570px; /* 스크롤 가능한 최대 높이 */
+        max-height: 610px; /* 스크롤 가능한 최대 높이 */
         margin-top: 70px; /* 상단에서 100px 떨어지게 설정 */
-        padding: 10px; /* 내부 여백 추가 */
+         /* 내부 여백 추가 */
+        width: 441px;
+        overflow-x: hidden;
+
+    }
+
+    .slide-content-container::-webkit-scrollbar {
+        width: 6px;
+        background: transparent;
+    }
+
+    .slide-content-container::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+    }
+
+    .slide-content-container::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .slide-content-container::-webkit-scrollbar-track {
+        background: transparent;
     }
 
     /* 정보 카드 기본 스타일 */
@@ -696,6 +876,7 @@
         border-radius: 10px;
         overflow: hidden;
         position: relative;
+
     }
 
     .slides {
@@ -755,8 +936,11 @@
     }
 
     .logo{
-        width: 50px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        left: 21px;
+        top: 8px;
     }
     .slide-logo{
         width:10px;
@@ -766,6 +950,23 @@
      width:20px;
      height:20px;
     }
+    .title-icon{
+         position: relative;
+         top: 5px;
+         width:20px;
+         height:20px;
+         margin-right: 0px;
+         left: 3px;
+        }
+    .list-title{
+        font-family: 'NanumSquare', sans-serif;
+        font-weight: 1000;
+        width: 200px;
+        color: black;
+    }
+
+
+
     .card-container {
         display: none;
         flex-direction: row;
@@ -1002,13 +1203,14 @@
 <body>
 
     <!-- 선위에 요소들 style에 .클래스 이름으로 스타일 정의해 놓음 -->
-    <img src="/images/Elephant.png" alt="아이콘" class="logo">
+    <img src="/images/icon/logo.png" alt="아이콘" class="logo">
     <h3 class = "title">메타홈</h3>
+    <div class="menu">
     <button class = "white-button1">맞춤 지도</button>
     <button class = "white-button2" onclick="showAlert()">우리 동네 이사와 생활 서비스</button>
     <button class = "white-button3" onclick="showAlert()">로그인</button>
     <button class = "white-button4" onclick="showAlert()">멤버쉽 가입</button>
-
+    </div>
     <!-- 위쪽 선 -->
     <hr class="styled-line1">
 
@@ -1016,6 +1218,7 @@
      <template id="slide-item-template">
          <div class="list-item" data-address="{{address}}">
              <div class="list-header">
+                <img src="/images/icon/slideButton.png" class="title-icon" >
                  <span class="list-title"></span>
              </div>
              <div class="vertical-line"></div>
@@ -1024,12 +1227,12 @@
              </div>
              <div class="vertical-line2"></div>
             <div class="dep">
-                 <span class="detail-label">임대 보증금:</span>
+                 <span class="detail-label-deposit">임대 보증금:</span>
                  <span class="detail-value deposit"></span>
              </div>
 
              <div class="month">
-                 <span class="detail-label">월 임대료:</span>
+                 <span class="detail-label-month">월 임대료:</span>
                  <span class="detail-value monthly-rent"></span>
              </div>
               <div class="co">
@@ -1053,9 +1256,9 @@
               <span class="dropdown-icon" ></span> <!-- 화살표 -->
             </button>
             <button class="dropdown-button3" id="infrastructureButton">
-              생활 인프라 매칭하기
-              <span class="dropdown-icon"></span> <!-- 화살표 -->
-              <button class="searchButton">검색</button>
+                <span>생활 인프라 매칭하기</span>
+              <img src="/images/icon/MATCHING.png" class="matching_icon"> <!-- 화살표 -->
+              <!--<button class="searchButton">검색</button>-->
             </button>
 
             <hr class="styled-line2">
@@ -1129,8 +1332,10 @@
                             <span>꼭 있어야 해요</span>
                         </div>
                         <div class="slider-wrapper">
+
                             <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="busSlider">
-                            <span class="slider-value" id="busSliderValue">1.00</span>
+
+                            <!-- <span class="slider-value" id="busSliderValue">1.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1148,7 +1353,7 @@
                         </div>
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="subwaySlider">
-                            <span class="slider-value" id="subwaySliderValue">1.00</span>
+                             <!--<span class="slider-value" id="subwaySliderValue">1.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1166,7 +1371,7 @@
                         </div>
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="elementarySlider">
-                            <span class="slider-value" id="elementarySliderValue">0.00</span>
+                             <!--<span class="slider-value" id="elementarySliderValue">0.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1184,7 +1389,7 @@
                         </div>
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="middleSlider">
-                            <span class="slider-value" id="middleSliderValue">0.00</span>
+                             <!--<span class="slider-value" id="middleSliderValue">0.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1202,7 +1407,7 @@
                         </div>
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="highSlider">
-                            <span class="slider-value" id="highSliderValue">0.00</span>
+                            <!--<span class="slider-value" id="highSliderValue">0.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1220,7 +1425,7 @@
                         </div>
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="hospitalSlider">
-                            <span class="slider-value" id="hospitalSliderValue">0.00</span>
+                            <!--<span class="slider-value" id="hospitalSliderValue">0.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1238,7 +1443,7 @@
                         </div>
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="parkingSlider">
-                            <span class="slider-value" id="parkingSliderValue">0.00</span>
+                            <!--<span class="slider-value" id="parkingSliderValue">0.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1246,7 +1451,7 @@
                 <div class="infrastructure-item">
                     <div class="icon-container">
                         <img src="/images/icon/park.png" alt="공원 아이콘" class="infrastructure-icon">
-                        <img src="/images/icon/Park_text.png" alt="park_txt" class="infrastructure-text">
+                        <!--<img src="/images/icon/Park_text.png" alt="park_txt" class="infrastructure-text">-->
                         <p class="infrastructure-name">공원</p>
                     </div>
                     <div class="slider-container">
@@ -1257,7 +1462,7 @@
                         </div>
                         <div class="slider-wrapper">
                             <input type="range" min="0" max="1" step="0.01" value="0.00" class="slider" id="parkSlider">
-                            <span class="slider-value" id="parkSliderValue">0.00</span>
+                            <!--<span class="slider-value" id="parkSliderValue">0.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1270,7 +1475,7 @@
 
 
             <div class="list-check-button"> <button id="checkButton">
-            <img id="checkImage" src="/images/icon/slideButton.png" class="slide-logo-title" onclick="setRecruit">
+            <img id="checkImage" src="/images/icon/CHECK.png" class="checkB" onclick="setRecruit">
             모집 중인 매물만 확인! </button></div>
 
 
@@ -1402,8 +1607,8 @@
     // 초기값 설정
     let selectedAddress = '${address}';
     let selectedHomeKind = '${homeKind}';
-    const urlParams = new URLSearchParams(window.location.search);
-    recruit = urlParams.get('recruit') || 'N'; // URL에서 recruit 값을 가져옴
+
+    let recruit =  new URLSearchParams(window.location.search).get('recruit') || 'N'; // URL에서 recruit 값을 가져옴
 
     function showAlert() {
           alert("이 기능은 준비 중입니다. 지켜봐 주시면 감사하겠습니다!");
@@ -1412,6 +1617,12 @@
 // JavaScript 코드
     const button = document.getElementById('checkButton');
     const image = document.getElementById('checkImage');
+    if (recruit === 'N') {
+              image.src = '/images/icon/CHECK.png'; // recruit가 'N'일 때는 CHECK.png
+          } else {
+              image.src = '/images/icon/CHECK.a.png'; // recruit가 'Y'일 때는 CHECK.a.png
+          }
+
 
     // 클릭 이벤트 리스너 추가
     button.addEventListener('click', () => {
@@ -1420,10 +1631,10 @@
      recruit = recruit === 'N' ? 'Y' : 'N';
 
       // 이미지 소스를 변경
-      if (image.src.includes('/images/icon/slideButton.png')) {
-        image.src = '/images/icon/park.png'; // 새로운 이미지로 변경
+      if (recruit === 'N') {
+          image.src = '/images/icon/CHECK.png'; // recruit가 'N'일 때는 CHECK.png
       } else {
-        image.src = '/images/icon/slideButton.png'; // 다시 원래 이미지로 변경
+          image.src = '/images/icon/CHECK.a.png'; // recruit가 'Y'일 때는 CHECK.a.png
       }
 
       // URL 업데이트 호출
@@ -1555,6 +1766,7 @@
 
         // 페이지를 새 URL로 리디렉션 (새로 고침)
         window.location.href = url;
+
     }
 
 </script>
