@@ -479,7 +479,7 @@
 
 
 
-    /* 슬라이더 값 */
+    /* 슬라이더 값 * /
     /*.slider-value {
         font-size: 14px;
         font-weight: bold;
