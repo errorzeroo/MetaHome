@@ -2354,17 +2354,32 @@ document.addEventListener("DOMContentLoaded", function () {
                     const jsonData = jdata; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
                     const parsedData = jsonData;
 
-                    // 1. 키 배열 가져오기
+                    // 📌 1. 키 배열 가져오기 (첫 번째와 두 번째 키 제외)
                     const keys = Object.keys(parsedData[0]);
-
-                    // similar 값을 가져와 100을 곱한 점수를 계산
-                    const score = Math.floor(parsedData[0].similar * 100); // 첫 번째 데이터의 similar 값 사용
-
-                    // 점수를 HTML에 표시
-                    document.querySelector(".score-number").textContent = score;
-
-                    // 2. 첫 번째와 두 번째 키를 제외
                     const relevantKeys = keys.slice(3); // 첫 번째(0)와 두 번째(1) 키 제외
+
+                    // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
+                    const defaultValues = {
+                        park: 0,
+                        bus: 0,
+                        subway: 0,
+                        hospitalcount: 0,
+                        element: 0,
+                        middle: 0,
+                        high: 0,
+                        parking: 0
+                    };
+
+                    // 📌 3. 서버에서 받은 데이터로 값 업데이트
+                    relevantKeys.forEach(key => {
+                        if (defaultValues.hasOwnProperty(key)) {
+                            defaultValues[key] = parsedData[0][key] * 100; // 서버 값 적용
+                        }
+                    });
+
+                    // 📌 4. 점수 계산 및 UI 업데이트
+                    const score = Math.floor(parsedData[0].similar * 100);
+                    document.querySelector(".score-number").textContent = score;
 
                     // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                     const keyMapping = {
@@ -2391,9 +2406,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
 
                         // 4. 라벨과 데이터 추출
-                        const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
-                        const data = relevantKeys.map((key) => parsedData[0][key] * 100); // 퍼센트 변환
-                        const labelImages = relevantKeys.map((key) => labelImagesMapping[key]); // 사용된 컬럼에 해당하는 이미지 경로 추출
+                        const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
+                        const data = Object.values(defaultValues);
+                        const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
 
 
                     // 5. backgroundColor 동적 생성
@@ -2939,17 +2954,32 @@ document.addEventListener("DOMContentLoaded", function () {
                             const jsonData = jdata; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
                             const parsedData = jsonData;
 
-                            // 1. 키 배열 가져오기
+                            // 📌 1. 키 배열 가져오기 (첫 번째와 두 번째 키 제외)
                             const keys = Object.keys(parsedData[0]);
-
-                            // similar 값을 가져와 100을 곱한 점수를 계산
-                            const score = Math.floor(parsedData[0].similar * 100); // 첫 번째 데이터의 similar 값 사용
-
-                            // 점수를 HTML에 표시
-                            document.querySelector(".score-number").textContent = score;
-
-                            // 2. 첫 번째와 두 번째 키를 제외
                             const relevantKeys = keys.slice(3); // 첫 번째(0)와 두 번째(1) 키 제외
+
+                            // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
+                            const defaultValues = {
+                                park: 0,
+                                bus: 0,
+                                subway: 0,
+                                hospitalcount: 0,
+                                element: 0,
+                                middle: 0,
+                                high: 0,
+                                parking: 0
+                            };
+
+                            // 📌 3. 서버에서 받은 데이터로 값 업데이트
+                            relevantKeys.forEach(key => {
+                                if (defaultValues.hasOwnProperty(key)) {
+                                    defaultValues[key] = parsedData[0][key] * 100; // 서버 값 적용
+                                }
+                            });
+
+                            // 📌 4. 점수 계산 및 UI 업데이트
+                            const score = Math.floor(parsedData[0].similar * 100);
+                            document.querySelector(".score-number").textContent = score;
 
                             // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                             const keyMapping = {
@@ -2976,9 +3006,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 };
 
                                 // 4. 라벨과 데이터 추출
-                                const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
-                                const data = relevantKeys.map((key) => parsedData[0][key] * 100); // 퍼센트 변환
-                                const labelImages = relevantKeys.map((key) => labelImagesMapping[key]); // 사용된 컬럼에 해당하는 이미지 경로 추출
+                                const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
+                                const data = Object.values(defaultValues);
+                                const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
 
 
                             // 5. backgroundColor 동적 생성
