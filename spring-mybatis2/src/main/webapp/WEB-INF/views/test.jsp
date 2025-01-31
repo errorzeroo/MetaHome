@@ -602,13 +602,15 @@
         background-color: #fff; /* 배경 색상 */
         border: 1px solid lightgray; /* 경계선 */
         border-radius: 12px; /* 모서리 둥글게 */
-        padding: 5px; /* 내부 여백 */
+        padding: 2px; /* 내부 여백 */
         z-index: 10; /* 맵보다 높은 계층 */
     }
     .chart-container {
         flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
         height: 250px; /* 차트 컨테이너 높이 */
         position: relative;
+        padding: 6px;
+        margin-bottom: 10px;
     }
     .chart-container canvas {
         width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
@@ -1255,18 +1257,19 @@
          bottom: 10px;
          right: 10px;
          z-index: 10;
-         background-color: white;
+         background: transparent;
          padding: 10px;
-         border-radius: 5px;
-         box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+         border-radius: 10px;
+
     }
     .map-buttons{
-        background-color: #f0f0f0;
-        border-radius: 10px;
+        background-color: #ffffff;
+        border-radius: 15px;
         border: 1px solid #ccc;
-        padding: 5px 10px;
+        padding: 5px 15px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
     }
     .map-buttons.active{
         background-color: #FF6F3C;
@@ -3109,13 +3112,19 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         title: {
                                                             display: true,
                                                             text: '생활 인프라 매칭 점수',
-                                                            font: { size: 18, weight: 'bold' },
-                                                            padding: { top: 10, bottom: 20 },
+                                                            font: { family: 'Spoqa Han Sans Neo', size: 16 },
+                                                            margin: {left: 14},
+                                                            padding: { left: 15, top: 10, bottom: 20 },
                                                             align: 'start',
                                                             color: '#333'
                                                         },
                                                         legend: {
                                                             display: false,
+                                                            labels:{
+                                                                font:{family: 'Spoqa Han Sans Neo', size: 16 },
+                                                                margin:{left:14}
+
+                                                            }
                                                         },
                                                         tooltip: {
                                                             enabled: true
