@@ -57,6 +57,9 @@ public class HomeServiceImpl implements HomeService{
     public List<Map<String, Object>> getHighList() {
         return homeMapper.getHighList();
     }
+    public List<Map<String, Object>> getParkingList() {
+        return homeMapper.getParkingList();
+    }
 
     @Override
     public List<Map<String, Object>> findByAddress(String address) {

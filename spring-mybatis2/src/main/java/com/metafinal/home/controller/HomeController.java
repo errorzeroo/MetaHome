@@ -92,6 +92,8 @@ public class HomeController {
         List<Map<String, Object>> elemList = homeService.getElemList();
         List<Map<String, Object>> midList = homeService.getMidList();
         List<Map<String, Object>> highList = homeService.getHighList();
+        List<Map<String, Object>> parkingList = homeService.getParkingList();
+
 
 
         // HOME_IMG 값을 배열로 변환 (homeList 처리)
@@ -125,6 +127,7 @@ public class HomeController {
         String elemListJson = "";
         String midListJson = "";
         String highListJson = "";
+        String parkingListJson = "";
 
         try {
             homeListJson = objectMapper.writeValueAsString(homeList); // homeList를 JSON 문자열로 변환
@@ -137,6 +140,7 @@ public class HomeController {
             elemListJson = objectMapper.writeValueAsString(elemList);
             midListJson = objectMapper.writeValueAsString(midList);
             highListJson = objectMapper.writeValueAsString(highList);
+            parkingListJson = objectMapper.writeValueAsString(parkingList);
             // filteredList를 JSON 문자열로 변환
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,6 +158,7 @@ public class HomeController {
         m.addAttribute("elemListJson", elemListJson);
         m.addAttribute("midListJson", midListJson);
         m.addAttribute("highListJson", highListJson);
+        m.addAttribute("parkingListJson", parkingListJson);
 
         return "test";
     }

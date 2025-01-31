@@ -29,7 +29,7 @@
     .title {
         position: absolute; /* 절대 위치 */
         top: 11px; /* 위에서 10px 아래 */
-        left: 66px;
+        left: 68px;
         font-size: 30px;
         font-family: 'Spoqa Han Sans Neo', sans-serif;
         margin: 0; /* 제목 여백 제거 */
@@ -588,7 +588,6 @@
         flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
         height: 300px; /* 차트 컨테이너 높이 */
         position: relative;
-        width:370px;
     }
     .chart-container canvas {
         width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
@@ -609,8 +608,6 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        position: relative;
-        width:70px;
     }
     .score-content {
         text-align: center;
@@ -951,11 +948,11 @@
     }
 
     .logo{
-        width: 37px;
-        height: 37px;
+        width: 40px;
+        height: 40px;
         position: absolute;
-        left: 23px;
-        top: 10px;
+        left: 21px;
+        top: 8px;
     }
     .slide-logo{
         width:15px;
@@ -1645,7 +1642,7 @@
             </div>
             <div class="score-container">
                 <div class="score-content">
-                    <img src="/images/icon/logo.png" alt="점수 아이콘" class="score-image">
+                    <img src="/images/Elephant.png" alt="점수 아이콘" class="score-image">
                     <div class="score-text">
                         <span class="score-number">96</span><span>점</span>
                     </div>
@@ -1656,11 +1653,12 @@
         <div id="categoryBar">
             <button class="map-buttons" onclick="toggleSubMarkers(this)">지하철</button>
             <button class="map-buttons" onclick="toggleBusMarkers(this)">버스</button>
-            <button class="map-buttons" onclick="toggleParkMarkers(this)">공원</button>
             <button class="map-buttons" onclick="toggleElemMarkers(this)">초등학교</button>
             <button class="map-buttons" onclick="toggleMidMarkers(this)">중학교</button>
             <button class="map-buttons" onclick="toggleHighMarkers(this)">고등학교</button>
             <button class="map-buttons" onclick="toggleHospMarkers(this)">병원</button>
+            <button class="map-buttons" onclick="toggleParkingMarkers(this)">주차장</button>
+            <button class="map-buttons" onclick="toggleParkMarkers(this)">공원</button>
         </div>
 
 
@@ -1858,6 +1856,8 @@
     let highMarkers = [];
     let hospVisible = false;
     let hospMarkers = [];
+    let parkingVisible = false;
+    let parkingMarkers = [];
     let currentMarker = null;
 
 
@@ -1975,6 +1975,21 @@
          // 클릭된 버튼의 'active' 클래스 토글
          button.classList.toggle('active');
     }
+     function toggleParkingMarkers(button) {
+         if (parkingVisible) {
+             // 보이는 상태에서 클릭하면 마커 숨기기
+             parkingMarkers.forEach((marker) => marker.setMap(null));
+         } else {
+             // 보이지 않는 상태에서 클릭하면 마커 보이기
+             parkingMarkers.forEach((marker) => marker.setMap(map));
+         }
+
+         // 마커 상태 업데이트
+         parkingVisible = !parkingVisible;
+
+         // 클릭된 버튼의 'active' 클래스 토글
+         button.classList.toggle('active');
+    }
 
 document.addEventListener("DOMContentLoaded", function () {
     // 초기 값 설정 (기본값)
@@ -2032,7 +2047,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 차트를 보이는 함수
     function showChart() {
-        document.getElementById('chartContainer').style.display = 'flex'; // 차트 컨테이너 표시
+        document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
     }
 
     // 차트를 숨기는 함수
@@ -2050,6 +2065,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const midCoords = JSON.parse('${midListJson}');
     const highCoords = JSON.parse('${highListJson}');
     const hospCoords = JSON.parse('${hospListJson}');
+    const parkingCoords = JSON.parse('${parkingListJson}');
 
 
     // 템플릿과 컨테이너 참조
@@ -2228,6 +2244,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     hospMarkers.push(marker); // 배열에 마커 저장
                 });
+
+    // 병원 좌표를 기반으로 마커 생성
+       parkingCoords.forEach((parking) => {
+            const marker = new kakao.maps.Marker({
+                map: map,
+                position: new kakao.maps.LatLng(parking.PARKING_LAT, parking.PARKING_LON),
+                image: new kakao.maps.MarkerImage(
+                    '/images/icon/parking.png',
+                    new kakao.maps.Size(30, 30) // 마커 이미지 크기
+                )
+            });
+
+            // 마커 클릭 이벤트
+            //kakao.maps.event.addListener(marker, 'click', function () {
+               // alert(`${subway.SUB_NAME} 지하철역입니다.`);
+            //});
+
+            // 마커 초기 상태: 지도에 표시되지 않도록 숨김
+            marker.setMap(null);
+
+            parkingMarkers.push(marker); // 배열에 마커 저장
+        });
 
 
 
@@ -2545,7 +2583,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const chartContainer1 = document.getElementById('chartContainer');
                           // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                           if(!currentMarker.isClicked){
-                          chartContainer1.style.display = 'flex';  // 차트 컨테이너 고정 표시
+                          chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = true;} else {
                           chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = false;
