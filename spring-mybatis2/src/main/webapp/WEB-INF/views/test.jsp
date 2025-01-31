@@ -1645,7 +1645,7 @@
             </div>
             <div class="score-container">
                 <div class="score-content">
-                    <img src="/images/Elephant.png" alt="점수 아이콘" class="score-image">
+                    <img src="/images/icon/logo.png" alt="점수 아이콘" class="score-image">
                     <div class="score-text">
                         <span class="score-number">96</span><span>점</span>
                     </div>
@@ -2071,7 +2071,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 차트를 보이는 함수
     function showChart() {
-        document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
+        document.getElementById('chartContainer').style.display = 'flex'; // 차트 컨테이너 표시 block
     }
 
     // 차트를 숨기는 함수
@@ -2607,7 +2607,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const chartContainer1 = document.getElementById('chartContainer');
                           // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                           if(!currentMarker.isClicked){
-                          chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
+                          chartContainer1.style.display = 'flex';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = true;} else {
                           chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = false;
