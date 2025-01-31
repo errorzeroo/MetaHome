@@ -2657,6 +2657,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 }
 
+
                 // 이전 버튼 클릭 이벤트
                 prevButton.addEventListener("click", () => {
                     currentIndex = (currentIndex - 1 + filteredData.length) % filteredData.length;
@@ -2863,7 +2864,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error("데이터 처리 중 오류 발생:", error);
-
             });
 
 
@@ -2999,7 +2999,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             // 4. Chart.js로 차트 생성
                                         try {
                                             const ctx = document.getElementById('myChart').getContext('2d');
-                                            new Chart(ctx, {
+
+                                           // 기존 차트를 제거하기 전에 Chart 객체인지 확인
+                                           if (window.myChart instanceof Chart) {
+                                               window.myChart.destroy();
+                                           }
+
+                                            // 새 차트 생성
+                                            window.myChart = new Chart(ctx, {
                                                 type: 'bar',
                                                 data: {
                                                     labels: labels, // X축 라벨
@@ -3024,9 +3031,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                             grid: { display: false },
                                                             ticks: {
                                                                 color: 'white', // 라벨 글자 색상
-                                                                font: {
-                                                                    size: 14 // 라벨 글자 크기 조절
-                                                                }
+                                                                font: { size: 14 } // 글자 크기
                                                             }
                                                         },
                                                         y: {
@@ -3035,23 +3040,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         }
                                                     },
                                                     plugins: {
-                                                    title: {
-                                                            display: true, // 제목 표시
-                                                            text: '생활 인프라 매칭 점수', // 제목 텍스트
-                                                            font: {
-                                                                size: 18, // 제목 글자 크기
-                                                                weight: 'bold'
-                                                            },
-                                                            padding: {
-                                                                top: 10,
-                                                                bottom: 20
-                                                            },
-                                                            align: 'start', // 제목 정렬 (start, center, end 중 선택)
-                                                            color: '#333' // 제목 색상
+                                                        title: {
+                                                            display: true,
+                                                            text: '생활 인프라 매칭 점수',
+                                                            font: { size: 18, weight: 'bold' },
+                                                            padding: { top: 10, bottom: 20 },
+                                                            align: 'start',
+                                                            color: '#333'
                                                         },
                                                         legend: {
-                                                             display: false, // 범례 숨기기
-                                                            position: 'top',
+                                                            display: false,
                                                         },
                                                         tooltip: {
                                                             enabled: true
@@ -3065,24 +3063,26 @@ document.addEventListener("DOMContentLoaded", function () {
                                                             const ctx = chart.ctx;
                                                             const xAxis = chart.scales.x;
                                                             const yAxis = chart.scales.y;
+
                                                             xAxis.ticks.forEach((tick, index) => {
-                                                                const x = xAxis.getPixelForTick(index); // x축 위치 계산
-                                                                const imageY = yAxis.bottom + 10; // 이미지를 축 아래로 약간 이동
-                                                                const textY = imageY + 40; // 텍스트는 이미지 아래로 배치
+                                                                const x = xAxis.getPixelForTick(index);
+                                                                const imageY = yAxis.bottom + 10;
+                                                                const textY = imageY + 45;
+
+                                                                // 이미지를 라벨에 맞게 가져오기
                                                                 const image = new Image();
-                                                                image.src = labelImages[index]; // 아이콘 이미지 경로
+                                                                image.src = labelImages[index];
+
                                                                 // 이미지를 그리기
                                                                 image.onload = () => {
-                                                                    ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 크기 및 위치 조정
+                                                                    ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 위치와 크기 조정
                                                                 };
-                                                                image.onerror = () => {
-                                                                    console.error(`이미지를 불러오는 데 실패했습니다. 인덱스: ${index}, 경로: ${image.src}`);
-                                                                };
-                                                                // 텍스트를 이미지 아래에 그리기
-                                                                ctx.font = '10px Arial'; // 글꼴 크기 및 스타일
+
+                                                                // 텍스트를 이미지 아래에 추가
+                                                                ctx.font = '10px Arial';
                                                                 ctx.textAlign = 'center';
-                                                                ctx.fillStyle = 'black'; // 텍스트 색상
-                                                                ctx.fillText(labels[index], x, textY); // 텍스트를 이미지 아래로 배치
+                                                                ctx.fillStyle = 'black';
+                                                                ctx.fillText(labels[index], x, textY);
                                                             });
                                                         }
                                                     }
