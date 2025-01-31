@@ -595,31 +595,31 @@
 .chart-container-with-score {
         display: none; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
-        top: 120px; /* 차트를 맵 위에 적절히 배치 */
-        left: 850px; /* 원하는 위치 지정 */
-        width: 450px; /* 여기에 if문으로 차트 크기 조절 */
-        height: 300px;
+        top: 71px; /* 차트를 맵 위에 적절히 배치 */
+        left: 1037px; /* 원하는 위치 지정 */
+        width: 470px; /* 여기에 if문으로 차트 크기 조절 */
+        height: 256px;
         background-color: #fff; /* 배경 색상 */
         border: 1px solid lightgray; /* 경계선 */
         border-radius: 12px; /* 모서리 둥글게 */
-        padding: 20px; /* 내부 여백 */
-        height: 300px;
+        padding: 5px; /* 내부 여백 */
         z-index: 10; /* 맵보다 높은 계층 */
     }
     .chart-container {
         flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
-        height: 300px; /* 차트 컨테이너 높이 */
+        height: 250px; /* 차트 컨테이너 높이 */
         position: relative;
     }
     .chart-container canvas {
         width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
-        height: 300px !important;
+        height: 250px !important;
     }
     .chart-title {
+
         font-size: 18px; /* 글자 크기 */
         font-weight: bold; /* 글자 두께 */
         color: #333; /* 글자 색상 */
-        margin-bottom: 10px; /* 아래 여백 */
+        margin-bottom: 8px; /* 아래 여백 */
         text-align: left; /* 텍스트 정렬 */
         padding-left: 10px; /* 왼쪽 패딩 */
     }
@@ -635,17 +635,17 @@
         text-align: center;
     }
     .score-image {
-        width: 80px; /* 이미지 크기 */
-        height: 80px;
+        width: 60px; /* 이미지 크기 */
+        height: 60px;
         margin-bottom: 10px; /* 텍스트와 간격 */
     }
     .score-text {
-        font-size: 40px;
+        font-size: 35px;
         font-weight: bold;
         color: #333;
     }
     .score-number {
-        font-size: 48px; /* 점수 숫자 크기 */
+        font-size: 35px; /* 점수 숫자 크기 */
         font-weight: bold;
         color: black; /* 숫자 색상 */
     }
@@ -2484,7 +2484,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         grid: { display: false },
                                         ticks: {
                                             color: 'white', // 라벨 글자 색상
-                                            font: { size: 14 } // 글자 크기
+                                            font: { family: 'Spoqa Han Sans Neo', size: 14 } // 글자 크기
                                         }
                                     },
                                     y: {
@@ -2496,13 +2496,19 @@ document.addEventListener("DOMContentLoaded", function () {
                                     title: {
                                         display: true,
                                         text: '생활 인프라 매칭 점수',
-                                        font: { size: 18, weight: 'bold' },
-                                        padding: { top: 10, bottom: 20 },
+                                        font: { family: 'Spoqa Han Sans Neo', size: 16 },
+                                        margin: {left: 14},
+                                        padding: { left: 15, top: 10, bottom: 20 },
                                         align: 'start',
                                         color: '#333'
                                     },
                                     legend: {
                                         display: false,
+                                        labels:{
+                                            font:{family: 'Spoqa Han Sans Neo', size: 16 },
+                                            margin:{left:14}
+
+                                        }
                                     },
                                     tooltip: {
                                         enabled: true
@@ -3175,12 +3181,20 @@ document.addEventListener("DOMContentLoaded", function () {
                                  if (currentMarker) {
                                      currentMarker.setMap(null);
                                  }
+                                 var imageSrc = '/images/icon/MARKER.png', // 마커이미지의 주소입니다
+                                     imageSize = new kakao.maps.Size(44, 56), // 마커이미지의 크기입니다
+                                     imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
 
                                  // 결과값으로 받은 위치를 마커로 표시합니다
                                  currentMarker = new kakao.maps.Marker({
                                      map: map,
                                      position: coords,
-                                     isClicked: false
+                                     isClicked: false,
+                                     image: markerImage
+
                                  });
 
                                  // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
@@ -3190,15 +3204,30 @@ document.addEventListener("DOMContentLoaded", function () {
                                  const mapWidth = mapContainer.offsetWidth;
                                  const mapHeight = mapContainer.offsetHeight;
 
-                                 // 화면에서 좌표가 위치해야 할 X축 위치 (200px 왼쪽)
-                                 const moveX = coords.getLng() - (15 / mapWidth) * (map.getBounds().getNorthEast().getLng() - map.getBounds().getSouthWest().getLng());
-                                 const moveY = coords.getLat();  // 세로는 그대로 중앙
+                                 // 현재 지도 범위
+                                  const bounds = map.getBounds();
+                                  const sw = bounds.getSouthWest(); // 남서쪽 좌표
+                                  const ne = bounds.getNorthEast(); // 북동쪽 좌표
 
-                                 // 새로 이동할 지도 중심 좌표
-                                 const newCenter = new kakao.maps.LatLng(moveY, moveX);
+                                  // 지도 범위에서 1px이 차지하는 경도값
+                                  const lngPerPx = (ne.getLng() - sw.getLng()) / mapWidth;
 
-                                 // 지도 이동
-                                 map.panTo(newCenter);
+                                  // 200px에 해당하는 경도값
+                                  const offsetLng = -400 * lngPerPx;
+
+                                  // 이동할 새 X 좌표 계산 (오른쪽으로 200px 이동)
+                                  const moveX = coords.getLng() + offsetLng;
+
+                                  // Y 좌표는 그대로 중앙
+                                  const moveY = coords.getLat();
+
+                                  // 새 중심 좌표 생성
+                                  const newCenter = new kakao.maps.LatLng(moveY, moveX);
+
+                                  // 지도 이동
+                                  map.panTo(newCenter);
+
+
                              }
 
                              let isClicked = false;
