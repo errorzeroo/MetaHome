@@ -2027,6 +2027,27 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    document.getElementById('refreshButton2').addEventListener('click', function () {
+        const defaultValues = {
+            busSlider: 1.00,
+            subwaySlider: 1.00,
+            elementarySlider: 0.00,
+            middleSlider: 0.00,
+            highSlider: 0.00,
+            hospitalSlider: 0.00,
+            parkingSlider: 0.00,
+            parkSlider: 0.00
+        };
+
+        Object.keys(defaultValues).forEach(sliderId => {
+            const slider = document.getElementById(sliderId);
+            if (slider) {
+                slider.value = defaultValues[sliderId]; // 기본값으로 초기화
+            }
+        });
+    });
+
+
 
 
 
@@ -2706,6 +2727,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 box.classList.add('active');
             }
         }
+
+        // "나에게 맞는 집 찾기!" 버튼 클릭 시 box3 닫기
+        document.getElementById('submitButton').addEventListener('click', function () {
+            document.getElementById('box3').classList.remove('active'); // box3 닫기
+        });
 
         // 지역선택, 주택유형 버튼 인터랙션
         document.querySelectorAll('.scroll-button').forEach(button => {
