@@ -562,7 +562,7 @@
         z-index: 1;
     }
 .chart-container-with-score {
-        display: flex; /* Flexbox로 수평 배치 */
+        display: none; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
@@ -1611,7 +1611,7 @@
     let recruit =  new URLSearchParams(window.location.search).get('recruit') || 'N'; // URL에서 recruit 값을 가져옴
 
     function showAlert() {
-          alert("이 기능은 준비 중입니다. 지켜봐 주시면 감사하겠습니다!");
+          alert("서비스 준비 중입니다.");
         }
 
 // JavaScript 코드
