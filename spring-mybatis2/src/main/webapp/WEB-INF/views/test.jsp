@@ -2360,14 +2360,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
                     const defaultValues = {
-                        park: 0,
-                        bus: 0,
                         subway: 0,
-                        hospitalcount: 0,
+                        bus: 0,
                         element: 0,
                         middle: 0,
                         high: 0,
-                        parking: 0
+                        hospitalcount: 0,
+                        parking: 0,
+                        park: 0,
                     };
 
                     // 📌 3. 서버에서 받은 데이터로 값 업데이트
@@ -2383,26 +2383,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                     const keyMapping = {
-                        park: "공원",
-                        bus: "버스",
                         subway: "지하철",
-                        hospitalcount: "병원",
+                        bus: "버스",
                         element: "초등학교",
                         middle: "중학교",
                         high: "고등학교",
-                        parking: "주차장"
+                        hospitalcount: "병원",
+                        parking: "주차장",
+                        park: "공원"
                     };
 
                      // 라벨별 이미지를 매핑
                         const labelImagesMapping = {
-                            park: "/images/icon/park.png",
-                            bus: "/images/icon/bus.png",
                             subway: "/images/icon/subway.png",
-                            hospitalcount: "/images/icon/hospitalcount.png",
+                            bus: "/images/icon/bus.png",
                             element: "/images/icon/element.png",
                             middle: "/images/icon/middle.png",
                             high: "/images/icon/high.png",
-                            parking: "/images/icon/parking.png"
+                            hospitalcount: "/images/icon/hospitalcount.png",
+                            parking: "/images/icon/parking.png",
+                            park: "/images/icon/park.png"
                         };
 
                         // 4. 라벨과 데이터 추출
@@ -2414,14 +2414,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     // 5. backgroundColor 동적 생성
                     const backgroundColors = relevantKeys.map((_, index) => {
                         const colors = [
-                            'rgba(111, 140, 93, 1)',
-                            'rgba(255, 107, 107, 1)',
                             'rgba(255, 111, 60, 1)',
                             'rgba(134, 205, 255, 1)',
                             'rgba(255, 255, 86, 1)',
                             'rgba(155, 136, 255, 1)',
                             'rgba(175, 136, 101, 1)',
                             'rgba(255, 107, 107, 1)',
+                            'rgba(255, 107, 107, 1)',
+                            'rgba(111, 140, 93, 1)'
                         ];
                         return colors[index % colors.length]; // 순환하여 색상 선택
                     });
@@ -2967,14 +2967,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
                             const defaultValues = {
-                                park: 0,
-                                bus: 0,
                                 subway: 0,
-                                hospitalcount: 0,
+                                bus: 0,
                                 element: 0,
                                 middle: 0,
                                 high: 0,
-                                parking: 0
+                                hospitalcount: 0,
+                                parking: 0,
+                                park: 0,
                             };
 
                             // 📌 3. 서버에서 받은 데이터로 값 업데이트
@@ -2990,26 +2990,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                             const keyMapping = {
-                                park: "공원",
-                                bus: "버스",
                                 subway: "지하철",
-                                hospitalcount: "병원",
+                                bus: "버스",
                                 element: "초등학교",
                                 middle: "중학교",
                                 high: "고등학교",
-                                parking: "주차장"
+                                hospitalcount: "병원",
+                                parking: "주차장",
+                                park: "공원"
                             };
 
                              // 라벨별 이미지를 매핑
                                 const labelImagesMapping = {
-                                    park: "/images/icon/park.png",
-                                    bus: "/images/icon/bus.png",
                                     subway: "/images/icon/subway.png",
-                                    hospitalcount: "/images/icon/hospitalcount.png",
+                                    bus: "/images/icon/bus.png",
                                     element: "/images/icon/element.png",
                                     middle: "/images/icon/middle.png",
                                     high: "/images/icon/high.png",
-                                    parking: "/images/icon/parking.png"
+                                    hospitalcount: "/images/icon/hospitalcount.png",
+                                    parking: "/images/icon/parking.png",
+                                    park: "/images/icon/park.png"
                                 };
 
                                 // 4. 라벨과 데이터 추출
@@ -3021,14 +3021,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             // 5. backgroundColor 동적 생성
                             const backgroundColors = relevantKeys.map((_, index) => {
                                 const colors = [
-                                    'rgba(111, 140, 93, 1)',
-                                    'rgba(255, 107, 107, 1)',
                                     'rgba(255, 111, 60, 1)',
                                     'rgba(134, 205, 255, 1)',
                                     'rgba(255, 255, 86, 1)',
                                     'rgba(155, 136, 255, 1)',
                                     'rgba(175, 136, 101, 1)',
                                     'rgba(255, 107, 107, 1)',
+                                    'rgba(255, 107, 107, 1)',
+                                    'rgba(111, 140, 93, 1)'
                                 ];
                                 return colors[index % colors.length]; // 순환하여 색상 선택
                             });
