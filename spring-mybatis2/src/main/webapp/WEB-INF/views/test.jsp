@@ -2493,12 +2493,18 @@ document.addEventListener("DOMContentLoaded", function () {
                                         display: true,
                                         text: '생활 인프라 매칭 점수',
                                         font: { family: 'Spoqa Han Sans Neo', size: 16 },
+                                        margin: {left: 14},
                                         padding: { left: 15, top: 10, bottom: 20 },
                                         align: 'start',
                                         color: '#333'
                                     },
                                     legend: {
                                         display: false,
+                                        labels:{
+                                            font:{family: 'Spoqa Han Sans Neo', size: 16 },
+                                            margin:{left:14}
+
+                                        }
                                     },
                                     tooltip: {
                                         enabled: true
@@ -2968,6 +2974,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const columns = sliderData.map(s => s.column).join(',');
                     const values = sliderData.map(s => s.value).join(',');
 
+                    // Ajax 요청으로 데이터 전송
                     fetch(`/home/chart?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
                         .then(response => {
                             if (!response.ok) {
