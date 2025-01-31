@@ -12,26 +12,27 @@ public class MyScheduler {
     @Scheduled(cron = "0 0 0 28 2 ?")
     public void runOnFeb28Midnight() {
         executePythonScript("C:\\Lecture\\final\\school.py");
+        executePythonScript("C:\\Lecture\\final\\park.py");
     }
 
     // 8월 30일 밤 12시(자정)에 동작
     @Scheduled(cron = "0 0 0 30 8 ?")
     public void runOnAug30Midnight() {
         executePythonScript("C:\\Lecture\\final\\school.py");
+        executePythonScript("C:\\Lecture\\final\\park.py");
     }
 
     // 2주마다 동작 (14일 간격)
-    @Scheduled(cron = "0 0 0 */14 * ?")
+    @Scheduled(cron = "0 0 0 */7 * ?")
     public void runEveryTwoWeeks() {
         executePythonScript("C:\\Lecture\\final\\bus.py");
-        executePythonScript("C:\\Lecture\\final\\subway.py");
+        executePythonScript("C:\\Lecture\\final\\parking.py");
     }
 
     // 1달마다 동작 (매월 1일 자정에 실행)
     @Scheduled(cron = "0 0 0 1 * ?")
     public void runEveryMonth() {
-        executePythonScript("C:\\Lecture\\final\\park.py");
-        executePythonScript("C:\\Lecture\\final\\parking.py");
+        executePythonScript("C:\\Lecture\\final\\subway.py");
         executePythonScript("C:\\Lecture\\final\\hospital.py");
     }
 
