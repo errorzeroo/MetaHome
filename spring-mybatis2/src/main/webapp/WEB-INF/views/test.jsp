@@ -325,6 +325,25 @@
         border-radius: 5px; /* 모서리 둥글게 */
     }
 
+    #box1::-webkit-scrollbar {
+        width: 6px;
+        background: transparent;
+    }
+
+    #box1::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+    }
+
+    #box1::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    #box1::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+
     #box2{
         margin-top: 10px;
         padding: 5px;
@@ -338,6 +357,9 @@
         z-index: 1001; /* 패널보다 위로 */
         border-radius: 5px; /* 모서리 둥글게 */
     }
+
+
+
 
     #box3 {
         margin-top: 10px;
@@ -573,7 +595,7 @@
 .chart-container-with-score {
         display: none; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
-        top: 150px; /* 차트를 맵 위에 적절히 배치 */
+        top: 120px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
         width: 450px; /* 여기에 if문으로 차트 크기 조절 */
         height: 300px;
@@ -1141,7 +1163,8 @@
     }
     .pd30 {
       margin-top: 28px !important; /* 위쪽 여백만 40px */
-      margin-bottom: 20 !important; /* 아래쪽 여백은 0으로 설정 */
+      padding-top: 5px !important;
+      padding-bottom: 10px !important; /* 아래쪽 여백은 0으로 설정 */
     }
     .span1 {
       margin-right: 45px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
@@ -2360,14 +2383,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
                     const defaultValues = {
-                        park: 0,
-                        bus: 0,
                         subway: 0,
-                        hospitalcount: 0,
+                        bus: 0,
                         element: 0,
                         middle: 0,
                         high: 0,
-                        parking: 0
+                        hospitalcount: 0,
+                        parking: 0,
+                        park: 0,
                     };
 
                     // 📌 3. 서버에서 받은 데이터로 값 업데이트
@@ -2383,26 +2406,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                     const keyMapping = {
-                        park: "공원",
-                        bus: "버스",
                         subway: "지하철",
-                        hospitalcount: "병원",
+                        bus: "버스",
                         element: "초등학교",
                         middle: "중학교",
                         high: "고등학교",
-                        parking: "주차장"
+                        hospitalcount: "병원",
+                        parking: "주차장",
+                        park: "공원"
                     };
 
                      // 라벨별 이미지를 매핑
                         const labelImagesMapping = {
-                            park: "/images/icon/park.png",
-                            bus: "/images/icon/bus.png",
                             subway: "/images/icon/subway.png",
-                            hospitalcount: "/images/icon/hospitalcount.png",
+                            bus: "/images/icon/bus.png",
                             element: "/images/icon/element.png",
                             middle: "/images/icon/middle.png",
                             high: "/images/icon/high.png",
-                            parking: "/images/icon/parking.png"
+                            hospitalcount: "/images/icon/hospitalcount.png",
+                            parking: "/images/icon/parking.png",
+                            park: "/images/icon/park.png"
                         };
 
                         // 4. 라벨과 데이터 추출
@@ -2414,14 +2437,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     // 5. backgroundColor 동적 생성
                     const backgroundColors = relevantKeys.map((_, index) => {
                         const colors = [
-                            'rgba(111, 140, 93, 1)',
-                            'rgba(255, 107, 107, 1)',
                             'rgba(255, 111, 60, 1)',
                             'rgba(134, 205, 255, 1)',
-                            'rgba(255, 255, 86, 1)',
+                            'rgba(126, 212, 33, 1)',
                             'rgba(155, 136, 255, 1)',
                             'rgba(175, 136, 101, 1)',
                             'rgba(255, 107, 107, 1)',
+                            'rgba(101, 247, 245, 1)',
+                            'rgba(111, 140, 93, 1)'
                         ];
                         return colors[index % colors.length]; // 순환하여 색상 선택
                     });
@@ -2563,12 +2586,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (currentMarker) {
                             currentMarker.setMap(null);
                         }
+                        var imageSrc = '/images/icon/MARKER.png', // 마커이미지의 주소입니다
+                            imageSize = new kakao.maps.Size(44, 56), // 마커이미지의 크기입니다
+                            imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+                        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
                         // 결과값으로 받은 위치를 마커로 표시합니다
                         currentMarker = new kakao.maps.Marker({
                             map: map,
                             position: coords,
-                            isClicked: false
+                            isClicked: false,
+                            image: markerImage
+
                         });
 
                          // 지도 컨테이너의 크기
@@ -2960,14 +2990,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
                             const defaultValues = {
-                                park: 0,
-                                bus: 0,
                                 subway: 0,
-                                hospitalcount: 0,
+                                bus: 0,
                                 element: 0,
                                 middle: 0,
                                 high: 0,
-                                parking: 0
+                                hospitalcount: 0,
+                                parking: 0,
+                                park: 0,
                             };
 
                             // 📌 3. 서버에서 받은 데이터로 값 업데이트
@@ -2983,26 +3013,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                             const keyMapping = {
-                                park: "공원",
-                                bus: "버스",
                                 subway: "지하철",
-                                hospitalcount: "병원",
+                                bus: "버스",
                                 element: "초등학교",
                                 middle: "중학교",
                                 high: "고등학교",
-                                parking: "주차장"
+                                hospitalcount: "병원",
+                                parking: "주차장",
+                                park: "공원"
                             };
 
                              // 라벨별 이미지를 매핑
                                 const labelImagesMapping = {
-                                    park: "/images/icon/park.png",
-                                    bus: "/images/icon/bus.png",
                                     subway: "/images/icon/subway.png",
-                                    hospitalcount: "/images/icon/hospitalcount.png",
+                                    bus: "/images/icon/bus.png",
                                     element: "/images/icon/element.png",
                                     middle: "/images/icon/middle.png",
                                     high: "/images/icon/high.png",
-                                    parking: "/images/icon/parking.png"
+                                    hospitalcount: "/images/icon/hospitalcount.png",
+                                    parking: "/images/icon/parking.png",
+                                    park: "/images/icon/park.png"
                                 };
 
                                 // 4. 라벨과 데이터 추출
@@ -3014,14 +3044,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             // 5. backgroundColor 동적 생성
                             const backgroundColors = relevantKeys.map((_, index) => {
                                 const colors = [
-                                    'rgba(111, 140, 93, 1)',
-                                    'rgba(255, 107, 107, 1)',
                                     'rgba(255, 111, 60, 1)',
                                     'rgba(134, 205, 255, 1)',
-                                    'rgba(255, 255, 86, 1)',
+                                    'rgba(126, 212, 33, 1)',
                                     'rgba(155, 136, 255, 1)',
                                     'rgba(175, 136, 101, 1)',
                                     'rgba(255, 107, 107, 1)',
+                                    'rgba(101, 247, 245, 1)',
+                                    'rgba(111, 140, 93, 1)'
                                 ];
                                 return colors[index % colors.length]; // 순환하여 색상 선택
                             });
