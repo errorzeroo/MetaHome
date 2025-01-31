@@ -1645,7 +1645,7 @@
             </div>
             <div class="score-container">
                 <div class="score-content">
-                    <img src="/images/Elephant.png" alt="점수 아이콘" class="score-image">
+                    <img src="/images/icon/logo.png" alt="점수 아이콘" class="score-image">
                     <div class="score-text">
                         <span class="score-number">96</span><span>점</span>
                     </div>
@@ -2071,7 +2071,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 차트를 보이는 함수
     function showChart() {
-        document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
+        document.getElementById('chartContainer').style.display = 'flex'; // 차트 컨테이너 표시 block
     }
 
     // 차트를 숨기는 함수
@@ -2354,17 +2354,32 @@ document.addEventListener("DOMContentLoaded", function () {
                     const jsonData = jdata; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
                     const parsedData = jsonData;
 
-                    // 1. 키 배열 가져오기
+                    // 📌 1. 키 배열 가져오기 (첫 번째와 두 번째 키 제외)
                     const keys = Object.keys(parsedData[0]);
-
-                    // similar 값을 가져와 100을 곱한 점수를 계산
-                    const score = Math.floor(parsedData[0].similar * 100); // 첫 번째 데이터의 similar 값 사용
-
-                    // 점수를 HTML에 표시
-                    document.querySelector(".score-number").textContent = score;
-
-                    // 2. 첫 번째와 두 번째 키를 제외
                     const relevantKeys = keys.slice(3); // 첫 번째(0)와 두 번째(1) 키 제외
+
+                    // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
+                    const defaultValues = {
+                        park: 0,
+                        bus: 0,
+                        subway: 0,
+                        hospitalcount: 0,
+                        element: 0,
+                        middle: 0,
+                        high: 0,
+                        parking: 0
+                    };
+
+                    // 📌 3. 서버에서 받은 데이터로 값 업데이트
+                    relevantKeys.forEach(key => {
+                        if (defaultValues.hasOwnProperty(key)) {
+                            defaultValues[key] = parsedData[0][key] * 100; // 서버 값 적용
+                        }
+                    });
+
+                    // 📌 4. 점수 계산 및 UI 업데이트
+                    const score = Math.floor(parsedData[0].similar * 100);
+                    document.querySelector(".score-number").textContent = score;
 
                     // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                     const keyMapping = {
@@ -2391,9 +2406,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         };
 
                         // 4. 라벨과 데이터 추출
-                        const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
-                        const data = relevantKeys.map((key) => parsedData[0][key] * 100); // 퍼센트 변환
-                        const labelImages = relevantKeys.map((key) => labelImagesMapping[key]); // 사용된 컬럼에 해당하는 이미지 경로 추출
+                        const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
+                        const data = Object.values(defaultValues);
+                        const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
 
 
                     // 5. backgroundColor 동적 생성
@@ -2614,7 +2629,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const chartContainer1 = document.getElementById('chartContainer');
                           // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                           if(!currentMarker.isClicked){
-                          chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
+                          chartContainer1.style.display = 'flex';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = true;} else {
                           chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = false;
@@ -2663,6 +2678,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 }
+
 
                 // 이전 버튼 클릭 이벤트
                 prevButton.addEventListener("click", () => {
@@ -2870,7 +2886,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error("데이터 처리 중 오류 발생:", error);
-
             });
 
 
@@ -2946,17 +2961,32 @@ document.addEventListener("DOMContentLoaded", function () {
                             const jsonData = jdata; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
                             const parsedData = jsonData;
 
-                            // 1. 키 배열 가져오기
+                            // 📌 1. 키 배열 가져오기 (첫 번째와 두 번째 키 제외)
                             const keys = Object.keys(parsedData[0]);
-
-                            // similar 값을 가져와 100을 곱한 점수를 계산
-                            const score = Math.floor(parsedData[0].similar * 100); // 첫 번째 데이터의 similar 값 사용
-
-                            // 점수를 HTML에 표시
-                            document.querySelector(".score-number").textContent = score;
-
-                            // 2. 첫 번째와 두 번째 키를 제외
                             const relevantKeys = keys.slice(3); // 첫 번째(0)와 두 번째(1) 키 제외
+
+                            // 📌 2. 8개 인프라 요소의 기본값을 0으로 초기화
+                            const defaultValues = {
+                                park: 0,
+                                bus: 0,
+                                subway: 0,
+                                hospitalcount: 0,
+                                element: 0,
+                                middle: 0,
+                                high: 0,
+                                parking: 0
+                            };
+
+                            // 📌 3. 서버에서 받은 데이터로 값 업데이트
+                            relevantKeys.forEach(key => {
+                                if (defaultValues.hasOwnProperty(key)) {
+                                    defaultValues[key] = parsedData[0][key] * 100; // 서버 값 적용
+                                }
+                            });
+
+                            // 📌 4. 점수 계산 및 UI 업데이트
+                            const score = Math.floor(parsedData[0].similar * 100);
+                            document.querySelector(".score-number").textContent = score;
 
                             // 3. 키 매핑 테이블 정의 (영어 -> 한국어)
                             const keyMapping = {
@@ -2983,9 +3013,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                 };
 
                                 // 4. 라벨과 데이터 추출
-                                const labels = relevantKeys.map((key) => keyMapping[key] || key); // 매핑된 한국어 키 사용
-                                const data = relevantKeys.map((key) => parsedData[0][key] * 100); // 퍼센트 변환
-                                const labelImages = relevantKeys.map((key) => labelImagesMapping[key]); // 사용된 컬럼에 해당하는 이미지 경로 추출
+                                const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
+                                const data = Object.values(defaultValues);
+                                const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
 
 
                             // 5. backgroundColor 동적 생성
@@ -3006,7 +3036,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             // 4. Chart.js로 차트 생성
                                         try {
                                             const ctx = document.getElementById('myChart').getContext('2d');
-                                            new Chart(ctx, {
+
+                                           // 기존 차트를 제거하기 전에 Chart 객체인지 확인
+                                           if (window.myChart instanceof Chart) {
+                                               window.myChart.destroy();
+                                           }
+
+                                            // 새 차트 생성
+                                            window.myChart = new Chart(ctx, {
                                                 type: 'bar',
                                                 data: {
                                                     labels: labels, // X축 라벨
@@ -3031,9 +3068,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                             grid: { display: false },
                                                             ticks: {
                                                                 color: 'white', // 라벨 글자 색상
-                                                                font: {
-                                                                    size: 14 // 라벨 글자 크기 조절
-                                                                }
+                                                                font: { size: 14 } // 글자 크기
                                                             }
                                                         },
                                                         y: {
@@ -3042,23 +3077,16 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         }
                                                     },
                                                     plugins: {
-                                                    title: {
-                                                            display: true, // 제목 표시
-                                                            text: '생활 인프라 매칭 점수', // 제목 텍스트
-                                                            font: {
-                                                                size: 18, // 제목 글자 크기
-                                                                weight: 'bold'
-                                                            },
-                                                            padding: {
-                                                                top: 10,
-                                                                bottom: 20
-                                                            },
-                                                            align: 'start', // 제목 정렬 (start, center, end 중 선택)
-                                                            color: '#333' // 제목 색상
+                                                        title: {
+                                                            display: true,
+                                                            text: '생활 인프라 매칭 점수',
+                                                            font: { size: 18, weight: 'bold' },
+                                                            padding: { top: 10, bottom: 20 },
+                                                            align: 'start',
+                                                            color: '#333'
                                                         },
                                                         legend: {
-                                                             display: false, // 범례 숨기기
-                                                            position: 'top',
+                                                            display: false,
                                                         },
                                                         tooltip: {
                                                             enabled: true
@@ -3072,24 +3100,26 @@ document.addEventListener("DOMContentLoaded", function () {
                                                             const ctx = chart.ctx;
                                                             const xAxis = chart.scales.x;
                                                             const yAxis = chart.scales.y;
+
                                                             xAxis.ticks.forEach((tick, index) => {
-                                                                const x = xAxis.getPixelForTick(index); // x축 위치 계산
-                                                                const imageY = yAxis.bottom + 10; // 이미지를 축 아래로 약간 이동
-                                                                const textY = imageY + 40; // 텍스트는 이미지 아래로 배치
+                                                                const x = xAxis.getPixelForTick(index);
+                                                                const imageY = yAxis.bottom + 10;
+                                                                const textY = imageY + 45;
+
+                                                                // 이미지를 라벨에 맞게 가져오기
                                                                 const image = new Image();
-                                                                image.src = labelImages[index]; // 아이콘 이미지 경로
+                                                                image.src = labelImages[index];
+
                                                                 // 이미지를 그리기
                                                                 image.onload = () => {
-                                                                    ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 크기 및 위치 조정
+                                                                    ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 위치와 크기 조정
                                                                 };
-                                                                image.onerror = () => {
-                                                                    console.error(`이미지를 불러오는 데 실패했습니다. 인덱스: ${index}, 경로: ${image.src}`);
-                                                                };
-                                                                // 텍스트를 이미지 아래에 그리기
-                                                                ctx.font = '10px Arial'; // 글꼴 크기 및 스타일
+
+                                                                // 텍스트를 이미지 아래에 추가
+                                                                ctx.font = '10px Arial';
                                                                 ctx.textAlign = 'center';
-                                                                ctx.fillStyle = 'black'; // 텍스트 색상
-                                                                ctx.fillText(labels[index], x, textY); // 텍스트를 이미지 아래로 배치
+                                                                ctx.fillStyle = 'black';
+                                                                ctx.fillText(labels[index], x, textY);
                                                             });
                                                         }
                                                     }
