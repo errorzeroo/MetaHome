@@ -1252,6 +1252,9 @@
         background-color: #FF6F3C;
         color: white;
     }
+    .no-data-message{
+        padding: 20px;
+    }
 
 
 
@@ -2954,6 +2957,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                     scales: {
                                                         x: {
                                                             beginAtZero: true,
+                                                            grid: { display: false },
                                                             ticks: {
                                                                 font: {
                                                                     size: 14 // 라벨 글자 크기 조절
@@ -2962,6 +2966,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         },
                                                         y: {
                                                             beginAtZero: true,
+                                                            grid: { display: false },
                                                         }
                                                     },
                                                     plugins: {
@@ -3094,7 +3099,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                    const chartContainer1 = document.getElementById('chartContainer');
                                    // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                                    if(!currentMarker.isClicked){
-                                   chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
+                                   chartContainer1.style.display = 'flex';  // 차트 컨테이너 고정 표시
                                    currentMarker.isClicked = true;} else {
                                    chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                                    currentMarker.isClicked = false;
