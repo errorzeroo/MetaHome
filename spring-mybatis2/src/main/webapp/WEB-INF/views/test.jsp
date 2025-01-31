@@ -2364,7 +2364,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const values = sliderData.map(s => s.value).join(',');
 
 
-            // Ajax 요청으로 데이터 전송
             fetch(`/home/chart?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
                 .then(response => {
                     if (!response.ok) {
@@ -2374,7 +2373,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .then(jdata => {
                     // 받은 데이터를 화면에 렌더링
-                    const jsonData = jdata; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
+                    const jsonData = jdata;
                     const parsedData = jsonData;
 
                     // 📌 1. 키 배열 가져오기 (첫 번째와 두 번째 키 제외)
@@ -2416,47 +2415,44 @@ document.addEventListener("DOMContentLoaded", function () {
                         park: "공원"
                     };
 
-                     // 라벨별 이미지를 매핑
-                        const labelImagesMapping = {
-                            subway: "/images/icon/subway.png",
-                            bus: "/images/icon/bus.png",
-                            element: "/images/icon/element.png",
-                            middle: "/images/icon/middle.png",
-                            high: "/images/icon/high.png",
-                            hospitalcount: "/images/icon/hospitalcount.png",
-                            parking: "/images/icon/parking.png",
-                            park: "/images/icon/park.png"
-                        };
+                    // 🎨 4. 키별 색상 매핑
+                    const colorMapping = {
+                        subway: 'rgba(255, 60, 60, 1)',   // 빨간색
+                        bus: 'rgba(60, 120, 255, 1)',    // 파란색
+                        element: 'rgba(60, 255, 60, 1)', // 초록색
+                        middle: 'rgba(180, 60, 255, 1)', // 보라색
+                        high: 'rgba(150, 75, 0, 1)',     // 갈색
+                        hospitalcount: 'rgba(255, 120, 120, 1)', // 연빨간색
+                        parking: 'rgba(120, 200, 255, 1)', // 하늘색
+                        park: 'rgba(60, 180, 60, 1)'    // 초록색
+                    };
 
-                        // 4. 라벨과 데이터 추출
-                        const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
-                        const data = Object.values(defaultValues);
-                        const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
+                    // 라벨별 이미지 매핑
+                    const labelImagesMapping = {
+                        subway: "/images/icon/subway.png",
+                        bus: "/images/icon/bus.png",
+                        element: "/images/icon/element.png",
+                        middle: "/images/icon/middle.png",
+                        high: "/images/icon/high.png",
+                        hospitalcount: "/images/icon/hospitalcount.png",
+                        parking: "/images/icon/parking.png",
+                        park: "/images/icon/park.png"
+                    };
 
+                    // 🎯 5. 라벨, 데이터, 색상, 이미지 추출
+                    const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
+                    const data = Object.values(defaultValues);
+                    const backgroundColors = Object.keys(defaultValues).map(key => colorMapping[key]);
+                    const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
 
-                    // 5. backgroundColor 동적 생성
-                    const backgroundColors = relevantKeys.map((_, index) => {
-                        const colors = [
-                            'rgba(255, 111, 60, 1)',
-                            'rgba(134, 205, 255, 1)',
-                            'rgba(126, 212, 33, 1)',
-                            'rgba(155, 136, 255, 1)',
-                            'rgba(175, 136, 101, 1)',
-                            'rgba(255, 107, 107, 1)',
-                            'rgba(101, 247, 245, 1)',
-                            'rgba(111, 140, 93, 1)'
-                        ];
-                        return colors[index % colors.length]; // 순환하여 색상 선택
-                    });
-
-                    // 4. Chart.js로 차트 생성
+                    // 6. Chart.js로 차트 생성
                     try {
                         const ctx = document.getElementById('myChart').getContext('2d');
 
-                       // 기존 차트를 제거하기 전에 Chart 객체인지 확인
-                       if (window.myChart instanceof Chart) {
-                           window.myChart.destroy();
-                       }
+                        // 기존 차트 제거하기 전에 Chart 객체인지 확인
+                        if (window.myChart instanceof Chart) {
+                            window.myChart.destroy();
+                        }
 
                         // 새 차트 생성
                         window.myChart = new Chart(ctx, {
@@ -2497,18 +2493,12 @@ document.addEventListener("DOMContentLoaded", function () {
                                         display: true,
                                         text: '생활 인프라 매칭 점수',
                                         font: { family: 'Spoqa Han Sans Neo', size: 16 },
-                                        margin: {left: 14},
                                         padding: { left: 15, top: 10, bottom: 20 },
                                         align: 'start',
                                         color: '#333'
                                     },
                                     legend: {
                                         display: false,
-                                        labels:{
-                                            font:{family: 'Spoqa Han Sans Neo', size: 16 },
-                                            margin:{left:14}
-
-                                        }
                                     },
                                     tooltip: {
                                         enabled: true
@@ -2555,6 +2545,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch(error => {
                     console.error("데이터 처리 중 오류 발생:", error);
                 });
+
 
 
 
@@ -2977,7 +2968,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     const columns = sliderData.map(s => s.column).join(',');
                     const values = sliderData.map(s => s.value).join(',');
 
-                    // Ajax 요청으로 데이터 전송
                     fetch(`/home/chart?address=\${encodeURIComponent(address)}&homeKind=\${encodeURIComponent(homeKind)}&columns=\${encodeURIComponent(columns)}&values=\${encodeURIComponent(values)}`)
                         .then(response => {
                             if (!response.ok) {
@@ -2987,7 +2977,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         })
                         .then(jdata => {
                             // 받은 데이터를 화면에 렌더링
-                            const jsonData = jdata; // JSP에서 전달된 JSON 데이터 (문자열로 전달)
+                            const jsonData = jdata;
                             const parsedData = jsonData;
 
                             // 📌 1. 키 배열 가져오기 (첫 번째와 두 번째 키 제외)
@@ -3029,139 +3019,137 @@ document.addEventListener("DOMContentLoaded", function () {
                                 park: "공원"
                             };
 
-                             // 라벨별 이미지를 매핑
-                                const labelImagesMapping = {
-                                    subway: "/images/icon/subway.png",
-                                    bus: "/images/icon/bus.png",
-                                    element: "/images/icon/element.png",
-                                    middle: "/images/icon/middle.png",
-                                    high: "/images/icon/high.png",
-                                    hospitalcount: "/images/icon/hospitalcount.png",
-                                    parking: "/images/icon/parking.png",
-                                    park: "/images/icon/park.png"
-                                };
+                            // 🎨 4. 키별 색상 매핑
+                            const colorMapping = {
+                                subway: 'rgba(255, 60, 60, 1)',   // 빨간색
+                                bus: 'rgba(60, 120, 255, 1)',    // 파란색
+                                element: 'rgba(60, 255, 60, 1)', // 초록색
+                                middle: 'rgba(180, 60, 255, 1)', // 보라색
+                                high: 'rgba(150, 75, 0, 1)',     // 갈색
+                                hospitalcount: 'rgba(255, 120, 120, 1)', // 연빨간색
+                                parking: 'rgba(120, 200, 255, 1)', // 하늘색
+                                park: 'rgba(60, 180, 60, 1)'    // 초록색
+                            };
 
-                                // 4. 라벨과 데이터 추출
-                                const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
-                                const data = Object.values(defaultValues);
-                                const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
+                            // 라벨별 이미지 매핑
+                            const labelImagesMapping = {
+                                subway: "/images/icon/subway.png",
+                                bus: "/images/icon/bus.png",
+                                element: "/images/icon/element.png",
+                                middle: "/images/icon/middle.png",
+                                high: "/images/icon/high.png",
+                                hospitalcount: "/images/icon/hospitalcount.png",
+                                parking: "/images/icon/parking.png",
+                                park: "/images/icon/park.png"
+                            };
 
+                            // 🎯 5. 라벨, 데이터, 색상, 이미지 추출
+                            const labels = Object.keys(defaultValues).map(key => keyMapping[key] || key);
+                            const data = Object.values(defaultValues);
+                            const backgroundColors = Object.keys(defaultValues).map(key => colorMapping[key]);
+                            const labelImages = Object.keys(defaultValues).map(key => labelImagesMapping[key]);
 
-                            // 5. backgroundColor 동적 생성
-                            const backgroundColors = relevantKeys.map((_, index) => {
-                                const colors = [
-                                    'rgba(255, 111, 60, 1)',
-                                    'rgba(134, 205, 255, 1)',
-                                    'rgba(126, 212, 33, 1)',
-                                    'rgba(155, 136, 255, 1)',
-                                    'rgba(175, 136, 101, 1)',
-                                    'rgba(255, 107, 107, 1)',
-                                    'rgba(101, 247, 245, 1)',
-                                    'rgba(111, 140, 93, 1)'
-                                ];
-                                return colors[index % colors.length]; // 순환하여 색상 선택
-                            });
+                            // 6. Chart.js로 차트 생성
+                            try {
+                                const ctx = document.getElementById('myChart').getContext('2d');
 
-                            // 4. Chart.js로 차트 생성
-                                        try {
-                                            const ctx = document.getElementById('myChart').getContext('2d');
+                                // 기존 차트 제거하기 전에 Chart 객체인지 확인
+                                if (window.myChart instanceof Chart) {
+                                    window.myChart.destroy();
+                                }
 
-                                           // 기존 차트를 제거하기 전에 Chart 객체인지 확인
-                                           if (window.myChart instanceof Chart) {
-                                               window.myChart.destroy();
-                                           }
-
-                                            // 새 차트 생성
-                                            window.myChart = new Chart(ctx, {
-                                                type: 'bar',
-                                                data: {
-                                                    labels: labels, // X축 라벨
-                                                    datasets: [{
-                                                        label: "생활 인프라 매칭 점수",
-                                                        data: data, // Y축 데이터
-                                                        backgroundColor: backgroundColors,
-                                                        borderWidth: 1,
-                                                        maxBarThickness: 15, // 막대 최대 두께
-                                                        borderSkipped: false,
-                                                        borderRadius: [
-                                                            { topLeft: 10, topRight: 10 },
-                                                        ]
-                                                    }]
-                                                },
-                                                options: {
-                                                    responsive: true,
-                                                    maintainAspectRatio: false,
-                                                    scales: {
-                                                        x: {
-                                                            beginAtZero: true,
-                                                            grid: { display: false },
-                                                            ticks: {
-                                                                color: 'white', // 라벨 글자 색상
-                                                                font: { size: 14 } // 글자 크기
-                                                            }
-                                                        },
-                                                        y: {
-                                                            beginAtZero: true,
-                                                            grid: { display: false },
-                                                        }
-                                                    },
-                                                    plugins: {
-                                                        title: {
-                                                            display: true,
-                                                            text: '생활 인프라 매칭 점수',
-                                                            font: { size: 18, weight: 'bold' },
-                                                            padding: { top: 10, bottom: 20 },
-                                                            align: 'start',
-                                                            color: '#333'
-                                                        },
-                                                        legend: {
-                                                            display: false,
-                                                        },
-                                                        tooltip: {
-                                                            enabled: true
-                                                        }
-                                                    }
-                                                },
-                                                plugins: [
-                                                    {
-                                                        id: 'custom-label-images',
-                                                        afterDraw(chart) {
-                                                            const ctx = chart.ctx;
-                                                            const xAxis = chart.scales.x;
-                                                            const yAxis = chart.scales.y;
-
-                                                            xAxis.ticks.forEach((tick, index) => {
-                                                                const x = xAxis.getPixelForTick(index);
-                                                                const imageY = yAxis.bottom + 10;
-                                                                const textY = imageY + 45;
-
-                                                                // 이미지를 라벨에 맞게 가져오기
-                                                                const image = new Image();
-                                                                image.src = labelImages[index];
-
-                                                                // 이미지를 그리기
-                                                                image.onload = () => {
-                                                                    ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 위치와 크기 조정
-                                                                };
-
-                                                                // 텍스트를 이미지 아래에 추가
-                                                                ctx.font = '10px Arial';
-                                                                ctx.textAlign = 'center';
-                                                                ctx.fillStyle = 'black';
-                                                                ctx.fillText(labels[index], x, textY);
-                                                            });
-                                                        }
-                                                    }
-                                                ]
-                                            });
-                                        } catch (error) {
-                                            console.error("Chart.js 렌더링 중 오류 발생:", error);
+                                // 새 차트 생성
+                                window.myChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels, // X축 라벨
+                                        datasets: [{
+                                            label: "생활 인프라 매칭 점수",
+                                            data: data, // Y축 데이터
+                                            backgroundColor: backgroundColors,
+                                            borderWidth: 1,
+                                            maxBarThickness: 15, // 막대 최대 두께
+                                            borderSkipped: false,
+                                            borderRadius: [
+                                                { topLeft: 10, topRight: 10 },
+                                            ]
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        scales: {
+                                            x: {
+                                                beginAtZero: true,
+                                                grid: { display: false },
+                                                ticks: {
+                                                    color: 'white', // 라벨 글자 색상
+                                                    font: { family: 'Spoqa Han Sans Neo', size: 14 } // 글자 크기
+                                                }
+                                            },
+                                            y: {
+                                                beginAtZero: true,
+                                                grid: { display: false },
+                                            }
+                                        },
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: '생활 인프라 매칭 점수',
+                                                font: { family: 'Spoqa Han Sans Neo', size: 16 },
+                                                padding: { left: 15, top: 10, bottom: 20 },
+                                                align: 'start',
+                                                color: '#333'
+                                            },
+                                            legend: {
+                                                display: false,
+                                            },
+                                            tooltip: {
+                                                enabled: true
+                                            }
                                         }
+                                    },
+                                    plugins: [
+                                        {
+                                            id: 'custom-label-images',
+                                            afterDraw(chart) {
+                                                const ctx = chart.ctx;
+                                                const xAxis = chart.scales.x;
+                                                const yAxis = chart.scales.y;
+
+                                                xAxis.ticks.forEach((tick, index) => {
+                                                    const x = xAxis.getPixelForTick(index);
+                                                    const imageY = yAxis.bottom + 10;
+                                                    const textY = imageY + 45;
+
+                                                    // 이미지를 라벨에 맞게 가져오기
+                                                    const image = new Image();
+                                                    image.src = labelImages[index];
+
+                                                    // 이미지를 그리기
+                                                    image.onload = () => {
+                                                        ctx.drawImage(image, x - 17, imageY, 30, 30); // 이미지 위치와 크기 조정
+                                                    };
+
+                                                    // 텍스트를 이미지 아래에 추가
+                                                    ctx.font = '10px Arial';
+                                                    ctx.textAlign = 'center';
+                                                    ctx.fillStyle = 'black';
+                                                    ctx.fillText(labels[index], x, textY);
+                                                });
+                                            }
+                                        }
+                                    ]
+                                });
+                            } catch (error) {
+                                console.error("Chart.js 렌더링 중 오류 발생:", error);
+                            }
 
                         })
                         .catch(error => {
                             console.error("데이터 처리 중 오류 발생:", error);
                         });
+
 
                         // HOME_ADDRESS 필드를 사용하여 데이터 필터링
                          const filteredData = DataText.filter(
