@@ -51,17 +51,17 @@ public class HomeController {
         // 검증 로직
         if (!address.isEmpty() && !validAddressesOnly.contains(address)) {
             m.addAttribute("errorMessage", "Invalid address: " + address);
-            return "error.jsp";
+            return "error";
         }
 
         if (!homeKind.isEmpty() && !valhomekindOnly.contains(homeKind)) {
             m.addAttribute("errorMessage", "Invalid homeKind: " + homeKind);
-            return "error.jsp";
+            return "error";
         }
 
         if (!recruit.equals("Y") && !recruit.equals("N")) {
             m.addAttribute("errorMessage", "Invalid recruit: " + recruit);
-            return "error.jsp";
+            return "error";
         }
 
         List<Map<String, Object>> homeList;

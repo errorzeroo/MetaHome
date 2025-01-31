@@ -1249,6 +1249,9 @@
         background-color: #FF6F3C;
         color: white;
     }
+    .no-data-message{
+        padding: 20px;
+    }
 
 
 
@@ -1380,6 +1383,24 @@
 
                 <div class="infrastructure-item">
                     <div class="icon-container">
+                        <img src="/images/icon/subway.png" alt="지하철 아이콘" class="infrastructure-icon">
+                        <p class="infrastructure-name">지하철</p>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>없어도 괜찮아요</span>
+                            <span>있으면 좋아요</span>
+                            <span>꼭 있어야 해요</span>
+                        </div>
+                        <div class="slider-wrapper">
+                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="subwaySlider">
+                             <!--<span class="slider-value" id="subwaySliderValue">1.00</span>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="infrastructure-item">
+                    <div class="icon-container">
                         <img src="/images/icon/bus.png" alt="버스 아이콘" class="infrastructure-icon">
                         <p class="infrastructure-name">버스</p>
                     </div>
@@ -1394,24 +1415,6 @@
                             <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="busSlider">
 
                             <!-- <span class="slider-value" id="busSliderValue">1.00</span>-->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="infrastructure-item">
-                    <div class="icon-container">
-                        <img src="/images/icon/subway.png" alt="지하철 아이콘" class="infrastructure-icon">
-                        <p class="infrastructure-name">지하철</p>
-                    </div>
-                    <div class="slider-container">
-                        <div class="slider-labels">
-                            <span>없어도 괜찮아요</span>
-                            <span>있으면 좋아요</span>
-                            <span>꼭 있어야 해요</span>
-                        </div>
-                        <div class="slider-wrapper">
-                            <input type="range" min="0" max="1" step="0.01" value="1.00" class="slider" id="subwaySlider">
-                             <!--<span class="slider-value" id="subwaySliderValue">1.00</span>-->
                         </div>
                     </div>
                 </div>
@@ -1594,12 +1597,12 @@
                     <div class="icon-grid">
                         <!-- 아이콘 리스트 -->
                         <div class="icon-grid-item">
-                            <img src="/images/icon/bus.png" alt="버스">
-                            <span class="span30" id="infoCardBus"></span>
-                        </div>
-                        <div class="icon-grid-item">
                             <img src="/images/icon/subway.png" alt="지하철">
                             <span class="span30" id="infoCardSubway"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/bus.png" alt="버스">
+                            <span class="span30" id="infoCardBus"></span>
                         </div>
                         <div class="icon-grid-item">
                             <img src="/images/icon/element.png" alt="초등학교">
@@ -1617,13 +1620,13 @@
                             <img src="/images/icon/hospitalcount.png" alt="병원">
                             <span class="span30" id="infoCardHos"></span>
                         </div>
-                        <div class="icon-grid-item">
-                            <img src="/images/icon/park.png" alt="공원">
-                            <span class="span30" id="infoCardPark"></span>
-                        </div>
                          <div class="icon-grid-item">
                             <img src="/images/icon/parking.png" alt="주차장">
                             <span class="span30" id="infoCardParking1"></span>
+                        </div>
+                        <div class="icon-grid-item">
+                            <img src="/images/icon/park.png" alt="공원">
+                            <span class="span30" id="infoCardPark"></span>
                         </div>
                     </div>
 
@@ -1671,7 +1674,7 @@
     let recruit =  new URLSearchParams(window.location.search).get('recruit') || 'N'; // URL에서 recruit 값을 가져옴
 
     function showAlert() {
-          alert("이 기능은 준비 중입니다. 지켜봐 주시면 감사하겠습니다!");
+          alert("서비스 준비 중입니다.");
         }
 
 // JavaScript 코드
@@ -2041,6 +2044,27 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     });
+
+    document.getElementById('refreshButton2').addEventListener('click', function () {
+        const defaultValues = {
+            busSlider: 1.00,
+            subwaySlider: 1.00,
+            elementarySlider: 0.00,
+            middleSlider: 0.00,
+            highSlider: 0.00,
+            hospitalSlider: 0.00,
+            parkingSlider: 0.00,
+            parkSlider: 0.00
+        };
+
+        Object.keys(defaultValues).forEach(sliderId => {
+            const slider = document.getElementById(sliderId);
+            if (slider) {
+                slider.value = defaultValues[sliderId]; // 기본값으로 초기화
+            }
+        });
+    });
+
 
 
 
@@ -2745,6 +2769,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+        // "나에게 맞는 집 찾기!" 버튼 클릭 시 box3 닫기
+        document.getElementById('submitButton').addEventListener('click', function () {
+            document.getElementById('box3').classList.remove('active'); // box3 닫기
+        });
+
         // 지역선택, 주택유형 버튼 인터랙션
         document.querySelectorAll('.scroll-button').forEach(button => {
             button.addEventListener('click', () => {
@@ -2992,7 +3021,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                                     scales: {
                                                         x: {
                                                             beginAtZero: true,
+                                                            grid: { display: false },
                                                             ticks: {
+                                                                color: 'white', // 라벨 글자 색상
                                                                 font: {
                                                                     size: 14 // 라벨 글자 크기 조절
                                                                 }
@@ -3000,6 +3031,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                                         },
                                                         y: {
                                                             beginAtZero: true,
+                                                            grid: { display: false },
                                                         }
                                                     },
                                                     plugins: {
@@ -3132,7 +3164,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                    const chartContainer1 = document.getElementById('chartContainer');
                                    // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                                    if(!currentMarker.isClicked){
-                                   chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
+                                   chartContainer1.style.display = 'flex';  // 차트 컨테이너 고정 표시
                                    currentMarker.isClicked = true;} else {
                                    chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                                    currentMarker.isClicked = false;
