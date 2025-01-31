@@ -29,9 +29,9 @@
     .title {
         position: absolute; /* 절대 위치 */
         top: 11px; /* 위에서 10px 아래 */
-        left: 68px;
+        left: 66px;
         font-size: 30px;
-        font-family: 'Spoqa Han Sans Neo', sans-serif;;
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
         margin: 0; /* 제목 여백 제거 */
         padding: 0; /* 제목 여백 제거 */
     }
@@ -62,7 +62,7 @@
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 1080px;
+        left: 910px;
         font-size: 16px;
         font-family: 'Spoqa Han Sans Neo', sans-serif;
         transition: background-color 0.3s ease, color 0.3s ease;
@@ -73,7 +73,7 @@
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 1200px;
+        left: 1030px;
         font-size: 16px;
         font-family: 'Spoqa Han Sans Neo', sans-serif;
         font-weight: 300;
@@ -86,7 +86,7 @@
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 1515px;
+        left: 1345px;
         font-size: 14px;
         font-family: 'Spoqa Han Sans Neo', sans-serif;
 
@@ -102,7 +102,7 @@
         cursor: pointer;
         position: absolute; /* 절대 위치 */
         top: 20px; /* 위에서 10px 아래 */
-        left: 1590px;
+        left: 1420px;
         font-size: 14px;
         font-family: 'Spoqa Han Sans Neo', sans-serif;
         transition: background-color 0.3s ease, color 0.3s ease;
@@ -223,16 +223,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 28px; /* 버튼의 너비와 높이를 동일하게 설정 */
-        height: 28px;
+        width: 25px; /* 버튼의 너비와 높이를 동일하게 설정 */
+        height: 25px;
         border: 1px solid #ccc; /* 테두리 */
         border-radius: 50%; /* 둥근 모서리 */
         background-color: white; /* 배경색 */
         cursor: pointer; /* 클릭 가능한 포인터 */
         transition: background-color 0.3s ease, transform 0.3s ease;
         position: absolute; /* 절대 위치 */
-        top: 17px; /* 위에서 10px 아래 */
-        left: 360px;
+        top: 10px; /* 위에서 10px 아래 */
+        left: 394px;
     }
 
     hr.vertical-line {
@@ -270,7 +270,7 @@
     }
 
     .sliding-panel.collapsed {
-        left: -430px;
+        left: -442px;
     }
 
     .sliding-panel.active {
@@ -280,18 +280,19 @@
     .slide-toggle-button {
         position: absolute;
         top: 47%;
-        right: -30px; /* 버튼이 패널에 붙어 위치 */
+        right: -26px; /* 버튼이 패널에 붙어 위치 */
         transform: translateY(-50%);
         background-color: white;
         border: 1px solid lightgray;
         cursor: pointer;
         z-index: 1001;
         font-size: 16px;
-        padding: 10px;
+        color: #808080;
         transition: transform 0.3s ease;
-        width: 30px;
+        width: 26px;
         height: 70px;
         border-radius: 0 12px 12px 0;
+        padding-right: 14px;
     }
 
     .searchButton{
@@ -346,7 +347,7 @@
         position: absolute;
         top: 52px;
         border: none; /* 테두리 제거 */
-        width: 420px; /* 박스 너비 */
+        width: 422px; /* 박스 너비 */
         height: calc(100% - 140px); /* 하단 버튼 공간 확보 */
         overflow-y: scroll; /* 세로 스크롤 활성화 */
         z-index: 1001; /* 패널보다 위로 */
@@ -371,13 +372,14 @@
         background: transparent;
     }
     /* 섹션 제목 스타일 */
-    .section-title {
+    h3.section-title {
         font-family: 'Spoqa Han Sans Neo', sans-serif;
-        font-weight: 400px;
+        font-weight: light;
         text-align: center;
         font-size: 15px;
-        margin: 10px 10;
-
+        position: relative;
+        margin-top: 33px;
+        margin-bottom: 10px;
         color: #808080;
     }
 
@@ -387,7 +389,7 @@
         align-items: center;
         margin: 5px;
         border-bottom: 1px solid #eee;
-        padding-bottom: 15px;
+        padding-bottom: 12px;
     }
 
     /* 아이콘 및 명칭 컨테이너 */
@@ -415,7 +417,7 @@
     .infrastructure-name {
         font-family: 'Spoqa Han Sans Neo', sans-serif;
         font-size: 14px;
-        font-weight: bold;
+
         margin-top: 5px;
         color: #444;
         text-align: center;
@@ -496,7 +498,8 @@
 
         color: #666;
         width: 420px;
-        margin-bottom: 5px;
+        margin-bottom: 20px;
+        position: relative;
         white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
         overflow: hidden; /* 넘치는 내용이 잘리도록 설정 */
 
@@ -512,6 +515,8 @@
     }
 
     .fixed-bottom-button {
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-size: 13px;
         position: fixed;
         bottom: 10px;
         left: 145px;
@@ -521,8 +526,6 @@
         color: white;
         border: none;
         border-radius: 25px; /* 둥근 버튼 */
-        font-size: 12px;
-        font-weight: bold;
         cursor: pointer;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼에 그림자 추가 */
         z-index: 1002; /* 버튼을 최상위로 */
@@ -533,7 +536,13 @@
     }
 
 
-
+    .long-hr{
+    position: relative;
+    left: -20px;
+    width: 335px;
+    border: 1px solid #dcdcdc !important;
+    margin-top: 40px !important;
+    }
 
 
     .scroll-button{
@@ -562,7 +571,7 @@
         z-index: 1;
     }
 .chart-container-with-score {
-        display: flex; /* Flexbox로 수평 배치 */
+        display: none; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
         top: 150px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
@@ -579,6 +588,7 @@
         flex: 3; /* 차트 컨테이너가 더 넓게 차지하도록 설정 */
         height: 300px; /* 차트 컨테이너 높이 */
         position: relative;
+        width:370px;
     }
     .chart-container canvas {
         width: 100% !important; /* 캔버스를 컨테이너 너비에 맞춤 */
@@ -599,6 +609,8 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+        position: relative;
+        width:70px;
     }
     .score-content {
         text-align: center;
@@ -794,19 +806,7 @@
         background: transparent;
     }
 
-    /* 정보 카드 기본 스타일 */
-    .info-card {
-      position: fixed;
-      bottom: 20px; /* 화면 아래쪽에서 띄움 */
-      left: 400px; /* 화면 오른쪽에 고정 */
-      width: 300px; /* 카드 너비 */
-      background-color: #f5f5f5; /* 흰색 배경 */
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-      border-radius: 10px; /* 둥근 모서리 */
-      padding: 20px; /* 내부 여백 */
-      z-index: 1000; /* 다른 요소 위로 */
-      display: none; /* 기본적으로 숨김 */
-    }
+
 
     /* 카드 표시 시 */
     .info-card.visible {
@@ -814,26 +814,21 @@
     }
 
     /* 닫기 버튼 스타일 */
-    .close-info-card {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 14px;
-      color: #aaa;
-      cursor: pointer;
-    }
+
 
     .close-info-card:hover {
       color: #000;
     }
 
     /* 카드 내부 텍스트 스타일 */
-    .info-card-title {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 15px;
+
+
+    #infoCardName{
+    font-family: 'NanumSquare', sans-serif;
+    font-weight: 1000;
+    position: relative;
+    top: -4px;
+
     }
 
     .info-card-label {
@@ -841,7 +836,16 @@
       font-align: right;
     }
     .info-card-txtc{
-        text-align: center;
+        position: relative;
+        left: 25px;
+    }
+    #infoCardCompany{
+        position: relative;
+        left: 25px;
+    }
+    #infoCardParking{
+        position: relative;
+        left: 25px;
     }
 
     #prevSlide {
@@ -903,6 +907,17 @@
     #nextSlide{
         float: right;
     }
+    #infoCardKind{
+    font-family: 'Spoqa Han Sans Neo', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: ##3a3a3a;
+    position: relative; /* 기준 위치에서 이동 */
+    left: 4px; /* 오른쪽으로 20px 이동 */
+    top: 12px;
+
+
+    }
     #infoCardDeposit, #infoCardRent, #infoCardWe{
         right:0;
     }
@@ -936,20 +951,24 @@
     }
 
     .logo{
-        width: 40px;
-        height: 40px;
+        width: 37px;
+        height: 37px;
         position: absolute;
-        left: 21px;
-        top: 8px;
+        left: 23px;
+        top: 10px;
     }
     .slide-logo{
-        width:10px;
-        height:10px;
+        width:15px;
+        height:15px;
+        position: relative;
+        top:2.5px;
+        left: 1px;
     }
     .slide-logo-title{
      width:20px;
      height:20px;
     }
+
     .title-icon{
          position: relative;
          top: 5px;
@@ -1019,33 +1038,66 @@
   /*세부 창 디자인*/
     .info-card {
         position: relative; /* 기준 위치에서 이동 */
-        left: 465px; /* 오른쪽으로 20px 이동 */
-        top: 20px;
+        left: 470px; /* 오른쪽으로 20px 이동 */
+        top: 70px;
       width: 310px;
       height: calc(100% - 110px);
       overflow-y: auto; /* 세로 스크롤 활성화 */
       border: 1px solid #ccc;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      font-family: 'Arial', sans-serif;
+      font-family: 'Spoqa Han Sans Neo', sans-serif;
       padding: 16px;
       background-color: #fff;
+      z-index: 1000; /* 다른 요소 위로 */
+      display: none; /* 기본적으로 숨김 */
+
     }
+
+    .info-card::-webkit-scrollbar {
+        width: 6px;
+        background: transparent;
+    }
+
+    .info-card::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+    }
+
+    .info-card::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .info-card::-webkit-scrollbar-track {
+        background: transparent;
+        width: 6px;
+    }
+
+
+
+
     .close-info-card {
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: 4px;
+      right: 0px;
       background: none;
       border: none;
-      font-size: 18px;
+      font-family: 'Spoqa Han Sans Neo', sans-serif;
+      font-size: 20px;
+      font-weight: 100;
+      color: #d3d3d3;
       cursor: pointer;
     }
+
+
     .info-card-title {
       font-size: 17px;
       font-weight: bold;
-      margin: 0 0 8px;
+      margin-top: 15px;
+      margin-bottom: 20px;
       text-align: center;
     }
+
     .info-card hr {
       border: none;
       border-top: 1px solid #eee;
@@ -1081,14 +1133,17 @@
       color: #888;
     }
     .pd10 {
-      margin: 18px 0 !important;;
+      margin: 25px 0 !important;
+      font-family: 'Spoqa Han Sans Neo', sans-serif;
+
+
     }
     .pd20 {
-      margin-top: 30px !important; /* 위쪽 여백만 40px */
-      margin-bottom: 20 !important; /* 아래쪽 여백은 0으로 설정 */
+      margin-top: 22px !important; /* 위쪽 여백만 40px */
+      margin-bottom: 25px !important; /* 아래쪽 여백은 0으로 설정 */
     }
     .pd30 {
-      margin-top: 50px !important; /* 위쪽 여백만 40px */
+      margin-top: 28px !important; /* 위쪽 여백만 40px */
       margin-bottom: 20 !important; /* 아래쪽 여백은 0으로 설정 */
     }
     .span1 {
@@ -1103,14 +1158,16 @@
     }
 
     .span4 {
-      margin-left: 25px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
+      width:50px;
+      text-align: right;
+      margin-left: 30px; /* 각 span 태그 사이에 오른쪽 여백을 10px 추가 */
     }
 
     .slide-btn1 {
         color: gray;
       position: absolute;
-      top: 430px;
-      right: 80px;
+      top: 500px;
+      left: 60px;
       font-size: 30px; /* 글자 크기를 줄여 얇아 보이게 설정 */
       font-weight: normal; /* 굵기를 조정 */
       border: none;
@@ -1122,8 +1179,8 @@
     .slide-btn2 {
     color: gray;
       position: absolute;
-      top: 430px;
-      left: 50px;
+      top: 500px;
+      left: 290px;
       font-size: 30px; /* 글자 크기를 줄여 얇아 보이게 설정 */
       font-weight: normal; /* 굵기를 조정 */
       border: none;
@@ -1132,9 +1189,9 @@
       z-index: 1000;        /* 다른 요소 위로 배치 */
     }
     .area {
-        margin-top: 10px !important; /* 위쪽 여백만 40px */
-        background-color: #f5f5f5; /* 배경 색상 */
-        border-radius: 10px; /* 모서리를 둥글게 */
+        margin-top: 8px !important; /* 위쪽 여백만 40px */
+         /* 배경 색상 */
+         /* 모서리를 둥글게 */
         padding: 3px; /* 내부 값들과의 간격 */
     }
 
@@ -1149,7 +1206,7 @@
         display: flex;
         flex-direction: column; /* 세로 정렬 */
         align-items: center; /* 중앙 정렬 */
-        padding: 10px;
+        padding: 3px;
         border-radius: 10px; /* 모서리를 둥글게 */
         text-align: center; /* 텍스트 중앙 정렬 */
     }
@@ -1161,12 +1218,16 @@
     }
 
     .icon-grid-item span {
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
         font-size: 14px; /* 텍스트 크기 */
         color: dimgray;
-        font-weight: bold;
+        font-weight: 400;
+       width: 60px;
     }
     .addressSize {
-        font-size: 13px; /* 텍스트 크기 */
+        font-family: 'Spoqa Han Sans Neo', sans-serif;
+        font-size: 14px; /* 텍스트 크기 */
+        font-weight: 300;
     }
     /* 지도에 인프라 마커들 css*/
     #categoryBar{
@@ -1529,6 +1590,7 @@
                         <span style="color: dimgray;">공용 : </span><span class="span4" id="infoCardWe"></span></p>
                     <p>
                 </div>
+                    <hr class="long-hr">
                     <p class="pd30">
                         <span>우리집에서 얼마?</span>
                     </p>
@@ -1569,7 +1631,7 @@
                     </div>
 
 
-                </p><hr>
+                </p>
                     <span id="infoCardImg"></span>
                 </p>
             </div>
@@ -1583,7 +1645,7 @@
             </div>
             <div class="score-container">
                 <div class="score-content">
-                    <img src="/images/Elephant.png" alt="점수 아이콘" class="score-image">
+                    <img src="/images/icon/logo.png" alt="점수 아이콘" class="score-image">
                     <div class="score-text">
                         <span class="score-number">96</span><span>점</span>
                     </div>
@@ -1970,7 +2032,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 차트를 보이는 함수
     function showChart() {
-        document.getElementById('chartContainer').style.display = 'block'; // 차트 컨테이너 표시
+        document.getElementById('chartContainer').style.display = 'flex'; // 차트 컨테이너 표시
     }
 
     // 차트를 숨기는 함수
@@ -2483,7 +2545,7 @@ document.addEventListener("DOMContentLoaded", function () {
                           const chartContainer1 = document.getElementById('chartContainer');
                           // 차트가 이미 보이고 있으면 다시 숨기지 않도록 처리
                           if(!currentMarker.isClicked){
-                          chartContainer1.style.display = 'block';  // 차트 컨테이너 고정 표시
+                          chartContainer1.style.display = 'flex';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = true;} else {
                           chartContainer1.style.display = 'none';  // 차트 컨테이너 고정 표시
                           currentMarker.isClicked = false;
