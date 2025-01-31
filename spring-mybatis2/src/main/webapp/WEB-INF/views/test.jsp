@@ -3064,7 +3064,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 ];
                                 return colors[index % colors.length]; // 순환하여 색상 선택
                             });
-
                             // 4. Chart.js로 차트 생성
                                         try {
                                             const ctx = document.getElementById('myChart').getContext('2d');
