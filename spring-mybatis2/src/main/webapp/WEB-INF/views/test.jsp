@@ -595,7 +595,7 @@
 .chart-container-with-score {
         display: none; /* Flexbox로 수평 배치 */
         position: absolute; /* 절대 위치 */
-        top: 150px; /* 차트를 맵 위에 적절히 배치 */
+        top: 120px; /* 차트를 맵 위에 적절히 배치 */
         left: 850px; /* 원하는 위치 지정 */
         width: 450px; /* 여기에 if문으로 차트 크기 조절 */
         height: 300px;
@@ -2439,11 +2439,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         const colors = [
                             'rgba(255, 111, 60, 1)',
                             'rgba(134, 205, 255, 1)',
-                            'rgba(255, 255, 86, 1)',
+                            'rgba(126, 212, 33, 1)',
                             'rgba(155, 136, 255, 1)',
                             'rgba(175, 136, 101, 1)',
                             'rgba(255, 107, 107, 1)',
-                            'rgba(255, 107, 107, 1)',
+                            'rgba(101, 247, 245, 1)',
                             'rgba(111, 140, 93, 1)'
                         ];
                         return colors[index % colors.length]; // 순환하여 색상 선택
@@ -3046,11 +3046,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                 const colors = [
                                     'rgba(255, 111, 60, 1)',
                                     'rgba(134, 205, 255, 1)',
-                                    'rgba(255, 255, 86, 1)',
+                                    'rgba(126, 212, 33, 1)',
                                     'rgba(155, 136, 255, 1)',
                                     'rgba(175, 136, 101, 1)',
                                     'rgba(255, 107, 107, 1)',
-                                    'rgba(255, 107, 107, 1)',
+                                    'rgba(101, 247, 245, 1)',
                                     'rgba(111, 140, 93, 1)'
                                 ];
                                 return colors[index % colors.length]; // 순환하여 색상 선택
