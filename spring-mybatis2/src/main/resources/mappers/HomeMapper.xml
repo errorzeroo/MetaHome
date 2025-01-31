@@ -74,6 +74,10 @@
         SELECT HI_LAT, HI_LON FROM HIGHSCHOOLE
     </select>
 
+    <select id="getParkingList" resultType="map">
+        SELECT PARKING_LAT, PARKING_LON FROM PARKING
+    </select>
+
     <!-- 조건부 데이터 조회 지역만 선택했을 경우 -->
     <select id="findByAddress" parameterType="string" resultType="map">
         SELECT * FROM HOME_AI_VIEW
