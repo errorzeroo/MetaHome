@@ -249,7 +249,7 @@
         position: absolute;
         top: 0;
         left: 0; /* 왼쪽에서 시작 */
-        height: 680px;
+        height: 100%;
         width: 441px; /* 패널 너비 */
         display: flex;
         align-items: center;
@@ -261,7 +261,7 @@
         position: absolute;
         top: 66px; /* 위쪽 공간을 10px로 줄임 */
         left: 0px; /* 처음에는 화면 밖에 위치 */
-        height: 680px;
+        height: 100%;
         width: 441px;
         background-color: white;
         border-right: 1px solid lightgray; /* 왼쪽에서 나오기 때문에 오른쪽 테두리 */
@@ -412,6 +412,10 @@
         margin: 5px;
         border-bottom: 1px solid #eee;
         padding-bottom: 12px;
+    }
+    .infrastructure-item:last-child {
+        padding-bottom: 30px !important;
+        border-bottom: none !important;
     }
 
     /* 아이콘 및 명칭 컨테이너 */
@@ -1554,6 +1558,9 @@
                         </div>
                     </div>
                 </div>
+
+                <div><p></p><br></div>
+                <div></div>
 
                <!-- 하단 고정 버튼 -->
                <button class="fixed-bottom-button" id="submitButton">나에게 맞는 집 찾기!</button>
