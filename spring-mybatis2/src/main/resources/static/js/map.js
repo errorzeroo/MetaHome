@@ -1,54 +1,189 @@
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-    mapOption = {
-    center: new kakao.maps.LatLng(37.4833939381, 127.01698271446),
-    level: 5
-};
+document.addEventListener("DOMContentLoaded", () => {
+    // 🔹 지도 초기화
+    const mapContainer = document.getElementById("map");
+    const mapOption = {
+        center: new kakao.maps.LatLng(37.4833939381, 127.01698271446),
+        level: 5
+    };
+    const map = new kakao.maps.Map(mapContainer, mapOption);
 
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    // 🔹 마커 데이터와 상태 초기화
+    const markerData = {
+        subway: { coords: subwayCoords, markers: [], visible: false, icon: "/images/icon/subway.png" },
+        bus: { coords: busCoords, markers: [], visible: false, icon: "/images/icon/bus.png" },
+        park: { coords: parkCoords, markers: [], visible: false, icon: "/images/icon/park.png" },
+        elem: { coords: elemCoords, markers: [], visible: false, icon: "/images/icon/element.png" },
+        mid: { coords: midCoords, markers: [], visible: false, icon: "/images/icon/middle.png" },
+        high: { coords: highCoords, markers: [], visible: false, icon: "/images/icon/high.png" },
+        hosp: { coords: hospCoords, markers: [], visible: false, icon: "/images/icon/hospitalcount.png" },
+        parking: { coords: parkingCoords, markers: [], visible: false, icon: "/images/icon/parking.png" },
+    };
+    let currentMarker = null;
 
-function panTo() {
-    <!--  이동할 위도 경도 위치를 생성합니다 -->
-    var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
-
-    <!-- 지도 중심을 부드럽게 이동시킵니다 -->
-    <!-- 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다 -->
-    map.panTo(moveLatLon);
-}
-
-var positions = [
-    {
-        title: '카카오',
-        latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-    },
-    {
-        title: '생태연못',
-        latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-    },
-    {
-        title: '텃밭',
-        latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-    },
-    {
-        title: '근린공원',
-        latlng: new kakao.maps.LatLng(33.451393, 126.570738)
+    // 🔹 마커 생성 함수
+    function createMarkers(type) {
+        const { coords, markers, icon } = markerData[type];
+        coords.forEach(coord => {
+            const marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(coord.lat, coord.lon),
+                image: new kakao.maps.MarkerImage(icon, new kakao.maps.Size(30, 30))
+            });
+            marker.setMap(null); // 초기에는 숨김
+            markers.push(marker);
+        });
     }
-];
 
-// 마커 이미지의 이미지 주소입니다
-var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    // 🔹 마커 토글 함수
+    function toggleMarkers(type, button) {
+        const markerInfo = markerData[type];
+        const isVisible = markerInfo.visible;
 
-for (var i = 0; i < positions.length; i ++) {
+        markerInfo.markers.forEach(marker => marker.setMap(isVisible ? null : map));
+        markerInfo.visible = !isVisible;
+        button.classList.toggle("active", markerInfo.visible);
+    }
 
-    // 마커 이미지의 이미지 크기 입니다
-    var imageSize = new kakao.maps.Size(24, 35);
+    // 🔹 초기 마커 생성
+    Object.keys(markerData).forEach(type => createMarkers(type));
 
-    // 마커 이미지를 생성합니다
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+    // 🔹 버튼 이벤트 연결
+    document.querySelectorAll(".toggle-marker-button").forEach(button => {
+        const type = button.dataset.type;
+        button.addEventListener("click", () => toggleMarkers(type, button));
+    });
 
-    // 마커를 생성합니다
-    var marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
-        position: positions[i].latlng, // 마커를 표시할 위치
-        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image : markerImage // 마커 이미지
+    // 🔹 차트 표시/숨기기 함수
+    function toggleChart(visible) {
+        const chartContainer = document.getElementById("chartContainer");
+        chartContainer.style.display = visible ? "flex" : "none";
+    }
+
+    // 🔹 슬라이더 초기화
+    const defaultSliderValues = {
+        busSlider: 1.0,
+        subwaySlider: 1.0,
+        elementarySlider: 0.0,
+        middleSlider: 0.0,
+        highSlider: 0.0,
+        hospitalSlider: 0.0,
+        parkingSlider: 0.0,
+        parkSlider: 0.0,
+    };
+    const sliders = [
+        { id: "busSlider", valueId: "busSliderValue" },
+        { id: "subwaySlider", valueId: "subwaySliderValue" },
+        { id: "elementarySlider", valueId: "elementarySliderValue" },
+        { id: "middleSlider", valueId: "middleSliderValue" },
+        { id: "highSlider", valueId: "highSliderValue" },
+        { id: "hospitalSlider", valueId: "hospitalSliderValue" },
+        { id: "parkingSlider", valueId: "parkingSliderValue" },
+        { id: "parkSlider", valueId: "parkSliderValue" },
+    ];
+
+    sliders.forEach(({ id, valueId }) => {
+        const slider = document.getElementById(id);
+        const valueDisplay = document.getElementById(valueId);
+
+        if (slider && valueDisplay) {
+            slider.addEventListener("input", () => {
+                valueDisplay.textContent = parseFloat(slider.value).toFixed(2);
+            });
+        }
+    });
+
+    // 🔹 슬라이더 리셋 버튼
+    document.getElementById("refreshButton2").addEventListener("click", () => {
+        sliders.forEach(({ id, valueId }) => {
+            const slider = document.getElementById(id);
+            const valueDisplay = document.getElementById(valueId);
+
+            if (slider && valueDisplay) {
+                slider.value = defaultSliderValues[id];
+                valueDisplay.textContent = defaultSliderValues[id].toFixed(2);
+            }
+        });
+    });
+
+    // 🔹 리스트 렌더링 함수
+    const slideContainer = document.getElementById("slideContentContainer");
+    const template = document.getElementById("slide-item-template");
+    const itemsPerPage = 10;
+    let currentPage = 1;
+    let isLoading = false;
+
+    function populateSlideContent(data) {
+        if (!data || data.length === 0) {
+            slideContainer.innerHTML = "<p class='no-data-message'>데이터가 없습니다.</p>";
+            return;
+        }
+
+        data.forEach(item => {
+            const clone = template.content.cloneNode(true);
+            const listItem = clone.querySelector(".list-item");
+
+            clone.querySelector(".list-title").textContent = item.HOME_NAME || "제목 없음";
+            clone.querySelector(".list-type").textContent = item.HOME_KIND || "정보 없음";
+            clone.querySelector(".deposit").textContent = item.HOME_DEP || "정보 없음";
+            clone.querySelector(".monthly-rent").textContent = item.HOME_MOTH_PAI || "정보 없음";
+            clone.querySelector(".company").textContent = item.HOME_CO || "정보 없음";
+
+            listItem.addEventListener("click", () => handleListItemClick(item));
+            slideContainer.appendChild(clone);
+        });
+    }
+
+    // 🔹 리스트 아이템 클릭 이벤트
+    function handleListItemClick(item) {
+        const address = item.HOME_ADDRESS.trim();
+        const homeKind = item.HOME_KIND.trim();
+        const sliderValues = sliders.map(({ id }) => ({
+            column: id.replace("Slider", "").toLowerCase(),
+            value: parseFloat(document.getElementById(id).value),
+        }));
+
+        const query = new URLSearchParams({
+            address: encodeURIComponent(address),
+            homeKind: encodeURIComponent(homeKind),
+            columns: sliderValues.map(s => s.column).join(","),
+            values: sliderValues.map(s => s.value).join(","),
+        }).toString();
+
+        fetch(`/home/chart?${query}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("차트 데이터:", data);
+                toggleChart(true);
+            })
+            .catch(error => console.error("차트 데이터 요청 중 오류:", error));
+    }
+
+    // 🔹 초기 데이터 로드
+    function init() {
+        const initialData = slideData.slice(0, itemsPerPage);
+        populateSlideContent(initialData);
+    }
+
+    // 🔹 스크롤 이벤트
+    async function handleScroll() {
+        const { scrollTop, scrollHeight, clientHeight } = slideContainer;
+
+        if (scrollTop + clientHeight >= scrollHeight - 10 && !isLoading) {
+            isLoading = true;
+            currentPage++;
+
+            const newData = slideData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+            if (newData.length > 0) {
+                populateSlideContent(newData);
+            } else {
+                console.log("더 이상 데이터가 없습니다.");
+            }
+
+            isLoading = false;
+        }
+    }
+
+    slideContainer.addEventListener("scroll", handleScroll);
+
+    // 🔹 초기화 실행
+    init();
 });
