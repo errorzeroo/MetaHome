@@ -249,7 +249,7 @@
         position: absolute;
         top: 0;
         left: 0; /* 왼쪽에서 시작 */
-        height: 100%;
+        height: 680px;
         width: 441px; /* 패널 너비 */
         display: flex;
         align-items: center;
@@ -261,7 +261,7 @@
         position: absolute;
         top: 66px; /* 위쪽 공간을 10px로 줄임 */
         left: 0px; /* 처음에는 화면 밖에 위치 */
-        height: 100%;
+        height: 680px;
         width: 441px;
         background-color: white;
         border-right: 1px solid lightgray; /* 왼쪽에서 나오기 때문에 오른쪽 테두리 */
@@ -695,6 +695,7 @@
     }
     .list-item:last-child {
         border-bottom: none; /* 마지막 항목에는 선 제거 */
+        padding-bottom: 50px; /* 하단 패딩 추가 */
     }
 
 
