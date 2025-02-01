@@ -50,17 +50,17 @@ public class HomeController {
 
         // 검증 로직
         if (!address.isEmpty() && !validAddressesOnly.contains(address)) {
-            m.addAttribute("errorMessage", "Invalid address: " + address);
+            m.addAttribute("errorMessage", "잘못된 주소 값: " + address);
             return "error";
         }
 
         if (!homeKind.isEmpty() && !valhomekindOnly.contains(homeKind)) {
-            m.addAttribute("errorMessage", "Invalid homeKind: " + homeKind);
+            m.addAttribute("errorMessage", "잘못된 주택 유형 값: " + homeKind);
             return "error";
         }
 
         if (!recruit.equals("Y") && !recruit.equals("N")) {
-            m.addAttribute("errorMessage", "Invalid recruit: " + recruit);
+            m.addAttribute("errorMessage", "잘못된 값: " + recruit);
             return "error";
         }
 
@@ -176,7 +176,7 @@ public class HomeController {
         String result = pythonRunner.runPythonScript(address, homeKind, columns, values);
 
         if (result == null) {
-            model.addAttribute("error", "Python 실행 중 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", "Python 실행 중 오류가 발생했습니다.");
             return "error";
         }
 
@@ -189,7 +189,7 @@ public class HomeController {
             model.addAttribute("jsonData", jsonString); // JSP에 JSON 문자열 전달
         } catch (JsonProcessingException e) {
             log.error("JSON 변환 오류", e);
-            model.addAttribute("error", "JSON 데이터를 처리하는 중 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", "JSON 데이터를 처리하는 중 오류가 발생했습니다.");
             return "error";
         }
 
