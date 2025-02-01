@@ -2420,14 +2420,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     // 🎨 4. 키별 색상 매핑
                     const colorMapping = {
-                        subway: 'rgba(255, 60, 60, 1)',   // 빨간색
-                        bus: 'rgba(60, 120, 255, 1)',    // 파란색
-                        element: 'rgba(60, 255, 60, 1)', // 초록색
-                        middle: 'rgba(180, 60, 255, 1)', // 보라색
-                        high: 'rgba(150, 75, 0, 1)',     // 갈색
-                        hospitalcount: 'rgba(255, 120, 120, 1)', // 연빨간색
-                        parking: 'rgba(120, 200, 255, 1)', // 하늘색
-                        park: 'rgba(60, 180, 60, 1)'    // 초록색
+                        subway: 'rgba(255, 111, 60, 1)',
+                        bus: 'rgba(134, 205, 255, 1)',
+                        element: 'rgba(126, 212, 33, 1)',
+                        middle: 'rgba(155, 136, 255, 1)',
+                        high: 'rgba(175, 136, 101, 1)',
+                        hospitalcount: 'rgba(255, 107, 107, 1)',
+                        parking: 'rgba(101, 247, 245, 1)',
+                        park: 'rgba(111, 140, 93, 1)'
                     };
 
                     // 라벨별 이미지 매핑
@@ -3031,14 +3031,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                             // 🎨 4. 키별 색상 매핑
                             const colorMapping = {
-                                subway: 'rgba(255, 60, 60, 1)',   // 빨간색
-                                bus: 'rgba(60, 120, 255, 1)',    // 파란색
-                                element: 'rgba(60, 255, 60, 1)', // 초록색
-                                middle: 'rgba(180, 60, 255, 1)', // 보라색
-                                high: 'rgba(150, 75, 0, 1)',     // 갈색
-                                hospitalcount: 'rgba(255, 120, 120, 1)', // 연빨간색
-                                parking: 'rgba(120, 200, 255, 1)', // 하늘색
-                                park: 'rgba(60, 180, 60, 1)'    // 초록색
+                                subway: 'rgba(255, 111, 60, 1)',
+                                bus: 'rgba(134, 205, 255, 1)',
+                                element: 'rgba(126, 212, 33, 1)',
+                                middle: 'rgba(155, 136, 255, 1)',
+                                high: 'rgba(175, 136, 101, 1)',
+                                hospitalcount: 'rgba(255, 107, 107, 1)',
+                                parking: 'rgba(101, 247, 245, 1)',
+                                park: 'rgba(111, 140, 93, 1)'
                             };
 
                             // 라벨별 이미지 매핑
