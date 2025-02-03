@@ -26,7 +26,7 @@ public class HomeController {
 
 
     @GetMapping()
-    public String getList(Model m, @RequestParam(required = false, defaultValue = "") String address,
+    public String getList(Model m, @RequestParam(required = false, defaultValue = "강남구") String address,
                           @RequestParam(required = false, defaultValue = "") String homeKind,
                           @RequestParam(required = false, defaultValue = "N") String recruit) {
 

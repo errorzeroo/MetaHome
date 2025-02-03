@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // '전체'일 때 드롭다운에 '전체' 표시
         const dropdownButton = document.getElementById('dropdownButton');
-        dropdownButton.innerHTML = `전체 <span class="dropdown-icon"></span>`;
+        dropdownButton.innerHTML = `강남구 <span class="dropdown-icon"></span>`;
     }
 
     // 선택된 주택 유형 버튼 활성화

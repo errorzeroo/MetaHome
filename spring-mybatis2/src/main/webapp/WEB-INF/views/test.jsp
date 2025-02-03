@@ -29,10 +29,10 @@
     <img src="/images/icon/logo.png" alt="아이콘" class="logo">
     <h3 class = "title">메타홈</h3>
     <div class="menu">
-    <button class = "white-button1">맞춤 지도</button>
+    <!--<button class = "white-button1">맞춤 지도</button>
     <button class = "white-button2" onclick="showAlert()">우리 동네 이사와 생활 서비스</button>
     <button class = "white-button3" onclick="showAlert()">로그인</button>
-    <button class = "white-button4" onclick="showAlert()">멤버쉽 가입</button>
+    <button class = "white-button4" onclick="showAlert()">멤버쉽 가입</button>-->
     </div>
     <!-- 위쪽 선 -->
     <hr class="styled-line1">
