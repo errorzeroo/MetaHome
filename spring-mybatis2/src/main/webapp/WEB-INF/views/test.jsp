@@ -1,10 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%
+    // 캐시 비활성화 설정
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // Proxies
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Metahome</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- 카카오맵 -->
@@ -85,7 +93,6 @@
                     <!--<button class="icon-button" id="refreshButton1" onclick="resetSelection1()">
                                   <span class="icon icon-refresh">&#x21BB;</span>--> <!-- 새로 고침 아이콘 -->
                     </button>
-                        <button class="scroll-button" onclick="setAddress('전체')">전체</button>
                         <button class="scroll-button" onclick="setAddress('강남구')">강남구</button>
                         <button class="scroll-button" onclick="setAddress('강동구')">강동구</button>
                         <button class="scroll-button" onclick="setAddress('강북구')">강북구</button>

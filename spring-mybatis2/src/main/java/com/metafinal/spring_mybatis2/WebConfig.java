@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         // JavaScript 파일 설정
         registry.addResourceHandler("/js/**")
-                .addResourceLocations("classpath:/static/js/");
+                .addResourceLocations("classpath:/static/js/")
+                .setCachePeriod(0); // 캐싱 기간 0으로 설정
     }
 }

@@ -5,7 +5,7 @@
 <mapper namespace="com.metafinal.home.mapper.HomeMapper">
     <!-- 전체 데이터 조회 -->
     <select id="getAllHomes" resultType="map">
-        SELECT * FROM HOME_AI_MV
+        SELECT * FROM HOME_AI_VIEW
     </select>
 
     <select id="getAllHomesRecr" resultType="map">

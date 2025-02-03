@@ -128,7 +128,7 @@ function updateURL() {
     const timestamp = Date.now(); // 캐싱 방지
 
     // URL 생성
-    const url = `/home?address=${encodedAddress}&homeKind=${encodedHomeKind}&recruit=${encodedRecruit}&t=${timestamp}`;
+    const url = `/home?address=${encodedAddress}&homeKind=${encodedHomeKind}&recruit=${encodedRecruit}`;
 
     // 페이지를 새 URL로 리디렉션
     window.location.href = url;
